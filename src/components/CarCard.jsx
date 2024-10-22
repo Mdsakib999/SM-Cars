@@ -50,30 +50,30 @@ const cars = [
     transmission: "CVT",
     price: "$23,500",
   },
-  {
-    model: "Hyundai Elantra",
-    image:
-      "https://images.unsplash.com/photo-1697923479426-b66d6aa8fc6c?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx2aXN1YWwtc2VhcmNofDIwN3x8fGVufDB8fHx8fA%3D%3D",
+  // {
+  //   model: "Hyundai Elantra",
+  //   image:
+  //     "https://images.unsplash.com/photo-1697923479426-b66d6aa8fc6c?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx2aXN1YWwtc2VhcmNofDIwN3x8fGVufDB8fHx8fA%3D%3D",
 
-    description:
-      "A value-packed sedan with modern features and an efficient engine.",
-    mileage: "33 MPG",
-    fuel_type: "Petrol",
-    transmission: "CVT",
-    price: "$19,500",
-  },
-  {
-    model: "Kia Forte",
-    image:
-      "https://images.unsplash.com/photo-1697923479426-b66d6aa8fc6c?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx2aXN1YWwtc2VhcmNofDIwN3x8fGVufDB8fHx8fA%3D%3D",
+  //   description:
+  //     "A value-packed sedan with modern features and an efficient engine.",
+  //   mileage: "33 MPG",
+  //   fuel_type: "Petrol",
+  //   transmission: "CVT",
+  //   price: "$19,500",
+  // },
+  // {
+  //   model: "Kia Forte",
+  //   image:
+  //     "https://images.unsplash.com/photo-1697923479426-b66d6aa8fc6c?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx2aXN1YWwtc2VhcmNofDIwN3x8fGVufDB8fHx8fA%3D%3D",
 
-    description:
-      "A compact sedan with a sleek design and a range of tech features.",
-    mileage: "31 MPG",
-    fuel_type: "Petrol",
-    transmission: "CVT",
-    price: "$21,000",
-  },
+  //   description:
+  //     "A compact sedan with a sleek design and a range of tech features.",
+  //   mileage: "31 MPG",
+  //   fuel_type: "Petrol",
+  //   transmission: "CVT",
+  //   price: "$21,000",
+  // },
 ];
 
 const CarCard = () => {
