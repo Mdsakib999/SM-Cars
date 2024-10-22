@@ -25,11 +25,6 @@ const Footer = () => {
                   alt="logo"
                   className="max-w-full"
                 />
-                {/* <img
-      src="https://cdn.tailgrids.com/2.0/image/assets/images/logo/logo-white.svg"
-      alt="logo"
-      className="max-w-full hidden "
-    /> */}
               </a>
               <p className="mb-7 text-base text-body-color text-center">
                 Our core principle is providing exceptional service to fuel our
@@ -58,10 +53,18 @@ const Footer = () => {
                 Quick Links
               </p>
               <p className="mt-3">Premium Support</p>
-              <p className="mt-3"> <Link to="/termsConditions">Terms & Condition</Link></p>
-              <p className="mt-3"><Link to="/privacy">Privacy Policy</Link></p>
-              
-              <p className="mt-3"> <Link to="/contact">Contact Us</Link></p>
+              <p className="mt-3">
+                {" "}
+                <Link to="/termsConditions">Terms & Condition</Link>
+              </p>
+              <p className="mt-3">
+                <Link to="/privacy">Privacy Policy</Link>
+              </p>
+
+              <p className="mt-3">
+                {" "}
+                <Link to="/contact">Contact Us</Link>
+              </p>
             </div>
           </div>
 
@@ -79,8 +82,8 @@ const Footer = () => {
                   01711646758
                 </p>
                 <p className="flex  gap-x-2 mt-2">
-                  <SlLocationPin className="text-3xl"></SlLocationPin> House - NE(B) 2/1, Road- 71, Gulshan-02, Dhaka, Bangladesh.
-
+                  <SlLocationPin className="text-3xl"></SlLocationPin> House -
+                  NE(B) 2/1, Road- 71, Gulshan-02, Dhaka, Bangladesh.
                 </p>
                 <p className="flex  gap-x-2 mt-2">
                   <SlLocationPin className="text-2xl"></SlLocationPin> Nasirabad
@@ -101,10 +104,7 @@ const Footer = () => {
                 >
                   <FaLinkedin className="border rounded-full p-1 text-3xl hover:text-blue-500 hover:border-blue-500"></FaLinkedin>
                 </Link>
-                <Link
-                  to="https://x.com/smitsolutionuae"
-                  target="_blank"
-                >
+                <Link to="https://x.com/smitsolutionuae" target="_blank">
                   <FaXTwitter className="border rounded-full p-1 text-3xl hover:text-gray-400 hover:border-blue-500"></FaXTwitter>
                 </Link>
                 <Link
@@ -117,35 +117,6 @@ const Footer = () => {
             </div>
           </div>
         </div>
-      </div>
-      <div>
-        <span className="absolute right-10 top-10 z-[-1] ">
-          <svg
-            width={75}
-            height={75}
-            viewBox="0 0 75 75"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M37.5 -1.63918e-06C58.2107 -2.54447e-06 75 16.7893 75 37.5C75 58.2107 58.2107 75 37.5 75C16.7893 75 -7.33885e-07 58.2107 -1.63918e-06 37.5C-2.54447e-06 16.7893 16.7893 -7.33885e-07 37.5 -1.63918e-06Z"
-              fill="url(#paint0_linear_1179_4)"
-            />
-            <defs>
-              <linearGradient
-                id="paint0_linear_1179_4"
-                x1="-1.63917e-06"
-                y1="37.5"
-                x2={75}
-                y2="37.5"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stopColor="#13C296" stopOpacity="0.31" />
-                <stop offset={1} stopColor="#C4C4C4" stopOpacity={0} />
-              </linearGradient>
-            </defs>
-          </svg>
-        </span>
       </div>
       <p className="text-center text-sm md:text-base lg:mt-5 mt-3 md:font-semibold">
         Copyright © SM IT Solution 2024. All rights reserved.

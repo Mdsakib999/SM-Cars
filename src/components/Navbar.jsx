@@ -26,11 +26,15 @@ const Navbar = () => {
           <li className="cursor-pointer hover:text-black">
             <Link to="/">Home</Link>
           </li>
-          <li className="cursor-pointer hover:text-black">
+          {/* <li className="cursor-pointer hover:text-black">
             <Link to="/about">About</Link>
+          </li> */}
+          <li className="cursor-pointer hover:text-black">
+            <Link to="/buy">Buy Car</Link>
           </li>
-          <li className="cursor-pointer hover:text-black">Buy Car</li>
-          <li className="cursor-pointer hover:text-black">Sell Car</li>
+          <li className="cursor-pointer hover:text-black">
+            <Link to="/sell">Sell Car</Link>
+          </li>
           <li className="cursor-pointer hover:text-black">Pricing</li>
         </ul>
         <button className="hidden md:inline-block btn btn-primary">
