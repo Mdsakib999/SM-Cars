@@ -1,11 +1,14 @@
 import React from "react";
-import CarCard from "../../components/CarCard";
+import Header from "../../Components/HomeComponent/Header";
+import CarCard from "../../Components/HomeComponent/CarCard";
 import { IoCarSportOutline } from "react-icons/io5";
 import { GrMoney } from "react-icons/gr";
 
 const Home = () => {
   return (
     <div className="w-[93%] mx-auto">
+      <Header></Header>
+
       <h3 className="text-3xl text-center font-bold p-12">
         Find Cars For Sale
       </h3>
