@@ -5,6 +5,7 @@ import About from "../Pages/About/About";
 import Contact from "../Pages/Contact/Contact";
 import Buy from "../pages/Buy/Buy";
 import Sell from "../pages/Sell/Sell";
+import Pricing from "../pages/Pricing/Pricing";
 
 export const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ export const router = createBrowserRouter([
       {
         path: "/sell",
         element: <Sell></Sell>,
+      },
+      {
+        path: "/pricing",
+        element: <Pricing></Pricing>,
       },
     ],
   },

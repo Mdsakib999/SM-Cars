@@ -11,7 +11,7 @@ const Navbar = () => {
 
   return (
     <div className="sticky top-0 z-20 bg-white">
-      <nav className="flex justify-between items-center w-full lg:max-w-[100%] mx-auto px-5 md:px-24 py-4 text-black">
+      <nav className="flex justify-between items-center w-full lg:max-w-[100%] mx-auto px-5 md:px-10 lg:px-20 py-4 text-black">
         {/* Logo */}
         <div className="flex items-center lg:mr-14 cursor-pointer">
           <img
@@ -35,10 +35,13 @@ const Navbar = () => {
           <li className="cursor-pointer hover:text-black">
             <Link to="/sell">Sell Car</Link>
           </li>
-          <li className="cursor-pointer hover:text-black">Pricing</li>
+          <li className="cursor-pointer hover:text-black">
+            {" "}
+            <Link to="/pricing">Pricing</Link>
+          </li>
         </ul>
         <button className="hidden md:inline-block btn btn-primary">
-          Submit Listing
+          Get Started
         </button>
 
         {/* Mobile Menu Button */}
