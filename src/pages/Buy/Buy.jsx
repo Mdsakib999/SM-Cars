@@ -1,9 +1,10 @@
 import React from "react";
 import AuthForm from "../../components/AuthForm";
+import BuyCarBenefits from "../../components/BuyCarBenefits";
 
 const Buy = () => {
   return (
-    <div>
+    <div className="">
       {/* Background Image Section */}
       <div
         className="bg-cover bg-center bg-no-repeat h-[450px] mx-auto"
@@ -18,6 +19,7 @@ const Buy = () => {
           <AuthForm defaultRole="buyer" />
         </div>
       </div>
+      <BuyCarBenefits />
     </div>
   );
 };

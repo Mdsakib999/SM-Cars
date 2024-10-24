@@ -3,7 +3,7 @@ import React from "react";
 const Header = () => {
   return (
     <div
-      className="flex flex-col justify-start items-center text-white bg-cover bg-center bg-no-repeat h-[650px] w-[95%] md:w-[96%] mx-auto rounded-xl"
+      className="flex flex-col justify-start items-center text-white bg-cover bg-center bg-no-repeat h-[650px] w-[95%] md:w-[97%] mx-auto rounded-xl "
       style={{
         backgroundImage: `url('https://images.unsplash.com/photo-1592853625511-ad0edcc69c07?q=80&w=1469&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')`,
       }}

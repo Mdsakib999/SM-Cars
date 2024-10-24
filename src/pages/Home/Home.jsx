@@ -5,6 +5,7 @@ import { IoCarSportOutline } from "react-icons/io5";
 import { GrMoney } from "react-icons/gr";
 
 import Benefits from "../../components/HomeComponent/Benefits";
+import ContactForm from "../../components/HomeComponent/ContactForm";
 
 const Home = () => {
   return (
@@ -73,6 +74,7 @@ const Home = () => {
       </section>
 
       <Benefits />
+      <ContactForm />
     </div>
   );
 };

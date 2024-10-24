@@ -1,5 +1,6 @@
 import React from "react";
 import AuthForm from "../../components/AuthForm";
+import SellCarBenefits from "../../components/SellCarBenefits";
 
 const Buy = () => {
   return (
@@ -17,6 +18,7 @@ const Buy = () => {
           <AuthForm defaultRole="seller" />
         </div>
       </div>
+      <SellCarBenefits />
     </div>
   );
 };

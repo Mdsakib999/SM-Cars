@@ -51,7 +51,7 @@ const BuyCarSubscription = () => {
           </div>
           {/* Sticky Button at Bottom */}
           <div className="mt-auto">
-            <button className="w-full btn btn-primary transition duration-300">
+            <button className="w-full btn btn-primary hover:bg-black hover:text-white hover:border-white transition duration-300">
               Select Plan
             </button>
           </div>

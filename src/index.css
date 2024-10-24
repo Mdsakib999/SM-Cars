@@ -15,3 +15,6 @@
 .btn-secondary {
   @apply bg-orange-500 text-white  focus:ring-gray-300 border border-white;
 }
+.container {
+  @apply w-[94%] max-w-full mx-auto;
+}
