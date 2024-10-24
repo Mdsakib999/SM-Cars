@@ -1,8 +1,10 @@
 import React from "react";
-import Header from "../../Components/HomeComponent/Header";
+import Header from "../../components/HomeComponent/Header";
 import CarCard from "../../Components/HomeComponent/CarCard";
 import { IoCarSportOutline } from "react-icons/io5";
 import { GrMoney } from "react-icons/gr";
+
+import Benefits from "../../components/HomeComponent/Benefits";
 
 const Home = () => {
   return (
@@ -15,7 +17,7 @@ const Home = () => {
 
       <CarCard />
       {/* Buy Car / Sell Car */}
-      <section className="flex flex-col lg:flex-row justify-between lg:w-[96%] mx-auto gap-6 mt-4 mb-4">
+      <section className="flex flex-col lg:flex-row justify-between lg:w-[96%] mx-auto gap-6 my-4">
         <div className="p-10 bg-yellow-100 rounded-xl lg:w-[50%]">
           <h3 className="text-xl font-semibold">Are you looking for car ?</h3>
           <p className="tracking-wide text-gray-700 mr-12 mt-4 mb-4">
@@ -47,14 +49,17 @@ const Home = () => {
         {/* Text Content */}
         <div className="lg:w-1/2 flex flex-col justify-center">
           <h3 className="text-2xl font-semibold mb-4">
-            Online, in-person, everywhere
+            Online, in-person, <br />
+            everywhere
           </h3>
-          <p className="text-gray-700 mb-4">
+          <p className="text-gray-700 mb-4 w-[350px]">
             Choose from thousands of vehicles from multiple brands and buy
             online with Click & Drive, or visit us at one of our dealerships
             today.
           </p>
-          <button className="btn btn-secondary">Get Started</button>
+          <div>
+            <button className="btn btn-secondary">Get Started</button>
+          </div>
         </div>
 
         {/* Image Content */}
@@ -66,6 +71,8 @@ const Home = () => {
           />
         </div>
       </section>
+
+      <Benefits />
     </div>
   );
 };
