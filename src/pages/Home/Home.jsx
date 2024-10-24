@@ -6,6 +6,7 @@ import { GrMoney } from "react-icons/gr";
 
 import Benefits from "../../components/HomeComponent/Benefits";
 import ContactForm from "../../components/HomeComponent/ContactForm";
+import BlogCard from "../../components/HomeComponent/BlogCard";
 
 const Home = () => {
   return (
@@ -74,6 +75,7 @@ const Home = () => {
       </section>
 
       <Benefits />
+      <BlogCard />
       <ContactForm />
     </div>
   );
