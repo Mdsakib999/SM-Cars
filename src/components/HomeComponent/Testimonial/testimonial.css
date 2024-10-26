@@ -1,0 +1,32 @@
+.swiper-button-prev,
+.swiper-button-next {
+  color: black;
+  bottom: 0;
+  top: auto;
+  width: 30px;
+  height: 30px;
+  padding: 10px;
+
+  border-radius: 35%;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  cursor: pointer;
+}
+
+/* Center the arrows horizontally */
+.swiper-button-prev {
+  left: 45%; /* Move left arrow towards the center */
+}
+
+.swiper-button-next {
+  right: 45%; /* Move right arrow towards the center */
+}
+
+/* Style arrows (optional) */
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  font-size: 18px; /* Adjust arrow size */
+}

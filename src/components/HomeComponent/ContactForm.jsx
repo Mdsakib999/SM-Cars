@@ -2,7 +2,7 @@ import React from "react";
 
 const ContactForm = () => {
   return (
-    <section className="relative w-full h-[500px]">
+    <section className="relative w-full h-[350px] mt-12">
       {/* Google Maps iframe */}
       <div className="absolute inset-0 w-full h-full">
         <iframe

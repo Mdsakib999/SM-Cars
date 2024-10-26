@@ -40,9 +40,9 @@ const Navbar = () => {
             <Link to="/pricing">Pricing</Link>
           </li>
         </ul>
-        <button className="hidden md:inline-block btn btn-primary">
+        <Link className="btn btn-primary" to="/signup" onClick={toggleMenu}>
           Get Started
-        </button>
+        </Link>
 
         {/* Mobile Menu Button */}
         <div className="md:hidden">
@@ -109,9 +109,10 @@ const Navbar = () => {
           >
             Pricing
           </Link>
-          <button className="btn btn-primary" onClick={toggleMenu}>
+
+          <Link className="btn btn-primary" to="/signup" onClick={toggleMenu}>
             Submit Listing
-          </button>
+          </Link>
         </div>
       </div>
 

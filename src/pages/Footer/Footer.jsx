@@ -35,23 +35,14 @@ const Footer = () => {
 
           <div className="w-full md:w-5/12 px-4 flex md:justify-evenly justify-between mb-8 ">
             <div>
-              <p className="mb-6 text-lg font-semibold text-white">Company</p>
+              <p className="mb-6 text-lg font-md text-white">Company</p>
               <Link to="/about" className="mt-3 block">
                 About SM IT{" "}
               </Link>
-              <Link to="/services" className="mt-3 block">
-                Services
-              </Link>
-              <p className="mt-3 ">Our Team</p>
-              <p className="mt-3">
-                <Link to="/career">Career</Link>{" "}
-              </p>
             </div>
 
             <div>
-              <p className="mb-6  text-lg font-semibold text-white ">
-                Quick Links
-              </p>
+              <p className="mb-6  text-lg font-md text-white ">Quick Links</p>
               <p className="mt-3">Premium Support</p>
               <p className="mt-3">
                 {" "}
@@ -96,16 +87,16 @@ const Footer = () => {
                   to="https://www.facebook.com/smitsolution.uae"
                   target="_blank"
                 >
-                  <FaFacebookF className="border rounded-full p-1 text-3xl hover:text-blue-500 hover:border-blue-500"></FaFacebookF>
+                  <FaFacebookF className="border rounded-full p-1 text-3xl hover:text-orange-500 hover:border-orange-500"></FaFacebookF>
                 </Link>
                 <Link
                   to="https://www.linkedin.com/company/smitsolution/"
                   target="_blank"
                 >
-                  <FaLinkedin className="border rounded-full p-1 text-3xl hover:text-blue-500 hover:border-blue-500"></FaLinkedin>
+                  <FaLinkedin className="border rounded-full p-1 text-3xl hover:text-orange-500 hover:border-orange-500"></FaLinkedin>
                 </Link>
                 <Link to="https://x.com/smitsolutionuae" target="_blank">
-                  <FaXTwitter className="border rounded-full p-1 text-3xl hover:text-gray-400 hover:border-blue-500"></FaXTwitter>
+                  <FaXTwitter className="border rounded-full p-1 text-3xl hover:text-gray-400 hover:border-orange-500"></FaXTwitter>
                 </Link>
                 <Link
                   to="https://www.instagram.com/smitsolution.uae/"

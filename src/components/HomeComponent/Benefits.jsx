@@ -3,7 +3,7 @@ import { TbZoomMoney } from "react-icons/tb";
 import { LiaMoneyCheckSolid } from "react-icons/lia";
 const Benefits = () => {
   return (
-    <section className=" lg:w-[96%]  mx-auto my-8 py-4 rounded-lg">
+    <section className=" lg:w-[96%]  mx-auto my-12 py-4 rounded-lg">
       <h3 className="text-center text-3xl font-semibold p-8 pb-20">
         Benefit’s Of SM Car’s{" "}
         <span className="text-orange-500 ">Membership?</span>

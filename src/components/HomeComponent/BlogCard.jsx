@@ -3,10 +3,12 @@ import { GoArrowUpRight } from "react-icons/go";
 
 const BlogCard = () => {
   return (
-    <div className="max-w-full px-6 mx-auto">
+    <div className="max-w-full px-6 mx-auto my-12">
       <div className="py-16 px-2 flex items-center justify-between">
         <h3 className="text-2xl font-semibold">Latest Blog Posts</h3>
-        <div>View All</div>
+        <button className="flex gap-2 items-center">
+          View All <GoArrowUpRight className="font-3xl" />
+        </button>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -17,7 +19,11 @@ const BlogCard = () => {
             alt="Blog Post"
             className="w-full h-60 object-cover rounded-lg"
           />
-          <div className="py-6">
+          <div className="flex justify-between tracking-wide text-gray-600 py-2">
+            <span>Admin</span>
+            <span>November 22, 2023</span>
+          </div>
+          <div className="py-2">
             <h3 className="text-xl font-semibold text-gray-800 mb-2">
               5 Tips for Buying a Used Car
             </h3>
@@ -35,7 +41,11 @@ const BlogCard = () => {
             alt="Blog Post"
             className="w-full h-60 object-cover rounded-lg"
           />
-          <div className="py-6">
+          <div className="flex justify-between tracking-wide text-gray-600 py-2">
+            <span>Admin</span>
+            <span>November 22, 2023</span>
+          </div>
+          <div className="py-2">
             <h3 className="text-xl font-semibold text-gray-800 mb-2">
               5 Tips for Buying a Used Car
             </h3>
@@ -53,7 +63,11 @@ const BlogCard = () => {
             alt="Blog Post"
             className="w-full h-60 object-cover rounded-lg"
           />
-          <div className="py-6">
+          <div className="flex justify-between tracking-wide text-gray-600 py-2">
+            <span>Admin</span>
+            <span>November 22, 2023</span>
+          </div>
+          <div className="py-2">
             <h3 className="text-xl font-semibold text-gray-800 mb-2">
               5 Tips for Buying a Used Car
             </h3>

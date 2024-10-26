@@ -1,7 +1,8 @@
 import React from "react";
 import AuthForm from "../../components/AuthForm";
-import SellCarBenefits from "../../components/SellCarBenefits";
-
+import SellCarBenefits from "../../components/SellCarComponent/SellCarBenefits";
+import SellCarSteps from "../../components/SellCarComponent/SellCarSteps";
+import { Link } from "react-router-dom";
 const Buy = () => {
   return (
     <div>
@@ -14,11 +15,26 @@ const Buy = () => {
 
       {/* AuthForm Section */}
       <div className="flex justify-center items-center -mt-60 px-4">
-        <div className="w-full max-w-md">
+        <div className="container">
           <AuthForm defaultRole="seller" />
         </div>
       </div>
       <SellCarBenefits />
+      <SellCarSteps />
+      <div className="container mx-auto my-12 p-6 text-center rounded-lg">
+        <h2 className="text-4xl font-semibold mb-4">
+          Start Your Car Selling Journey
+        </h2>
+        <p className="text-lg text-gray-700 mb-6 tracking-wide">
+          List your car with ease, connect with potential buyers, and get the
+          best value for your vehicle.
+        </p>
+        <Link to="/signup">
+          <button className="btn btn-primary py-2 px-6 text-lg font-medium bg-black-500 text-white rounded-lg hover:bg-black hover:text-white transition">
+            Get Started
+          </button>
+        </Link>
+      </div>
     </div>
   );
 };

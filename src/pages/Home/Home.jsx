@@ -7,6 +7,7 @@ import { GrMoney } from "react-icons/gr";
 import Benefits from "../../components/HomeComponent/Benefits";
 import ContactForm from "../../components/HomeComponent/ContactForm";
 import BlogCard from "../../components/HomeComponent/BlogCard";
+import Testimonial from "../../components/HomeComponent/Testimonial/Testimonial";
 
 const Home = () => {
   return (
@@ -19,7 +20,7 @@ const Home = () => {
 
       <CarCard />
       {/* Buy Car / Sell Car */}
-      <section className="flex flex-col lg:flex-row justify-between lg:w-[96%] mx-auto gap-6 my-4">
+      <section className="flex flex-col lg:flex-row justify-between lg:w-[96%] mx-auto gap-6 my-12">
         <div className="p-10 bg-yellow-100 rounded-xl lg:w-[50%]">
           <h3 className="text-xl font-semibold">Are you looking for car ?</h3>
           <p className="tracking-wide text-gray-700 mr-12 mt-4 mb-4">
@@ -47,7 +48,7 @@ const Home = () => {
         </div>
       </section>
       {/* Grow your business */}
-      <section className="flex flex-col lg:flex-row lg:w-[96%] mx-auto gap-6 mt-4 mb-4">
+      <section className="flex flex-col lg:flex-row lg:w-[96%] mx-auto gap-6 mt-4 mb-4 my-12">
         {/* Text Content */}
         <div className="lg:w-1/2 flex flex-col justify-center">
           <h3 className="text-2xl font-semibold mb-4">
@@ -75,6 +76,7 @@ const Home = () => {
       </section>
 
       <Benefits />
+      <Testimonial />
       <BlogCard />
       <ContactForm />
     </div>

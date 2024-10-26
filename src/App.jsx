@@ -7,7 +7,6 @@ import Navbar from "./Components/Navbar";
 function App() {
   const [isVisible, setIsVisible] = useState(false);
 
-
   // Toggle visibility of the button when scrolling
   const toggleVisibility = () => {
     if (window.pageYOffset > 300) {
@@ -21,7 +20,7 @@ function App() {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth"
+      behavior: "smooth",
     });
   };
 
@@ -35,30 +34,22 @@ function App() {
 
   return (
     <div>
-          {/* header */}
-          <Navbar></Navbar>
-          <div className="min-h-[calc(100vh-196px)] ">
-            <Outlet />
-          </div>
-          {/* Footer */}
-          <Footer></Footer>
-          {/* Scroll to Top Button */}
-          {isVisible && (
-            <button
-              onClick={scrollToTop}
-              className="fixed bottom-6 right-6 p-3 rounded-full bg-orange-500 text-white hover:bg-orange-600 transition-colors duration-300 z-50"
-            >
-              <FaArrowUp size={24} />
-            </button>
-          )}
+      <Navbar></Navbar>
+      <div className="min-h-[calc(100vh-196px)] ">
+        <Outlet />
+      </div>
+      <Footer></Footer>
+      {/* Scroll to Top Button */}
+      {isVisible && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-6 right-6 p-3 rounded-full bg-orange-500 text-white hover:bg-orange-600 transition-colors duration-300 z-50"
+        >
+          <FaArrowUp size={24} />
+        </button>
+      )}
     </div>
   );
 }
 
 export default App;
-
-    // <div>
-    //   <Navbar />
-    //   <Header />
-    //   <Home />
-    // </div>
