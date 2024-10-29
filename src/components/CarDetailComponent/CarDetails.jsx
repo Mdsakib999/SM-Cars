@@ -121,7 +121,7 @@ const CarDetails = () => {
 
       {/* Features Section */}
       <h4 className="text-4xl font-md py-4">Features</h4>
-      <div className="rounded-md space-y-2 text-md">
+      <div className="rounded-md space-y-2 text-lg">
         {carData.features.map((feature, index) => (
           <p key={index}>{feature}</p>
         ))}
@@ -129,7 +129,7 @@ const CarDetails = () => {
 
       {/* Seller's Info Section */}
       <h4 className="text-4xl font-md py-4">Seller's Note</h4>
-      <div className="rounded-md space-y-2 text-md">
+      <div className="rounded-md space-y-2 text-lg">
         <p>{carData.sellerNote}</p>
       </div>
     </div>
