@@ -14,7 +14,7 @@ const ContactForm = () => {
       </div>
 
       {/* Request a Call Card */}
-      <div className="absolute top-1/2 left-1/2 lg:left-1/4 transform -translate-x-1/2 -translate-y-1/2 bg-white p-8 rounded-lg border w-full md:w-1/3 ">
+      <div className="absolute top-1/2 left-1/2 lg:left-1/4 transform -translate-x-1/2 -translate-y-1/2 bg-white p-8 rounded-lg border w-[65%] md:w-1/3 ">
         <h3 className="text-2xl font-semibold text-center mb-4">
           Request a Call
         </h3>

@@ -30,3 +30,13 @@
 .swiper-button-next::after {
   font-size: 18px; /* Adjust arrow size */
 }
+
+@media (max-width: 768px) {
+  .swiper-button-prev {
+    left: 40%; /* Move further from center */
+  }
+
+  .swiper-button-next {
+    right: 40%; /* Move further from center */
+  }
+}

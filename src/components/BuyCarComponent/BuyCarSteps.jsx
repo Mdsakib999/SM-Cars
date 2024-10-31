@@ -31,7 +31,9 @@ const BuyCarSteps = () => {
 
   return (
     <div className="container mx-auto my-8 p-4">
-      <h2 className="text-4xl font-semibold mb-6 text-center">How it works</h2>
+      <h2 className="text-3xl md:text-4xl font-semibold mb-6 text-center">
+        How it works
+      </h2>
       <div className="grid gap-8 lg:grid-cols-2">
         {steps.map((step) => (
           <div key={step.id} className="border p-4 rounded-lg">

@@ -11,15 +11,14 @@ const Header = () => {
       <span className="text-sm md:text-lg mx-auto mt-20 mb-4 tracking-wider">
         Bangladesh’s First Used Car Dealership
       </span>
-      <h1 className="text-3xl md:text-5xl font-bold text-center pb-16">
+      <h1 className="text-2xl md:text-5xl font-bold text-center pb-16 px-2">
         Find Your Perfect Vehicle Online
       </h1>
       <div className="flex space-x-8">
         <div className="flex flex-col items-end">
           <div className="text-2xl text-right">Buy Cars</div>
-          <p className="text-right lg:pl-[150px] pt-3">
+          <p className="text-right  pt-3 ">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum aut
-            odit dolore eveniet recusandae consequatur voluptatum.
           </p>
           <div className="flex justify-end w-full">
             <button className="text-white bg-orange-500 py-2 px-4 rounded-xl font-medium border border-white mt-10 ">
@@ -30,9 +29,8 @@ const Header = () => {
         <div className="h-[200px] border-l-2 border-white"></div>
         <div className="flex flex-col items-start">
           <div className="text-2xl text-left">Sell Cars</div>
-          <p className="lg:pr-[150px] pt-3">
+          <p className="pt-3 ">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum aut
-            odit dolore eveniet recusandae consequatur voluptatum.
           </p>
           <button className="text-black bg-white py-2 px-4 rounded-xl font-medium border border-black mt-10">
             Start Selling

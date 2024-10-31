@@ -6,7 +6,9 @@ const Contact = () => {
   return (
     <div>
       <div className="container mx-auto px-4 py-12">
-        <h2 className="text-6xl text-center mb-8">Contact Us</h2>
+        <h2 className="text-4xl md:text-5xl lg:text-6xl text-center mb-8">
+          Contact Us
+        </h2>
 
         {/* Contact Information Section */}
         <div className="flex flex-col md:flex-row justify-between items-stretch mb-12 space-y-8 md:space-y-0 md:space-x-8">
@@ -55,9 +57,72 @@ const Contact = () => {
           </div>
         </div>
       </div>
+      <div>
+        <h3 className="text-3xl font-semibold text-center mb-4 ">
+          Send a message
+        </h3>
+        <form className="space-y-6 mx-4 md:mx-auto  max-w-2xl bg-gray-100 p-8 rounded-xl ">
+          <div>
+            <label htmlFor="name" className="block text-gray-700 font-medium">
+              Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              className="w-full border rounded-lg px-4 py-2"
+              placeholder="Enter your name"
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="email" className="block text-gray-700 font-medium">
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              className="w-full border rounded-lg px-4 py-2"
+              placeholder="Enter your email"
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="phone" className="block text-gray-700 font-medium">
+              Phone Number
+            </label>
+            <input
+              type="tel"
+              id="phone"
+              className="w-full border rounded-lg px-4 py-2"
+              placeholder="Enter your phone number"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="message"
+              className="block text-gray-700 font-medium"
+            >
+              Message
+            </label>
+            <textarea
+              id="message"
+              className="w-full border rounded-lg px-4 py-2"
+              placeholder="Enter your message"
+              rows="4"
+              required
+            ></textarea>
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-orange-500 text-white border border-white py-2 px-4 rounded-lg hover:bg-orange-600 hover:text-white hover:border-white transition duration-300"
+          >
+            Send message
+          </button>
+        </form>
+      </div>
 
       {/* Request a Call Form */}
-      <div className="relative w-full h-[650px] mt-12">
+      <div className="relative w-full h-[350px] mt-12">
         {/* Google Maps iframe */}
         <div className="absolute inset-0 w-full h-full">
           <iframe
@@ -66,77 +131,6 @@ const Contact = () => {
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
           ></iframe>
-        </div>
-
-        {/* Send A Message */}
-        <div className="absolute top-1/2 left-1/2 lg:left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-8 rounded-lg border w-full md:w-1/3 shadow-md ">
-          <h3 className="text-2xl font-semibold text-center mb-4">
-            Send a message
-          </h3>
-          <form className="space-y-4">
-            <div>
-              <label htmlFor="name" className="block text-gray-700 font-medium">
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                className="w-full border rounded-lg px-4 py-2"
-                placeholder="Enter your name"
-                required
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-gray-700 font-medium"
-              >
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                className="w-full border rounded-lg px-4 py-2"
-                placeholder="Enter your email"
-                required
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="phone"
-                className="block text-gray-700 font-medium"
-              >
-                Phone Number
-              </label>
-              <input
-                type="tel"
-                id="phone"
-                className="w-full border rounded-lg px-4 py-2"
-                placeholder="Enter your phone number"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="message"
-                className="block text-gray-700 font-medium"
-              >
-                Message
-              </label>
-              <textarea
-                id="message"
-                className="w-full border rounded-lg px-4 py-2"
-                placeholder="Enter your message"
-                rows="4"
-                required
-              ></textarea>
-            </div>
-            <button
-              type="submit"
-              className="w-full bg-white text-black border border-black py-2 px-4 rounded-lg hover:bg-black hover:text-white hover:border-white transition duration-300"
-            >
-              Send message
-            </button>
-          </form>
         </div>
       </div>
     </div>

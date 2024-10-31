@@ -11,7 +11,7 @@ const Navbar = () => {
 
   return (
     <div className="sticky top-0 z-20 bg-white">
-      <nav className="flex justify-between items-center w-full lg:max-w-[100%] mx-auto px-5 md:px-10 lg:px-20 py-4 text-black">
+      <nav className="flex justify-between items-center w-full xl:max-w-[97%] mx-auto px-5 md:px-10 lg:px-20 py-4 text-black">
         {/* Logo */}
         <div className="flex items-center lg:mr-14 cursor-pointer">
           <img
@@ -26,9 +26,12 @@ const Navbar = () => {
           <li className="cursor-pointer hover:text-black">
             <Link to="/">Home</Link>
           </li>
-          {/* <li className="cursor-pointer hover:text-black">
+          <li className="cursor-pointer hover:text-black">
             <Link to="/about">About</Link>
-          </li> */}
+          </li>
+          <li className="cursor-pointer hover:text-black">
+            <Link to="/contact">Contact</Link>
+          </li>
           <li className="cursor-pointer hover:text-black">
             <Link to="/buy">Buy Car</Link>
           </li>
@@ -36,11 +39,14 @@ const Navbar = () => {
             <Link to="/sell">Sell Car</Link>
           </li>
           <li className="cursor-pointer hover:text-black">
-            {" "}
             <Link to="/pricing">Pricing</Link>
           </li>
         </ul>
-        <Link className="btn btn-primary" to="/signup" onClick={toggleMenu}>
+        <Link
+          className="hidden md:block btn btn-primary"
+          to="/signup"
+          onClick={toggleMenu}
+        >
           Get Started
         </Link>
 
@@ -87,6 +93,13 @@ const Navbar = () => {
             onClick={toggleMenu}
           >
             About
+          </Link>
+          <Link
+            to="/contact"
+            className="text-lg font-medium text-gray-700"
+            onClick={toggleMenu}
+          >
+            Contact
           </Link>
           <Link
             to="/buy"
