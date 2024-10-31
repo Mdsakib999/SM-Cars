@@ -10,7 +10,9 @@ const About = () => {
     <div className=" py-16">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-6xl mb-8 text-gray-900">About Us</h2>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl mb-8 text-gray-900">
+            About Us
+          </h2>
           <p className="mt-4 tracking-wider text-gray-600">
             Learn more about who we are and what we do.
           </p>
@@ -20,7 +22,7 @@ const About = () => {
 
         <div className="flex flex-col md:flex-row items-center md:items-start space-y-8 md:space-y-0 md:space-x-8">
           <div className="w-full ">
-            <h3 className="text-3xl font-semibold text-gray-900 mb-4">
+            <h3 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-4">
               Our Mission
             </h3>
             <p className="text-gray-800 leading-loose">
@@ -47,7 +49,7 @@ const About = () => {
 
         {/* Vision or Values Section */}
         <div className="text-center">
-          <h3 className="text-3xl font-semibold text-gray-900 text-center mb-8 mt-8">
+          <h3 className="text-2xl md:text-3xl font-semibold text-gray-900 text-center mb-8 mt-8">
             Our Values
           </h3>
           <div className="flex flex-col md:flex-row justify-between items-stretch mb-12 space-y-8 md:space-y-0 md:space-x-8">
@@ -95,7 +97,7 @@ const About = () => {
 
         {/* Team or Company Overview Section */}
         <div className="mt-12">
-          <h3 className="text-3xl font-semibold text-gray-900 text-center mb-8">
+          <h3 className="text-2xl md:text-3xl font-semibold text-gray-900 text-center mb-8">
             Meet Our Team
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

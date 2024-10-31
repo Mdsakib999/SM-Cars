@@ -4,8 +4,8 @@ import { LiaMoneyCheckSolid } from "react-icons/lia";
 
 const BuyCarBenefits = () => {
   return (
-    <section className="container mx-auto my-8 p-4 rounded-lg">
-      <h3 className="text-center text-3xl font-semibold p-8 pb-20">
+    <section className="container mx-auto my-8 px-4 rounded-lg">
+      <h3 className="text-center text-4xl md:text-5xl lg:text-6xl  p-8 pb-20">
         Benefit’s Of Buying With SM Car’s{" "}
         <span className="text-orange-500">Membership</span>
       </h3>

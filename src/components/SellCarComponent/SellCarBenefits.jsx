@@ -4,8 +4,8 @@ import { LiaMoneyCheckSolid } from "react-icons/lia";
 
 const SellCarBenefits = () => {
   return (
-    <section className="container mx-auto my-8 py-4 rounded-lg">
-      <h3 className="text-center text-3xl font-semibold p-8 pb-20">
+    <section className="container mx-auto my-8 py-4 rounded-lg px-4">
+      <h3 className="text-center text-4xl md:text-5xl lg:text-6xl p-8 pb-20">
         Benefit’s Of Selling With SM Car’s{" "}
         <span className="text-orange-500">Membership</span>
       </h3>
@@ -16,7 +16,7 @@ const SellCarBenefits = () => {
             List your car and expose it to thousands of potential buyers
             instantly.
           </p>
-          <TbZoomMoney className="text-4xl my-4 text-orange-400" />
+          <TbZoomMoney className=" text-4xl my-4 text-orange-400" />
         </div>
         <div>
           <h4 className="text-lg pb-4">Fast Listing Approval</h4>

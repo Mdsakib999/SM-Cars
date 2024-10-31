@@ -11,7 +11,9 @@ const CarSubscriptionSwitcher = () => {
 
   return (
     <div className="flex flex-col items-center justify-center pt-20 p-6">
-      <h1 className="text-6xl text-center mb-2">From Startup to Enterprise.</h1>
+      <h1 className="text-4xl md:text-5xl lg:text-6xl text-center mb-2">
+        From Startup to Enterprise.
+      </h1>
       <p className="text-center text-md text-gray-600  p-4">
         Perfectly tailored for every stage of your growth. <br />
         Get started today, no credit card needed.
