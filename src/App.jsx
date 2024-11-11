@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { FaArrowUp } from "react-icons/fa";
 import Footer from "./Pages/Footer/Footer";
 import Navbar from "./Components/Navbar";
 
 function App() {
   const [isVisible, setIsVisible] = useState(false);
+  const location = useLocation();
 
   // Toggle visibility of the button when scrolling
   const toggleVisibility = () => {
@@ -26,19 +27,27 @@ function App() {
 
   useEffect(() => {
     window.addEventListener("scroll", toggleVisibility);
-
     return () => {
       window.removeEventListener("scroll", toggleVisibility);
     };
   }, []);
 
+  // Check if the current route is /dashboard
+  const isDashboard = location.pathname.startsWith("/dashboard");
+
   return (
     <div>
-      <Navbar></Navbar>
-      <div className="min-h-[calc(100vh-196px)] ">
+      {/* Conditionally render Navbar and Footer */}
+      {!isDashboard && <Navbar />}
+
+      <div
+        className={`min-h-[calc(100vh-196px)] ${isDashboard ? "lg:ml-64" : ""}`}
+      >
         <Outlet />
       </div>
-      <Footer></Footer>
+
+      {!isDashboard && <Footer />}
+
       {/* Scroll to Top Button */}
       {isVisible && (
         <button
