@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { BsArrowUpRight } from "react-icons/bs";
 import { IoSpeedometerOutline } from "react-icons/io5";
 import { BsBackpack } from "react-icons/bs";
@@ -107,9 +108,11 @@ const CarCard = () => {
 
             <div className="flex justify-between items-center">
               <span className="text-lg font-bold text-black">{car.price}</span>
-              <button className="flex items-center text-orange-500 py-2 px-4 rounded-md hover:text-orange-600">
-                View Details <BsArrowUpRight className="ml-2" />
-              </button>
+              <Link to="/car/cardetails">
+                <button className="flex items-center text-orange-500 py-2 px-4 rounded-md hover:text-orange-600">
+                  View Details <BsArrowUpRight className="ml-2" />
+                </button>
+              </Link>
             </div>
           </div>
         </div>
