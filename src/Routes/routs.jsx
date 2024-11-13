@@ -10,10 +10,15 @@ import Login from "../pages/Login/Login";
 import Signup from "../pages/Signup/Signup";
 import Car from "../pages/Car/Car";
 import Dashboard from "../pages/Dashboard/Dashboard";
-import Overview from "../components/DashboardComponent/Overview/Overview";
+
 import MyCars from "../components/DashboardComponent/MyCars/MyCars";
 import AddNewCar from "../components/DashboardComponent/AddNewCar/AddNewCar";
 import Settings from "../components/DashboardComponent/Settings/Settings";
+import Overview from "../pages/Dashboard/Buyer/Overview";
+import BidHistory from "../pages/Dashboard/Buyer/BidHistory";
+import SavedCars from "../pages/Dashboard/Buyer/SavedCars";
+import SubscriptionPlan from "../pages/Dashboard/Buyer/SubscriptionPlan";
+import MyWins from "../pages/Dashboard/Buyer/myWins";
 
 export const router = createBrowserRouter([
   {
@@ -45,10 +50,16 @@ export const router = createBrowserRouter([
         element: <Pricing></Pricing>,
       },
       {
-        path: "/dashboard",
+        path: "/dashboard/:userRole",
         element: <Dashboard />,
         children: [
+          // Buyer Routes
           { path: "overview", element: <Overview /> },
+          { path: "bid-history", element: <BidHistory /> },
+          { path: "saved-cars", element: <SavedCars /> },
+          { path: "subscription-plan", element: <SubscriptionPlan /> },
+          { path: "my-wins", element: <MyWins /> },
+
           { path: "my-cars", element: <MyCars /> },
           { path: "add-new-car", element: <AddNewCar /> },
           { path: "settings", element: <Settings /> },

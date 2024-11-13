@@ -11,28 +11,33 @@ import { CiBookmark, CiSettings, CiMedal } from "react-icons/ci";
 import { SlHome } from "react-icons/sl";
 import { GoHistory } from "react-icons/go";
 import { IoAddCircleOutline } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 const sidebarMenu = {
   buyer: [
-    { name: "Dashboard", icon: <SlHome /> },
-    { name: "Bid History", icon: <GoHistory /> },
-    { name: "Saved Cars", icon: <CiBookmark /> },
-    { name: "Subscription Plan", icon: <AiOutlineDollarCircle /> },
-    { name: "Winning Bids", icon: <CiMedal /> },
-    { name: "Settings", icon: <CiSettings /> },
+    { name: "Dashboard", path: "overview", icon: <SlHome /> },
+    { name: "Bid History", path: "bid-history", icon: <GoHistory /> },
+    { name: "Saved Cars", path: "saved-cars", icon: <CiBookmark /> },
+    {
+      name: "Subscription Plan",
+      path: "subscription-plan",
+      icon: <AiOutlineDollarCircle />,
+    },
+    { name: "My Wins", path: "my-wins", icon: <CiMedal /> },
+    { name: "Settings", path: "#", icon: <CiSettings /> },
   ],
   seller: [
-    { name: "Dashboard", icon: <SlHome /> },
-    { name: "My Cars", icon: <AiOutlineCar /> },
-    { name: "Add New Car", icon: <IoAddCircleOutline /> },
-    { name: "Verify Account", icon: <AiOutlineSafety /> },
-    { name: "Subscription Plan", icon: <AiOutlineDollarCircle /> },
-    { name: "Settings", icon: <CiSettings /> },
+    { name: "Dashboard", path: "overview", icon: <SlHome /> },
+    { name: "My Cars", path: "my-cars", icon: <AiOutlineCar /> },
+    { name: "Add New Car", path: "add-new-car", icon: <IoAddCircleOutline /> },
+    { name: "Verify Account", path: "#", icon: <AiOutlineSafety /> },
+    { name: "Subscription Plan", path: "#", icon: <AiOutlineDollarCircle /> },
+    { name: "Settings", path: "#", icon: <CiSettings /> },
   ],
   admin: [
-    { name: "Manage Users", icon: <AiOutlineUser /> },
-    { name: "Ban Users", icon: <AiOutlineUserDelete /> },
-    { name: "Settings", icon: <CiSettings /> },
+    { name: "Manage Users", path: "#", icon: <AiOutlineUser /> },
+    { name: "Ban Users", path: "#", icon: <AiOutlineUserDelete /> },
+    { name: "Settings", path: "#", icon: <CiSettings /> },
   ],
 };
 
@@ -52,11 +57,11 @@ const Sidebar = ({ setActiveSection, userRole }) => {
       <div className="flex flex-col items-center lg:items-start">
         <div className="flex items-center justify-between w-full mb-12 mt-4 ml-4">
           {(isExpanded || (!isExpanded && window.innerWidth >= 1024)) && (
-            <h2 className="text-3xl font-md transition-opacity duration-300 lg:hidden">
+            <h2 className="text-xl lg:text-3xl font-md transition-opacity duration-300 lg:hidden">
               SMCARS
             </h2>
           )}
-          <h2 className="hidden text-3xl font-md transition-opacity duration-300 md:block">
+          <h2 className="hidden text-xl lg:text-3xl font-md transition-opacity duration-300 md:block">
             SMCARS
           </h2>
 
@@ -70,14 +75,14 @@ const Sidebar = ({ setActiveSection, userRole }) => {
 
         <nav className="space-y-10 flex flex-col w-full">
           {menuItems.map((item, index) => (
-            <a
+            <Link
               key={index}
-              href="#"
+              to={`/dashboard/${userRole}/${item.path}`}
               onClick={() => {
-                setActiveItem(index); // Highlight active item in sidebar
-                setActiveSection(item.name); // Set active section name in Dashboard
+                setActiveItem(index);
+                setActiveSection(item.name);
               }}
-              className={`relative flex items-center space-x-2 p-2 rounded w-full text-xl ${
+              className={`relative flex items-center space-x-2 p-2 rounded w-full text-md lg:text-xl ${
                 activeItem === index ? "text-orange-500" : "text-gray-500"
               }`}
             >
@@ -88,8 +93,8 @@ const Sidebar = ({ setActiveSection, userRole }) => {
               <span
                 className={
                   activeItem === index
-                    ? "text-black text-3xl"
-                    : "text-gray-500 text-3xl"
+                    ? "text-black text-xl lg:text-2xl"
+                    : "text-gray-500 text-xl lg:text-2xl"
                 }
               >
                 {item.icon}
@@ -102,7 +107,7 @@ const Sidebar = ({ setActiveSection, userRole }) => {
               >
                 {item.name}
               </span>
-            </a>
+            </Link>
           ))}
         </nav>
       </div>
