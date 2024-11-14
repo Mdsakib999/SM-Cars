@@ -24,7 +24,7 @@ const sidebarMenu = {
       icon: <AiOutlineDollarCircle />,
     },
     { name: "My Wins", path: "my-wins", icon: <CiMedal /> },
-    { name: "Settings", path: "#", icon: <CiSettings /> },
+    { name: "Settings", path: "settings", icon: <CiSettings /> },
   ],
   seller: [
     { name: "Dashboard", path: "overview", icon: <SlHome /> },
