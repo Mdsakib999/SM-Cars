@@ -1,5 +1,6 @@
 import React from "react";
 import { BsArrowUpRight, BsCheckCircle, BsXCircle } from "react-icons/bs";
+import { BsArrowRepeat } from "react-icons/bs";
 
 const bidHistoryData = [
   {
@@ -70,7 +71,8 @@ const BidHistory = () => {
               </div>
               {/* Bid Again Button */}
               {bid.status === "Ongoing" && (
-                <button className="w-full border px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-400 text-white">
+                <button className="w-full border px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white flex justify-center gap-4">
+                  <BsArrowRepeat className="text-2xl" />
                   Bid Again
                 </button>
               )}

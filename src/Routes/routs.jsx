@@ -13,12 +13,13 @@ import Dashboard from "../pages/Dashboard/Dashboard";
 
 import MyCars from "../components/DashboardComponent/MyCars/MyCars";
 import AddNewCar from "../components/DashboardComponent/AddNewCar/AddNewCar";
-import Settings from "../components/DashboardComponent/Settings/Settings";
+
 import Overview from "../pages/Dashboard/Buyer/Overview";
 import BidHistory from "../pages/Dashboard/Buyer/BidHistory";
 import SavedCars from "../pages/Dashboard/Buyer/SavedCars";
 import SubscriptionPlan from "../pages/Dashboard/Buyer/SubscriptionPlan";
 import MyWins from "../pages/Dashboard/Buyer/myWins";
+import Settings from "../pages/Dashboard/Buyer/Settings";
 
 export const router = createBrowserRouter([
   {

@@ -73,7 +73,7 @@ const SubscriptionPlan = () => {
                   Current Plan
                 </button>
               ) : (
-                <button className="w-full px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition">
+                <button className="w-full px-4 py-2 rounded-lg  text-black hover:bg-black hover:text-white transition border border-black ">
                   Upgrade Plan
                 </button>
               )}
