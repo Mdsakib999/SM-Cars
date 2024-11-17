@@ -11,15 +11,16 @@ import Signup from "../pages/Signup/Signup";
 import Car from "../pages/Car/Car";
 import Dashboard from "../pages/Dashboard/Dashboard";
 
-import MyCars from "../components/DashboardComponent/MyCars/MyCars";
-import AddNewCar from "../components/DashboardComponent/AddNewCar/AddNewCar";
-
 import Overview from "../pages/Dashboard/Buyer/Overview";
+import SellerOverview from "../pages/Dashboard/Seller/SellerOverview";
 import BidHistory from "../pages/Dashboard/Buyer/BidHistory";
 import SavedCars from "../pages/Dashboard/Buyer/SavedCars";
 import SubscriptionPlan from "../pages/Dashboard/Buyer/SubscriptionPlan";
 import MyWins from "../pages/Dashboard/Buyer/myWins";
 import Settings from "../pages/Dashboard/Buyer/Settings";
+import AddNewCar from "../pages/Dashboard/Seller/AddnewCar";
+import MyCars from "../pages/Dashboard/Seller/MyCars";
+import VerifyAccount from "../pages/Dashboard/Seller/VerifyAccount";
 
 export const router = createBrowserRouter([
   {
@@ -60,9 +61,12 @@ export const router = createBrowserRouter([
           { path: "saved-cars", element: <SavedCars /> },
           { path: "subscription-plan", element: <SubscriptionPlan /> },
           { path: "my-wins", element: <MyWins /> },
+          // Seller Routes
 
+          { path: "seller-overview", element: <SellerOverview /> },
           { path: "my-cars", element: <MyCars /> },
           { path: "add-new-car", element: <AddNewCar /> },
+          { path: "verify-seller", element: <VerifyAccount /> },
           { path: "settings", element: <Settings /> },
         ],
       },

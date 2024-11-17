@@ -6,7 +6,7 @@ import { Outlet } from "react-router-dom";
 const user = {
   name: "Jane Smith",
   email: "janesmith@example.com",
-  role: "buyer",
+  role: "seller",
   profilePicture: "https://example.com/profile-pictures/user456.jpg",
 };
 

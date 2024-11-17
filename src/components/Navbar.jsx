@@ -15,7 +15,7 @@ const Navbar = () => {
         {/* Logo */}
         <div className="flex items-center lg:mr-14 cursor-pointer">
           <img
-            className="w-[45px] md:w-[50px] rounded-full"
+            className="w-[45px] lg:w-[50px] rounded-full"
             src="https://i.ibb.co/4S75tm6/SM-Foods-logo.jpg"
             alt="Logo"
           />

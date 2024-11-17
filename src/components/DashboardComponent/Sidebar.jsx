@@ -27,10 +27,14 @@ const sidebarMenu = {
     { name: "Settings", path: "settings", icon: <CiSettings /> },
   ],
   seller: [
-    { name: "Dashboard", path: "overview", icon: <SlHome /> },
+    { name: "Dashboard", path: "seller-overview", icon: <SlHome /> },
     { name: "My Cars", path: "my-cars", icon: <AiOutlineCar /> },
     { name: "Add New Car", path: "add-new-car", icon: <IoAddCircleOutline /> },
-    { name: "Verify Account", path: "#", icon: <AiOutlineSafety /> },
+    {
+      name: "Verify Account",
+      path: "verify-seller",
+      icon: <AiOutlineSafety />,
+    },
     { name: "Subscription Plan", path: "#", icon: <AiOutlineDollarCircle /> },
     { name: "Settings", path: "#", icon: <CiSettings /> },
   ],
