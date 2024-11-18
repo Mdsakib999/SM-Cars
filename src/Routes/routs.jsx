@@ -68,6 +68,8 @@ export const router = createBrowserRouter([
           { path: "add-new-car", element: <AddNewCar /> },
           { path: "verify-seller", element: <VerifyAccount /> },
           { path: "settings", element: <Settings /> },
+          // Admin routes
+          { path: "settings", element: <Settings /> },
         ],
       },
       {
