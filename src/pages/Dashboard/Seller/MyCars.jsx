@@ -57,7 +57,7 @@ const MyCars = () => {
       {myCarsList.map((car, index) => (
         <div
           key={index}
-          className="bg-white border rounded-xl overflow-hidden relative shadow-md"
+          className="bg-white border rounded-xl overflow-hidden relative "
         >
           {/* Image Section with Bookmark */}
           <div className="relative">

@@ -30,7 +30,7 @@ const AddNewCar = () => {
 
   return (
     <div className="bg-gray-100 min-h-screen flex justify-center items-center">
-      <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-4xl">
+      <div className="bg-white p-8 rounded-xl border w-full max-w-4xl">
         <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
           Add New Car
         </h2>

@@ -30,7 +30,7 @@ const Settings = () => {
 
   return (
     <div className="bg-gray-100 min-h-screen flex justify-center items-center">
-      <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-4xl">
+      <div className="bg-white p-8 rounded-xl border w-full max-w-4xl">
         {/* Profile Picture */}
         <div className="flex justify-center mb-6">
           <div className="relative">

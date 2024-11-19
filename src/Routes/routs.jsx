@@ -11,16 +11,20 @@ import Signup from "../pages/Signup/Signup";
 import Car from "../pages/Car/Car";
 import Dashboard from "../pages/Dashboard/Dashboard";
 
-import Overview from "../pages/Dashboard/Buyer/Overview";
+import BuyerOverview from "../pages/Dashboard/Buyer/BuyerOverview";
 import SellerOverview from "../pages/Dashboard/Seller/SellerOverview";
 import BidHistory from "../pages/Dashboard/Buyer/BidHistory";
 import SavedCars from "../pages/Dashboard/Buyer/SavedCars";
 import SubscriptionPlan from "../pages/Dashboard/Buyer/SubscriptionPlan";
 import MyWins from "../pages/Dashboard/Buyer/myWins";
-import Settings from "../pages/Dashboard/Buyer/Settings";
+
 import AddNewCar from "../pages/Dashboard/Seller/AddnewCar";
 import MyCars from "../pages/Dashboard/Seller/MyCars";
 import VerifyAccount from "../pages/Dashboard/Seller/VerifyAccount";
+import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
+import BanUsers from "../pages/Dashboard/Admin/BanUsers";
+import Settings from "../pages/Dashboard/General/Settings";
+import Overview from "../pages/Dashboard/General/Overview";
 
 export const router = createBrowserRouter([
   {
@@ -56,19 +60,21 @@ export const router = createBrowserRouter([
         element: <Dashboard />,
         children: [
           // Buyer Routes
-          { path: "overview", element: <Overview /> },
+          { path: "", element: <Overview /> },
+          { path: "buyer-overview", element: <BuyerOverview /> },
           { path: "bid-history", element: <BidHistory /> },
           { path: "saved-cars", element: <SavedCars /> },
           { path: "subscription-plan", element: <SubscriptionPlan /> },
           { path: "my-wins", element: <MyWins /> },
           // Seller Routes
-
           { path: "seller-overview", element: <SellerOverview /> },
           { path: "my-cars", element: <MyCars /> },
           { path: "add-new-car", element: <AddNewCar /> },
           { path: "verify-seller", element: <VerifyAccount /> },
           { path: "settings", element: <Settings /> },
           // Admin routes
+          { path: "manage-users", element: <ManageUsers /> },
+          { path: "ban-users", element: <BanUsers /> },
           { path: "settings", element: <Settings /> },
         ],
       },

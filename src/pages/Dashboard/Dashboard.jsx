@@ -24,7 +24,7 @@ const Dashboard = () => {
         <DashboardNav sectionName={activeSection} userName={user.name} />
 
         {/* Dynamic Content based on selected section */}
-        <div className="p-6">
+        <div className="p-6 mt-20">
           <Outlet />
         </div>
       </div>

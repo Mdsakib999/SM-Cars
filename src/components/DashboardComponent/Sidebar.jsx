@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 
 const sidebarMenu = {
   buyer: [
-    { name: "Dashboard", path: "overview", icon: <SlHome /> },
+    { name: "Dashboard", path: "", icon: <SlHome /> },
     { name: "Bid History", path: "bid-history", icon: <GoHistory /> },
     { name: "Saved Cars", path: "saved-cars", icon: <CiBookmark /> },
     {
@@ -36,27 +36,33 @@ const sidebarMenu = {
       icon: <AiOutlineSafety />,
     },
     { name: "Subscription Plan", path: "#", icon: <AiOutlineDollarCircle /> },
-    { name: "Settings", path: "#", icon: <CiSettings /> },
+    { name: "Settings", path: "settings", icon: <CiSettings /> },
   ],
   admin: [
-    { name: "Manage Users", path: "#", icon: <AiOutlineUser /> },
-    { name: "Ban Users", path: "#", icon: <AiOutlineUserDelete /> },
-    { name: "Settings", path: "#", icon: <CiSettings /> },
+    { name: "Manage Users", path: "manage-users", icon: <AiOutlineUser /> },
+    { name: "Ban Users", path: "ban-users", icon: <AiOutlineUserDelete /> },
+    { name: "Settings", path: "settings", icon: <CiSettings /> },
   ],
 };
 
 const Sidebar = ({ setActiveSection, userRole }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [activeItem, setActiveItem] = useState(0);
-  const menuItems = sidebarMenu[userRole] || [];
+  //
+  // const menuItems = sidebarMenu[userRole] || [];
+  const menuItems = [
+    ...sidebarMenu.buyer,
+    ...sidebarMenu.seller,
+    ...sidebarMenu.admin,
+  ];
 
   const toggleSidebar = () => setIsExpanded((prev) => !prev);
 
   return (
     <div
-      className={`fixed inset-y-0 left-0 bg-white text-black h-full p-4 transition-all duration-300 ease-in-out ${
+      className={`fixed inset-y-0 left-0 bg-white text-black h-full border p-4 transition-all duration-300 ease-in-out ${
         isExpanded ? "w-64" : "w-20"
-      } lg:w-64`}
+      } lg:w-64 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-thumb-rounded-md`}
     >
       <div className="flex flex-col items-center lg:items-start">
         <div className="flex items-center justify-between w-full mb-12 mt-4 ml-4">
