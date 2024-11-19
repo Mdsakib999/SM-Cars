@@ -69,7 +69,7 @@ const SavedCars = () => {
               alt={car.model}
             />
             {/* Saved Icon */}
-            <CiBookmark className="absolute top-2 right-2 text-white bg-blue-00 text-4xl cursor-pointer  p-2 rounded-full" />
+            <CiBookmark className="absolute top-2 right-2 text-white bg-blue-00 text-4xl cursor-pointer  p-2 rounded-full bg-blue-500" />
           </div>
 
           <div className="p-4">

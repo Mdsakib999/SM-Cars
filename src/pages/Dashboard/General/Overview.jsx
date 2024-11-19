@@ -2,7 +2,15 @@ import React from "react";
 import ProfileCard from "../../../components/DashboardComponent/Overview/ProfileCard";
 import SubscriptionCard from "../../../components/DashboardComponent/Overview/SubscriptionCard";
 import RemainingBidsOverview from "../../../components/DashboardComponent/Overview/RemainingBidsOverview";
+import RemainingListingsOverview from "../../../components/DashboardComponent/Overview/RemainingListingsOverview";
 import BiddingHistoryOverview from "../../../components/DashboardComponent/Overview/BiddingHistoryOverview";
+
+const user = {
+  name: "Jane Smith",
+  email: "janesmith@example.com",
+  role: "buyer",
+  profilePicture: "https://example.com/profile-pictures/user456.jpg",
+};
 
 const Overview = () => {
   return (
@@ -11,12 +19,10 @@ const Overview = () => {
       <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
         {/* Full-width Profile Card */}
         <ProfileCard />
-        {/* Subscription Card */}
         <SubscriptionCard />
-        {/* Bids Remaining Card */}
-        <RemainingBidsOverview />
-        {/* Bidding History Card */}
-        <BiddingHistoryOverview />
+        {user.role === "buyer" && <RemainingBidsOverview />}
+        {user.role === "buyer" && <BiddingHistoryOverview />}
+        {user.role === "seller" && <RemainingListingsOverview />}
       </div>
     </div>
   );

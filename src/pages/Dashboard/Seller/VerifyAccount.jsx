@@ -35,7 +35,7 @@ const VerifyAccount = () => {
   };
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow-lg max-w-lg mx-auto mt-10">
+    <div className="bg-white p-6 rounded-xl border max-w-lg mx-auto mt-10">
       <h2 className="text-2xl font-semibold mb-6 text-center">
         Verify Your Account
       </h2>
