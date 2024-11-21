@@ -6,7 +6,7 @@ import {
   AiOutlineUserDelete,
   AiOutlineSafety,
 } from "react-icons/ai";
-import { FiChevronRight, FiChevronLeft } from "react-icons/fi";
+import { FiChevronRight, FiChevronLeft, FiBarChart } from "react-icons/fi";
 import { CiBookmark, CiSettings, CiMedal } from "react-icons/ci";
 import { SlHome } from "react-icons/sl";
 import { GoHistory } from "react-icons/go";
@@ -40,6 +40,21 @@ const sidebarMenu = {
   ],
   admin: [
     { name: "Manage Users", path: "manage-users", icon: <AiOutlineUser /> },
+    {
+      name: "Manage Listings",
+      path: "manage-listings",
+      icon: <AiOutlineUser />,
+    },
+    {
+      name: "Manage Biddings",
+      path: "manage-biddings",
+      icon: <AiOutlineUser />,
+    },
+    {
+      name: "Reports",
+      path: "reports",
+      icon: <FiBarChart />,
+    },
     { name: "Ban Users", path: "ban-users", icon: <AiOutlineUserDelete /> },
     { name: "Settings", path: "settings", icon: <CiSettings /> },
   ],
@@ -84,6 +99,8 @@ const Sidebar = ({ setActiveSection, userRole }) => {
         </div>
 
         <nav className="space-y-10 flex flex-col w-full">
+          {/* User role */}
+
           {menuItems.map((item, index) => (
             <Link
               key={index}

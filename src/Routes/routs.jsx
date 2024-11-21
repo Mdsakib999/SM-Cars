@@ -25,6 +25,8 @@ import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
 import BanUsers from "../pages/Dashboard/Admin/BanUsers";
 import Settings from "../pages/Dashboard/General/Settings";
 import Overview from "../pages/Dashboard/General/Overview";
+import ManageListings from "../pages/Dashboard/Admin/ManageListings";
+import Reports from "../pages/Dashboard/Admin/Reports";
 
 export const router = createBrowserRouter([
   {
@@ -74,6 +76,9 @@ export const router = createBrowserRouter([
           { path: "settings", element: <Settings /> },
           // Admin routes
           { path: "manage-users", element: <ManageUsers /> },
+          { path: "manage-listings", element: <ManageListings /> },
+          { path: "manage-biddings", element: <ManageUsers /> },
+          { path: "reports", element: <Reports /> },
           { path: "ban-users", element: <BanUsers /> },
           { path: "settings", element: <Settings /> },
         ],
