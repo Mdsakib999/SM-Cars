@@ -7,10 +7,10 @@ import {
   AiOutlineSafety,
 } from "react-icons/ai";
 import { FiChevronRight, FiChevronLeft, FiBarChart } from "react-icons/fi";
-import { CiBookmark, CiSettings, CiMedal } from "react-icons/ci";
+import { CiBookmark, CiSettings, CiMedal, CiBoxList } from "react-icons/ci";
 import { SlHome } from "react-icons/sl";
 import { GoHistory } from "react-icons/go";
-import { IoAddCircleOutline } from "react-icons/io5";
+import { IoAddCircleOutline, IoHammerOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 
 const sidebarMenu = {
@@ -35,7 +35,11 @@ const sidebarMenu = {
       path: "verify-seller",
       icon: <AiOutlineSafety />,
     },
-    { name: "Subscription Plan", path: "#", icon: <AiOutlineDollarCircle /> },
+    {
+      name: "Subscription Plan",
+      path: "subscription-plan",
+      icon: <AiOutlineDollarCircle />,
+    },
     { name: "Settings", path: "settings", icon: <CiSettings /> },
   ],
   admin: [
@@ -43,12 +47,12 @@ const sidebarMenu = {
     {
       name: "Manage Listings",
       path: "manage-listings",
-      icon: <AiOutlineUser />,
+      icon: <CiBoxList />,
     },
     {
       name: "Manage Biddings",
       path: "manage-biddings",
-      icon: <AiOutlineUser />,
+      icon: <IoHammerOutline />,
     },
     {
       name: "Reports",

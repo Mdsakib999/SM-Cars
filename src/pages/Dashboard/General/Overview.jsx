@@ -5,12 +5,14 @@ import RemainingBidsOverview from "../../../components/DashboardComponent/Overvi
 import RemainingListingsOverview from "../../../components/DashboardComponent/Overview/RemainingListingsOverview";
 import BiddingHistoryOverview from "../../../components/DashboardComponent/Overview/BiddingHistoryOverview";
 import LatestWinCard from "../../../components/DashboardComponent/Overview/LatestWinCard";
+import VerifyAccountCard from "../../../components/DashboardComponent/Overview/VerifyAccountCard";
 
 const user = {
   name: "Jane Smith",
   email: "janesmith@example.com",
-  role: "buyer",
+  role: "seller", // Options: "buyer", "seller", "admin"
   profilePicture: "https://example.com/profile-pictures/user456.jpg",
+  isVerified: true, // Account verification status
 };
 
 const latestWin = {
@@ -21,18 +23,29 @@ const latestWin = {
   status: "Completed",
   sellerContact: "seller@example.com",
 };
+
 const Overview = () => {
   return (
-    <div className=" lg:p-6 bg-gray-100 min-h-screen">
-      {/* Grid Container */}
+    <div className="lg:p-6 bg-gray-100 min-h-screen">
       <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
-        {/* Full-width Profile Card */}
+        {/* Profile and Subscription Cards */}
         <ProfileCard />
         <SubscriptionCard />
-        {user.role === "buyer" && <RemainingBidsOverview />}
-        {user.role === "buyer" && <BiddingHistoryOverview />}
-        {user.role === "seller" && <RemainingListingsOverview />}
-        {user.role === "buyer" && <LatestWinCard latestWin={latestWin} />}
+
+        {/* Role-Specific Cards */}
+        {user.role === "buyer" && (
+          <>
+            <RemainingBidsOverview />
+            <BiddingHistoryOverview />
+            <LatestWinCard latestWin={latestWin} />
+          </>
+        )}
+        {user.role === "seller" && (
+          <>
+            <RemainingListingsOverview />
+            <VerifyAccountCard isVerified={user.isVerified} />
+          </>
+        )}
       </div>
     </div>
   );

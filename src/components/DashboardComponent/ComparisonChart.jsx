@@ -5,7 +5,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const ComparisonChart = () => {
+const ComparisonChart = ({ data }) => {
   return (
     <div className="p-4 bg-white rounded shadow">
       <h2 className="text-lg font-bold mb-4">Revenue by Subscription Type</h2>

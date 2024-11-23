@@ -19,7 +19,7 @@ const ProfileCard = () => {
           </span>
         </div>
       </div>
-      <button className="border px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-400 text-white">
+      <button className="px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-400 text-white w-[150px]">
         Settings
       </button>
     </div>

@@ -21,7 +21,7 @@ ChartJS.register(
 
 const RevenueChart = ({ data }) => {
   return (
-    <div className="p-4 bg-white rounded-md border ">
+    <div className="p-4 bg-white rounded-md border  ">
       <h2 className="text-lg font-bold mb-4">Monthly Revenue</h2>
       <Bar
         data={data}

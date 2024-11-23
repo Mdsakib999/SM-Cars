@@ -1,5 +1,6 @@
 import React from "react";
 import RevenueChart from "../../../components/DashboardComponent/RevenueChart";
+import ComparisonChart from "../../../components/DashboardComponent/ComparisonChart";
 const chartData = {
   labels: [
     "January",
@@ -26,10 +27,23 @@ const chartData = {
   ],
 };
 
+const pieChartData = {
+  labels: ["Buyers", "Sellers"],
+  datasets: [
+    {
+      data: [3000, 7000], // Revenue values from buyers and sellers
+      backgroundColor: ["rgb(251, 141, 3,0.2)", "rgba(54, 162, 235, 0.2)"], // Colors for pie sections
+      borderColor: ["rgb(251, 141, 3)", "rgba(54, 162, 235, 1)"],
+      hoverBackgroundColor: ["rgb(251, 141, 3,0.5)", "rgba(54, 162, 235, 0.5)"],
+    },
+  ],
+};
+
 const Reports = () => {
   return (
-    <div>
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
       <RevenueChart data={chartData} />
+      <ComparisonChart data={pieChartData} />
     </div>
   );
 };
