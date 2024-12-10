@@ -67,7 +67,7 @@ const sidebarMenu = {
 const Sidebar = ({ setActiveSection, userRole }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [activeItem, setActiveItem] = useState(0);
-  //
+
   // const menuItems = sidebarMenu[userRole] || [];
   const menuItems = [
     ...sidebarMenu.buyer,
