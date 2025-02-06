@@ -12,6 +12,7 @@ import { SlHome } from "react-icons/sl";
 import { GoHistory } from "react-icons/go";
 import { IoAddCircleOutline, IoHammerOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const sidebarMenu = {
   buyer: [
@@ -64,16 +65,15 @@ const sidebarMenu = {
   ],
 };
 
-const Sidebar = ({ setActiveSection, userRole }) => {
+const Sidebar = ({ setActiveSection }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [activeItem, setActiveItem] = useState(0);
 
-  // const menuItems = sidebarMenu[userRole] || [];
-  const menuItems = [
-    ...sidebarMenu.buyer,
-    ...sidebarMenu.seller,
-    ...sidebarMenu.admin,
-  ];
+  const { user } = useSelector((state) => state.auth);
+  const userRole = user?.role;
+
+  // Filter menu items based on userRole
+  const menuItems = sidebarMenu[userRole] || [];
 
   const toggleSidebar = () => setIsExpanded((prev) => !prev);
 

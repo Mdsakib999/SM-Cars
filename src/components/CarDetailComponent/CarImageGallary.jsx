@@ -64,7 +64,7 @@ const CarImageGallary = () => {
             </button>
             <button
               onClick={handleNext}
-              className="absolute top-1/2 right-2 -translate-y-1/2 rounded-full bg-gray-800 p-2 text-white hover:bg-gray-600"
+              className="absolute top-1/2 right-2 -translate-y-1/2 rounded-full bg-gray-800 p-2 text-white hover:bg-gray-600 "
             >
               <FaArrowRight />
             </button>

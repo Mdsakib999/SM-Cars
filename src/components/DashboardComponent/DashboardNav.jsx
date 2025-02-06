@@ -1,7 +1,7 @@
 import React from "react";
 import { FiUser } from "react-icons/fi"; // Example icon for profile
 
-const DashboardNav = ({ sectionName, userName }) => {
+const DashboardNav = ({ sectionName }) => {
   return (
     <div className="flex items-center justify-between px-4  bg-white  py-4 w-full fixed">
       {/* Section Name */}
