@@ -1,29 +1,6 @@
 import React from "react";
 import { FiCheck } from "react-icons/fi";
-const SellCarSubscription = () => {
-  const plans = [
-    {
-      title: "Starter",
-      price: "$30",
-      features: ["1 Car Selling Slot", "Basic Analytics"],
-    },
-    {
-      title: "Professional",
-      price: "$60",
-      features: ["5 Selling Slots", "Enhanced Analytics"],
-    },
-    {
-      title: "Advanced",
-      price: "$90",
-      features: ["10 Selling Slots", "Marketing Tools"],
-    },
-    {
-      title: "Enterprise",
-      price: "$150",
-      features: ["Unlimited Slots", "Premium Analytics", "Support"],
-    },
-  ];
-
+const SellCarSubscription = ({ plans }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 ">
       {plans.map((plan, index) => (

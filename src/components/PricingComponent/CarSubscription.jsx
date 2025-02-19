@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 import BuyCarSubscription from "./BuyCarSubscription";
 import SellCarSubscription from "./SellCarSubscription";
+import { useGetAllSubscriptionsQuery } from "../../redux/apiSlice";
 
 const CarSubscriptionSwitcher = () => {
   const [activeOption, setActiveOption] = useState("buy");
+  const { data, isLoading, isError } = useGetAllSubscriptionsQuery();
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error loading subscriptions!</div>;
 
   const handleOptionChange = (option) => {
     setActiveOption(option);
@@ -14,17 +19,17 @@ const CarSubscriptionSwitcher = () => {
       <h1 className="text-4xl md:text-5xl lg:text-6xl text-center mb-2">
         From Startup to Enterprise.
       </h1>
-      <p className="text-center text-md text-gray-600  p-4">
+      <p className="text-center text-md text-gray-600 p-4">
         Perfectly tailored for every stage of your growth. <br />
         Get started today, no credit card needed.
       </p>
-      <div className="flex space-x-4 mb-6 ">
+      <div className="flex space-x-4 mb-6">
         <button
           onClick={() => handleOptionChange("buy")}
           className={`px-6 py-3 rounded-lg font-semibold ${
             activeOption === "buy"
               ? "bg-orange-500 text-white"
-              : "bg-white text-black border "
+              : "bg-white text-black border"
           } transition duration-300`}
         >
           Buy Car
@@ -34,7 +39,7 @@ const CarSubscriptionSwitcher = () => {
           className={`px-6 py-3 rounded-lg font-semibold ${
             activeOption === "sell"
               ? "bg-orange-500 text-white"
-              : "bg-white text-black border "
+              : "bg-white text-black border"
           } transition duration-300`}
         >
           Sell Car
@@ -43,9 +48,9 @@ const CarSubscriptionSwitcher = () => {
 
       <div className="w-full max-w-7xl">
         {activeOption === "buy" ? (
-          <BuyCarSubscription />
+          <BuyCarSubscription plans={data?.buyerSubscriptions} />
         ) : (
-          <SellCarSubscription />
+          <SellCarSubscription plans={data?.sellerSubscriptions} />
         )}
       </div>
     </div>

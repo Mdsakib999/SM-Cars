@@ -1,28 +1,33 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  user: null, // Stores user information (e.g., email, name)
-  token: null, // Stores authentication token
-  loading: false, // Tracks loading state for async actions
+  user: null,
+  token: null,
+  loading: false,
 };
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    // Action to set user data and token when signup or login succeeds
     setUser(state, action) {
-      state.user = action.payload.user;
+      state.user = {
+        _id: action.payload.user._id,
+        email: action.payload.user.email,
+        name: action.payload.user.name,
+        role: action.payload.user.role,
+        subscription: action.payload.user.subscription,
+        uid: action.payload.user.uid,
+      };
       state.token = action.payload.token;
-      state.loading = false; // Set loading to false when data is set
+      state.loading = false;
     },
-    // Action to clear user data and token when logging out
     clearUser(state) {
+      console.log("Clearing user state but preserving persist state");
       state.user = null;
       state.token = null;
       state.loading = false;
     },
-    // Action to set loading state to true while signup/login is in progress
     setLoading(state) {
       state.loading = true;
     },
@@ -30,5 +35,11 @@ const authSlice = createSlice({
 });
 
 export const { setUser, clearUser, setLoading } = authSlice.actions;
-
 export default authSlice.reducer;
+
+// Async function to check auth state
+export const listenForAuthChanges = () => (dispatch) => {
+  onAuthStateChanged(auth, (currentUser) => {
+    dispatch(setUser(currentUser));
+  });
+};

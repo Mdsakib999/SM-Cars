@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../redux/apiSlice";
 import { setLoading, setUser } from "../../redux/authSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,20 +29,22 @@ const Login = () => {
     try {
       const response = await login({ email, password }).unwrap();
       dispatch(setUser(response)); // Save user data and token in Redux state
-
       console.log("Login successful");
     } catch (err) {
       console.error("Login failed:", err);
     }
   };
 
-  // Ensure token is set before performing actions
+  // After a successful login, redirect based on location.state
   useEffect(() => {
     if (isSuccess && responseData?.token) {
-      console.log("Token is set, proceeding to protected route...");
-      navigate(`/dashboard/${responseData.user.role}`); // Example of a protected route
+      // If there's a redirect path in state, use it; otherwise, default to dashboard
+      const redirectPath =
+        location.state?.from || `/dashboard/${responseData.user.role}`;
+      console.log("Token is set, proceeding to:", redirectPath);
+      navigate(redirectPath, { replace: true });
     }
-  }, [isSuccess, responseData, navigate]);
+  }, [isSuccess, responseData, location, navigate]);
 
   return (
     <div className="flex min-h-full">

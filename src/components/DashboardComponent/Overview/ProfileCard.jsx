@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 
 const ProfileCard = () => {
   const { user } = useSelector((state) => state.auth);
+
   return (
     <div className="border p-4 flex flex-col lg:flex-row justify-between items-center rounded-xl bg-white col-span-2 md:col-span-4">
       <div className="flex items-center lg:space-x-4">

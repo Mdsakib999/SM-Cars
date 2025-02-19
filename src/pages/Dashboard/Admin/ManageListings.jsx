@@ -1,55 +1,27 @@
 import React from "react";
-
+import { useGetAllCarsQuery } from "../../../redux/apiSlice";
+import { Link } from "react-router-dom";
 const ManageListings = () => {
-  const listings = [
-    {
-      id: 1,
-      carName: "Toyota Camry",
-      vendor: "John Doe",
-      price: 25000,
-      status: "Pending",
-      imageUrl:
-        "https://images.unsplash.com/photo-1683403792818-a48b86226939?q=80&w=1364&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-      id: 2,
-      carName: "Honda Civic",
-      vendor: "Jane Smith",
-      price: 20000,
-      status: "Approved",
-      imageUrl:
-        "https://images.unsplash.com/photo-1683403792818-a48b86226939?q=80&w=1364&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-      id: 3,
-      carName: "Ford Mustang",
-      vendor: "Mike Johnson",
-      price: 45000,
-      status: "Rejected",
-      imageUrl:
-        "https://images.unsplash.com/photo-1683403792818-a48b86226939?q=80&w=1364&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-      id: 4,
-      carName: "Tesla Model 3",
-      vendor: "Sarah Lee",
-      price: 55000,
-      status: "Pending",
-      imageUrl:
-        "https://images.unsplash.com/photo-1683403792818-a48b86226939?q=80&w=1364&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-  ];
+  const { data, isLoading, isError, refetch } = useGetAllCarsQuery();
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error loading listings</div>;
+  if (!data) return <div>No data available</div>;
+
+  // If your API returns an object with a "cars" key:
+  const listings = data.cars || data;
+
+  console.log(listings);
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
-      <h1 className="text-2xl font-semibold mb-6">Manage Listings</h1>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white rounded-lg shadow">
           <thead className="bg-gray-100">
             <tr>
               <th className="text-left px-4 py-2">Car</th>
               <th className="text-left px-4 py-2">Vendor</th>
-              <th className="text-left px-4 py-2">Price</th>
+              <th className="text-left px-4 py-2">StartingPrice</th>
               <th className="text-left px-4 py-2">Status</th>
               <th className="text-center px-4 py-2">Actions</th>
             </tr>
@@ -57,24 +29,31 @@ const ManageListings = () => {
           <tbody>
             {listings.map((listing) => (
               <tr
-                key={listing.id}
+                key={listing._id}
                 className="border-t hover:bg-gray-50 transition"
               >
                 <td className="flex items-center px-4 py-2">
                   <img
-                    src={listing.imageUrl}
+                    src={
+                      listing.images?.[0]?.url ||
+                      "https://via.placeholder.com/150"
+                    }
                     alt={listing.carName}
                     className="w-16 h-16 rounded-lg object-cover mr-4"
                   />
                   <span>{listing.carName}</span>
                 </td>
-                <td className="px-4 py-2">{listing.vendor}</td>
+                <td className="px-4 py-2">
+                  {listing.sellerId
+                    ? `${listing.sellerId.name} (${listing.sellerId.email})`
+                    : "No Vendor"}
+                </td>
                 <td className="px-4 py-2">${listing.price.toLocaleString()}</td>
                 <td
                   className={`px-4 py-2 ${
-                    listing.status === "Pending"
+                    listing.status === "pending"
                       ? "text-yellow-500"
-                      : listing.status === "Approved"
+                      : listing.status === "approved"
                       ? "text-green-500"
                       : "text-red-500"
                   }`}
@@ -82,19 +61,12 @@ const ManageListings = () => {
                   {listing.status}
                 </td>
                 <td className="px-4 py-2 text-center">
-                  {listing.status === "Pending" && (
-                    <div className="space-x-2">
-                      <button className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-400">
-                        Approve
-                      </button>
-                      <button className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-400">
-                        Reject
-                      </button>
-                    </div>
-                  )}
-                  {listing.status !== "Pending" && (
-                    <span className="text-gray-500">No Actions</span>
-                  )}
+                  <Link
+                    className="border py-2 px-4 rounded-md bg-blue-400 text-white"
+                    to={`/dashboard/admin/admin-car-details/${listing._id}`}
+                  >
+                    View Details
+                  </Link>
                 </td>
               </tr>
             ))}

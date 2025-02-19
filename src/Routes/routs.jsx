@@ -15,10 +15,10 @@ import BuyerOverview from "../pages/Dashboard/Buyer/BuyerOverview";
 import SellerOverview from "../pages/Dashboard/Seller/SellerOverview";
 import BidHistory from "../pages/Dashboard/Buyer/BidHistory";
 import SavedCars from "../pages/Dashboard/Buyer/SavedCars";
-import SubscriptionPlan from "../pages/Dashboard/Buyer/SubscriptionPlan";
+import SubscriptionPlan from "../pages/Dashboard/General/SubscriptionPlan";
 import MyWins from "../pages/Dashboard/Buyer/myWins";
 
-import AddNewCar from "../pages/Dashboard/Seller/AddnewCar";
+import AddNewCar from "../pages/Dashboard/Seller/AddNewCar";
 import MyCars from "../pages/Dashboard/Seller/MyCars";
 import VerifyAccount from "../pages/Dashboard/Seller/VerifyAccount";
 import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
@@ -27,6 +27,9 @@ import Settings from "../pages/Dashboard/General/Settings";
 import Overview from "../pages/Dashboard/General/Overview";
 import ManageListings from "../pages/Dashboard/Admin/ManageListings";
 import Reports from "../pages/Dashboard/Admin/Reports";
+import ManageSubscriptionPlans from "../pages/Dashboard/Admin/ManageSubscriptionPlans";
+import AdminCarDetails from "../pages/Dashboard/Admin/AdminCarDetails";
+import Checkout from "../pages/Checkout/Checkout";
 
 export const router = createBrowserRouter([
   {
@@ -58,6 +61,11 @@ export const router = createBrowserRouter([
         element: <Pricing></Pricing>,
       },
       {
+        path: "/checkout",
+        element: <Checkout></Checkout>,
+      },
+
+      {
         path: "/dashboard/:userRole",
         element: <Dashboard />,
         children: [
@@ -78,6 +86,11 @@ export const router = createBrowserRouter([
           { path: "manage-users", element: <ManageUsers /> },
           { path: "manage-listings", element: <ManageListings /> },
           { path: "manage-biddings", element: <ManageUsers /> },
+          { path: "admin-car-details/:carId", element: <AdminCarDetails /> },
+          {
+            path: "manage-subscriptions",
+            element: <ManageSubscriptionPlans />,
+          },
           { path: "reports", element: <Reports /> },
           { path: "ban-users", element: <BanUsers /> },
           { path: "settings", element: <Settings /> },

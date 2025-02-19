@@ -46,6 +46,11 @@ const sidebarMenu = {
   admin: [
     { name: "Manage Users", path: "manage-users", icon: <AiOutlineUser /> },
     {
+      name: "Manage Subscriptions",
+      path: "manage-subscriptions",
+      icon: <AiOutlineUser />,
+    },
+    {
       name: "Manage Listings",
       path: "manage-listings",
       icon: <CiBoxList />,

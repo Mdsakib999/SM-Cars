@@ -1,8 +1,52 @@
 import React, { useState } from "react";
-import { useCreateCarMutation } from "../../../redux/apiSlice";
+import {
+  useCreateCarMutation,
+  useGetSellerLimitQuery,
+} from "../../../redux/apiSlice";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const AddNewCar = () => {
+  const navigate = useNavigate();
+  const uid = useSelector((state) => state.auth.user?._id);
+
+  // Get subscription limit for the seller
+  const {
+    data: subscriptionLimitData,
+    isLoading: subscriptionLimitLoading,
+    isError: subLimitError,
+  } = useGetSellerLimitQuery(uid);
+
+  console.log(subscriptionLimitData);
+
+  // Show loading or error state if needed
+  if (subscriptionLimitLoading) {
+    return <p>Loading...</p>;
+  }
+  if (!subscriptionLimitData || subLimitError) {
+    return <p>Error fetching data.</p>;
+  }
+
+  // If no remaining listings, hide the form and show an upgrade message
+  if (subscriptionLimitData.remaining <= 0) {
+    return (
+      <div className="text-center py-8">
+        <h2 className="text-2xl font-bold mb-4">Listing Limit Reached</h2>
+        <p className="mb-6">
+          You have reached your listing limit. Please upgrade your subscription
+          to add more cars.
+        </p>
+        <button
+          onClick={() => navigate("/subscription-plan")}
+          className="bg-orange-500 text-white px-6 py-3 rounded-lg hover:bg-orange-600"
+        >
+          Upgrade Plan
+        </button>
+      </div>
+    );
+  }
+
+  // Local state for form fields (kept same as before)
   const [formData, setFormData] = useState({
     carName: "",
     brand: "",
@@ -18,27 +62,26 @@ const AddNewCar = () => {
     airConditioning: false,
     images: [],
   });
+
   const [createCar, { isLoading, isError, isSuccess }] = useCreateCarMutation();
   const sellerId = useSelector((state) => state.auth.user?._id);
 
-  // Handle input change
+  // Handlers for form changes
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Handle file selection for multiple images
   const handleFileChange = (e) => {
-    const files = Array.from(e.target.files); // Convert FileList to array
-    setFormData({ ...formData, images: files });
+    const files = Array.from(e.target.files);
+    setFormData((prev) => ({ ...prev, images: files }));
   };
 
-  // Handle checkbox change
   const handleCheckboxChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.checked });
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.checked }));
   };
 
-  // Handle form submission
+  // Form submission handler
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -47,9 +90,9 @@ const AddNewCar = () => {
       return;
     }
 
-    // Create a FormData object to send images and other data
+    // Prepare form data for multipart/form-data submission
     const data = new FormData();
-    data.append("sellerId", sellerId); // Send sellerId
+    data.append("sellerId", sellerId);
     data.append("carName", formData.carName);
     data.append("engine", formData.engine);
     data.append("brand", formData.brand);
@@ -63,28 +106,26 @@ const AddNewCar = () => {
     data.append("condition", formData.condition);
     data.append("airConditioning", formData.airConditioning);
 
-    // Append images to FormData
     formData.images.forEach((file) => {
       data.append("images", file);
     });
 
-    // Use the RTK query mutation to send the data to the backend
     try {
       await createCar(data).unwrap();
-
       alert("Car added successfully!");
+      // Optionally, redirect the user after successful submission
+      navigate("/my-cars");
     } catch (error) {
       console.error("Failed to add car:", error);
     }
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen flex justify-center items-center">
+    <div className="bg-gray-100 min-h-screen flex justify-center items-center p-4">
       <div className="bg-white p-8 rounded-xl border w-full max-w-4xl">
         <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
           Add New Car
         </h2>
-
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Car Name */}
           <div>
@@ -189,7 +230,7 @@ const AddNewCar = () => {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 ">
+              <label className="block text-sm font-medium text-gray-700">
                 Color
               </label>
               <input
@@ -203,6 +244,7 @@ const AddNewCar = () => {
               />
             </div>
           </div>
+
           {/* Engine */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
@@ -213,7 +255,7 @@ const AddNewCar = () => {
               name="engine"
               value={formData.engine}
               onChange={handleChange}
-              placeholder="e.g., 2022"
+              placeholder="e.g., V6, Electric, etc."
               className="mt-2 p-3 w-full rounded-lg border border-gray-300 focus:outline-none focus:border-orange-500"
               required
             />
@@ -234,6 +276,7 @@ const AddNewCar = () => {
               required
             ></textarea>
           </div>
+
           {/* Gearbox */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
@@ -289,10 +332,10 @@ const AddNewCar = () => {
             />
           </div>
 
-          {/* Upload Image */}
+          {/* Upload Images */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
-              Car Image
+              Car Images
             </label>
             <input
               type="file"
@@ -309,6 +352,7 @@ const AddNewCar = () => {
             <button
               type="submit"
               className="bg-orange-500 text-white p-3 rounded-lg w-full md:w-1/4 hover:bg-orange-600"
+              disabled={isLoading}
             >
               {isLoading ? "Adding Car..." : "Add Car"}
             </button>
