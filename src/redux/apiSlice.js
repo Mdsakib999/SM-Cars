@@ -17,6 +17,7 @@ export const apiSlice = createApi({
       return headers;
     },
   }),
+  tagTypes: ["SellerCars", "Cars", "Subscriptions"],
   endpoints: (builder) => ({
     signup: builder.mutation({
       query: (userData) => ({
@@ -100,6 +101,7 @@ export const apiSlice = createApi({
     // get seller cars
     getSellerCars: builder.query({
       query: (sellerId) => `seller/my-cars?sellerId=${sellerId}`,
+      providesTags: ["SellerCars"],
     }),
     // create auction for seller
     createAuction: builder.mutation({
@@ -108,6 +110,7 @@ export const apiSlice = createApi({
         method: "POST",
         body: formData,
       }),
+      invalidatesTags: ["SellerCars"],
     }),
     // get user role based subscription plans
     getRoleBasedPlans: builder.query({
@@ -142,6 +145,7 @@ export const apiSlice = createApi({
     }),
     getAllCars: builder.query({
       query: () => "/admin/allCars",
+      providesTags: ["Cars"],
     }),
     getAdminCarDetails: builder.query({
       query: (id) => `/admin/listing/${id}`,
@@ -151,12 +155,14 @@ export const apiSlice = createApi({
         url: `/admin/approve-car/${carId}`,
         method: "PATCH",
       }),
+      invalidatesTags: ["Cars", "SellerCars"],
     }),
     rejectCar: builder.mutation({
       query: (carId) => ({
         url: `/admin/reject-car/${carId}`,
         method: "PATCH",
       }),
+      invalidatesTags: ["Cars", "SellerCars"],
     }),
   }),
 });

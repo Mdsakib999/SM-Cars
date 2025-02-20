@@ -21,7 +21,7 @@ const ManageListings = () => {
             <tr>
               <th className="text-left px-4 py-2">Car</th>
               <th className="text-left px-4 py-2">Vendor</th>
-              <th className="text-left px-4 py-2">StartingPrice</th>
+              <th className="text-left px-4 py-2">Starting Price</th>
               <th className="text-left px-4 py-2">Status</th>
               <th className="text-center px-4 py-2">Actions</th>
             </tr>

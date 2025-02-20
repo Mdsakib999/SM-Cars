@@ -12,6 +12,7 @@ const MyCars = () => {
   const [selectedCar, setSelectedCar] = useState(null);
   const [isAuctionModalOpen, setAuctionModalOpen] = useState(false);
 
+  console.log("car data", data);
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading cars</div>;
 

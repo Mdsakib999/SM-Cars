@@ -34,7 +34,7 @@ const AdminCarDetails = () => {
       } else if (actionType === "reject") {
         await rejectCar(carId).unwrap();
       }
-      await refetch(); // Refresh data after update
+      await refetch();
     } catch (error) {
       console.error("Error:", error);
     } finally {
