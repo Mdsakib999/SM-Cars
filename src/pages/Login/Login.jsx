@@ -28,7 +28,7 @@ const Login = () => {
 
     try {
       const response = await login({ email, password }).unwrap();
-      dispatch(setUser(response)); // Save user data and token in Redux state
+      dispatch(setUser(response));
       console.log("Login successful");
     } catch (err) {
       console.error("Login failed:", err);

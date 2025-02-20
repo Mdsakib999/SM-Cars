@@ -1,6 +1,6 @@
 import React from "react";
-import RevenueChart from "../../../components/DashboardComponent/RevenueChart";
-import ComparisonChart from "../../../components/DashboardComponent/ComparisonChart";
+import RevenueChart from "../../../components/DashboardComponent/Admin/RevenueChart";
+import ComparisonChart from "../../../components/DashboardComponent/Admin/ComparisonChart";
 const chartData = {
   labels: [
     "January",
@@ -15,7 +15,7 @@ const chartData = {
     "October",
     "November",
     "December",
-  ], // Corresponding months
+  ],
   datasets: [
     {
       label: "Monthly Revenue",

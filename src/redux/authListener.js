@@ -2,53 +2,48 @@
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase/firebase.config";
 import store from "./store";
-import { setUser, clearUser } from "./authSlice";
+import { setUser, clearUser, setLoading } from "./authSlice";
+
+let initialAuthCheckDone = false;
 
 onAuthStateChanged(auth, async (firebaseUser) => {
-  console.log("Auth state changed:", firebaseUser);
+  if (!initialAuthCheckDone) {
+    // Show loading state until initial check completes
+    store.dispatch(setLoading());
+  }
 
-  if (firebaseUser) {
-    try {
+  try {
+    const state = store.getState();
+    const persistedUser = state.auth.user;
+    const persistedToken = state.auth.token;
+
+    if (firebaseUser) {
       const token = await firebaseUser.getIdToken(true);
-      console.log("User Token:", token);
-
-      const response = await fetch(
-        `http://localhost:3000/api/users/${firebaseUser.uid}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch user data");
-      }
-
-      const userData = await response.json();
-
-      if (userData && userData.role) {
-        store.dispatch(
-          setUser({
-            user: {
-              _id: userData._id,
-              email: userData.email,
-              name: userData.name,
-              role: userData.role,
-              uid: firebaseUser.uid,
-              subscription: userData.subscription,
+      if (!persistedUser || persistedUser.uid !== firebaseUser.uid) {
+        const response = await fetch(
+          `http://localhost:3000/api/users/${firebaseUser.uid}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
             },
-            token,
-          })
+          }
         );
+        const userData = await response.json();
+        store.dispatch(setUser({ user: userData, token }));
+      } else if (persistedToken !== token) {
+        store.dispatch(setUser({ user: persistedUser, token }));
       }
-    } catch (error) {
-      console.error("Error fetching user:", error);
+    } else {
+      // No firebase user: ensure we clear the user state and loading is false
+      store.dispatch(clearUser());
     }
-  } else {
-    console.log("User is null, clearing state");
+  } catch (error) {
+    console.error("Auth state error:", error);
+    // Optionally clear user if an error occurs
     store.dispatch(clearUser());
+  } finally {
+    if (!initialAuthCheckDone) {
+      initialAuthCheckDone = true;
+    }
   }
 });

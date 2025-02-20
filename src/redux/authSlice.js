@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   user: null,
   token: null,
-  loading: false,
+  loading: true,
+  initialized: false,
 };
 
 const authSlice = createSlice({
@@ -21,12 +22,14 @@ const authSlice = createSlice({
       };
       state.token = action.payload.token;
       state.loading = false;
+      state.initialized = true;
     },
     clearUser(state) {
       console.log("Clearing user state but preserving persist state");
       state.user = null;
       state.token = null;
       state.loading = false;
+      state.initialized = true;
     },
     setLoading(state) {
       state.loading = true;

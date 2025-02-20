@@ -9,20 +9,35 @@ import { useNavigate } from "react-router-dom";
 const AddNewCar = () => {
   const navigate = useNavigate();
   const uid = useSelector((state) => state.auth.user?._id);
-
-  // Get subscription limit for the seller
   const {
     data: subscriptionLimitData,
     isLoading: subscriptionLimitLoading,
     isError: subLimitError,
   } = useGetSellerLimitQuery(uid);
 
-  console.log(subscriptionLimitData);
+  const [formData, setFormData] = useState({
+    carName: "",
+    brand: "",
+    engine: "",
+    modelYear: "",
+    price: "",
+    mileage: "",
+    fuelType: "",
+    color: "",
+    description: "",
+    gearbox: "",
+    condition: "",
+    airConditioning: false,
+    images: [],
+  });
 
-  // Show loading or error state if needed
+  const [createCar, { isLoading, isError, isSuccess }] = useCreateCarMutation();
+  const sellerId = useSelector((state) => state.auth.user?._id);
+
   if (subscriptionLimitLoading) {
     return <p>Loading...</p>;
   }
+
   if (!subscriptionLimitData || subLimitError) {
     return <p>Error fetching data.</p>;
   }
@@ -45,26 +60,6 @@ const AddNewCar = () => {
       </div>
     );
   }
-
-  // Local state for form fields (kept same as before)
-  const [formData, setFormData] = useState({
-    carName: "",
-    brand: "",
-    engine: "",
-    modelYear: "",
-    price: "",
-    mileage: "",
-    fuelType: "",
-    color: "",
-    description: "",
-    gearbox: "",
-    condition: "",
-    airConditioning: false,
-    images: [],
-  });
-
-  const [createCar, { isLoading, isError, isSuccess }] = useCreateCarMutation();
-  const sellerId = useSelector((state) => state.auth.user?._id);
 
   // Handlers for form changes
   const handleChange = (e) => {

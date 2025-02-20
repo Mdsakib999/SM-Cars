@@ -101,6 +101,14 @@ export const apiSlice = createApi({
     getSellerCars: builder.query({
       query: (sellerId) => `seller/my-cars?sellerId=${sellerId}`,
     }),
+    // create auction for seller
+    createAuction: builder.mutation({
+      query: (formData) => ({
+        url: `/seller/create-auction`,
+        method: "POST",
+        body: formData,
+      }),
+    }),
     // get user role based subscription plans
     getRoleBasedPlans: builder.query({
       query: (role) => `subscriptions/available?role=${role}`,
@@ -161,9 +169,11 @@ export const {
   useForgotPasswordMutation,
   useResetPasswordMutation,
   useGetUserInfoQuery,
+  // SELLER HOOKS
   useCreateCarMutation,
   useGetSellerCarsQuery,
   useGetSellerLimitQuery,
+  useCreateAuctionMutation,
 
   useGetRoleBasedPlansQuery,
   useGetUserSubscriptionQuery,

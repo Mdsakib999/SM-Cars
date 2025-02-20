@@ -90,15 +90,16 @@ const Sidebar = ({ setActiveSection }) => {
     >
       <div className="flex flex-col items-center lg:items-start">
         <div className="flex items-center justify-between w-full mb-12 mt-4 ml-4">
-          {(isExpanded || (!isExpanded && window.innerWidth >= 1024)) && (
-            <h2 className="text-xl lg:text-3xl font-md transition-opacity duration-300 lg:hidden">
+          <Link to="/">
+            {(isExpanded || (!isExpanded && window.innerWidth >= 1024)) && (
+              <h2 className="text-xl lg:text-3xl font-md transition-opacity duration-300 lg:hidden">
+                SMCARS
+              </h2>
+            )}
+            <h2 className="hidden text-xl lg:text-3xl font-md transition-opacity duration-300 md:block">
               SMCARS
             </h2>
-          )}
-          <h2 className="hidden text-xl lg:text-3xl font-md transition-opacity duration-300 md:block">
-            SMCARS
-          </h2>
-
+          </Link>
           <button
             onClick={toggleSidebar}
             className="lg:hidden text-2xl focus:outline-none"

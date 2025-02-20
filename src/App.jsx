@@ -3,11 +3,20 @@ import { Outlet, useLocation } from "react-router-dom";
 import { FaArrowUp } from "react-icons/fa";
 import Footer from "./Pages/Footer/Footer";
 import Navbar from "./Components/Navbar";
+import { useSelector } from "react-redux";
 
 function App() {
   const [isVisible, setIsVisible] = useState(false);
-  const [user, setUser] = useState(null); // To store the current user
+  const [user, setUser] = useState(null);
+  const { loading } = useSelector((state) => state.auth);
   const location = useLocation();
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        Loading...
+      </div>
+    );
+  }
 
   const toggleVisibility = () => {
     if (window.pageYOffset > 300) {

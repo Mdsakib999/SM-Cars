@@ -3,7 +3,7 @@ import { FiCheck } from "react-icons/fi";
 import { BsCheckCircle } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { useGetRoleBasedPlansQuery } from "../../../redux/apiSlice";
-
+import { Link } from "react-router-dom";
 const SubscriptionPlan = () => {
   const userRole = useSelector((state) => state.auth.user?.role);
   const userCurrentSub = useSelector((state) => state.auth.user?.subscription); // current subscription plan ID
@@ -76,9 +76,11 @@ const SubscriptionPlan = () => {
                     Current Plan
                   </button>
                 ) : (
-                  <button className="w-full px-4 py-2 rounded-lg text-black hover:bg-black hover:text-white transition border border-black">
-                    Upgrade Plan
-                  </button>
+                  <Link to={`/checkout?planId=${plan._id}`}>
+                    <button className="w-full px-4 py-2 rounded-lg text-black hover:bg-black hover:text-white transition border border-black">
+                      Upgrade Plan
+                    </button>
+                  </Link>
                 )}
               </div>
             </div>
