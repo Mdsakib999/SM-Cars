@@ -3,6 +3,7 @@ import React from "react";
 import { IoSpeedometerOutline } from "react-icons/io5";
 import { BsBackpack, BsBezier } from "react-icons/bs";
 import { AiOutlineSafety } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 const SellerCarCard = ({ car, onRequestVerification, onAddToAuction }) => {
   return (
@@ -72,7 +73,7 @@ const SellerCarCard = ({ car, onRequestVerification, onAddToAuction }) => {
             className="w-full flex items-center justify-center bg-orange-500 text-white py-2 px-4 rounded-md hover:bg-orange-600 transition duration-200"
           >
             <AiOutlineSafety className="mr-2" />
-            Request Verification
+            view Details
           </button>
         )}
 
@@ -85,6 +86,11 @@ const SellerCarCard = ({ car, onRequestVerification, onAddToAuction }) => {
             Add to Auction
           </button>
         )}
+        <Link to={`/dashboard/seller/my-cars/${car._id}`}>
+          <button className="w-full flex items-center justify-center bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-400 transition duration-200 mt-3">
+            View Details
+          </button>
+        </Link>
       </div>
     </div>
   );

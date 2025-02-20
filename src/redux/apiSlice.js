@@ -103,6 +103,9 @@ export const apiSlice = createApi({
       query: (sellerId) => `seller/my-cars?sellerId=${sellerId}`,
       providesTags: ["SellerCars"],
     }),
+    getSellerCarDetails: builder.query({
+      query: (id) => `/seller/my-cars/${id}`,
+    }),
     // create auction for seller
     createAuction: builder.mutation({
       query: (formData) => ({
@@ -178,6 +181,7 @@ export const {
   // SELLER HOOKS
   useCreateCarMutation,
   useGetSellerCarsQuery,
+  useGetSellerCarDetailsQuery,
   useGetSellerLimitQuery,
   useCreateAuctionMutation,
 

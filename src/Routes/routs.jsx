@@ -30,6 +30,7 @@ import Reports from "../pages/Dashboard/Admin/Reports";
 import ManageSubscriptionPlans from "../pages/Dashboard/Admin/ManageSubscriptionPlans";
 import AdminCarDetails from "../pages/Dashboard/Admin/AdminCarDetails";
 import Checkout from "../pages/Checkout/Checkout";
+import MyCarDetails from "../pages/Dashboard/Seller/MyCarDetails";
 
 export const router = createBrowserRouter([
   {
@@ -79,6 +80,7 @@ export const router = createBrowserRouter([
           // Seller Routes
           { path: "seller-overview", element: <SellerOverview /> },
           { path: "my-cars", element: <MyCars /> },
+          { path: "my-cars/:id", element: <MyCarDetails /> },
           { path: "add-new-car", element: <AddNewCar /> },
           { path: "verify-seller", element: <VerifyAccount /> },
           { path: "settings", element: <Settings /> },

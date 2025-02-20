@@ -1,25 +1,21 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import {
-  useGetAdminCarDetailsQuery,
-  useApproveCarMutation,
-  useRejectCarMutation,
-} from "../../../redux/apiSlice";
-import { Dialog } from "@headlessui/react";
+import { useState } from "react";
+import { useParams, Link } from "react-router-dom";
+import { useGetSellerCarDetailsQuery } from "../../../redux/apiSlice";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+
 import { LuBadgeCheck } from "react-icons/lu";
 import { CiClock2 } from "react-icons/ci";
 import { BiXCircle } from "react-icons/bi";
-import { useNavigate } from "react-router-dom";
-const AdminCarDetails = () => {
-  const { carId } = useParams();
-  const { data, isLoading, isError, refetch } =
-    useGetAdminCarDetailsQuery(carId);
-  const [approveCar, { isLoading: isApproving }] = useApproveCarMutation();
-  const [rejectCar, { isLoading: isRejecting }] = useRejectCarMutation();
+
+const MyCarDetails = () => {
+  const { id } = useParams();
+  const { data, isLoading, isError, refetch } = useGetSellerCarDetailsQuery(id);
+
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [actionType, setActionType] = useState(null);
   const [car, setCar] = useState(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (data) {
@@ -30,21 +26,6 @@ const AdminCarDetails = () => {
   if (isLoading) return <div>Loading car details...</div>;
   if (isError) return <div>Error loading car details</div>;
   if (!car) return <div>No car data available</div>;
-
-  const handleAction = async () => {
-    try {
-      if (actionType === "approve") {
-        await approveCar(carId).unwrap();
-      } else if (actionType === "reject") {
-        await rejectCar(carId).unwrap();
-      }
-      await refetch();
-    } catch (error) {
-      console.error("Error:", error);
-    } finally {
-      setIsModalOpen(false);
-    }
-  };
 
   const getStatusBadge = () => {
     const baseStyles =
@@ -79,10 +60,9 @@ const AdminCarDetails = () => {
         onClick={() => navigate(-1)}
         className="mb-4 bg-white  shadow-sm font-bold py-2 px-4 rounded"
       >
-        ← Back to Listings
+        ← Back to Cars
       </button>
       <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-        {/* Image Gallery */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-8">
           <div className="space-y-4">
             <div className="aspect-w-16 aspect-h-9 rounded-xl overflow-hidden">
@@ -216,51 +196,9 @@ const AdminCarDetails = () => {
             )}
           </div>
         </div>
-
-        {/* Confirmation Modal */}
-        <Dialog
-          open={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          className="relative z-50"
-        >
-          <div className="fixed inset-0 bg-black/30 backdrop-blur-sm" />
-          <div className="fixed inset-0 flex items-center justify-center p-4">
-            <Dialog.Panel className="w-full max-w-md rounded-xl bg-white p-8 space-y-6">
-              <Dialog.Title className="text-2xl font-bold text-gray-900">
-                Confirm {actionType === "approve" ? "Approval" : "Rejection"}
-              </Dialog.Title>
-              <p className="text-gray-600">
-                Are you sure you want to {actionType} this car listing? This
-                action will
-                {actionType === "approve"
-                  ? " make it visible"
-                  : " remove it"}{" "}
-                from the public platform.
-              </p>
-              <div className="flex justify-end space-x-4">
-                <button
-                  onClick={() => setIsModalOpen(false)}
-                  className="px-6 py-2 text-gray-600 hover:text-gray-800 font-medium"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleAction}
-                  className={`${
-                    actionType === "approve"
-                      ? "bg-green-600 hover:bg-green-700"
-                      : "bg-red-600 hover:bg-red-700"
-                  } px-6 py-2 text-white rounded-lg font-medium transition-colors`}
-                >
-                  Confirm {actionType}
-                </button>
-              </div>
-            </Dialog.Panel>
-          </div>
-        </Dialog>
       </div>
     </div>
   );
 };
 
-export default AdminCarDetails;
+export default MyCarDetails;
