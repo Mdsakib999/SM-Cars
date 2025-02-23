@@ -1,20 +1,14 @@
-import { useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useGetSellerCarDetailsQuery } from "../../../redux/apiSlice";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-
 import { LuBadgeCheck } from "react-icons/lu";
 import { CiClock2 } from "react-icons/ci";
 import { BiXCircle } from "react-icons/bi";
 
 const MyCarDetails = () => {
   const { id } = useParams();
-  const { data, isLoading, isError, refetch } = useGetSellerCarDetailsQuery(id);
-
+  const { data, isLoading, isError } = useGetSellerCarDetailsQuery(id);
   const navigate = useNavigate();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [actionType, setActionType] = useState(null);
   const [car, setCar] = useState(null);
 
   useEffect(() => {
@@ -54,16 +48,18 @@ const MyCarDetails = () => {
         );
     }
   };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <button
         onClick={() => navigate(-1)}
-        className="mb-4 bg-white  shadow-sm font-bold py-2 px-4 rounded"
+        className="mb-4 bg-white shadow-sm font-bold py-2 px-4 rounded"
       >
         ← Back to Cars
       </button>
       <div className="bg-white rounded-xl shadow-sm overflow-hidden">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-8">
+          {/* Car Images */}
           <div className="space-y-4">
             <div className="aspect-w-16 aspect-h-9 rounded-xl overflow-hidden">
               <img
@@ -125,7 +121,7 @@ const MyCarDetails = () => {
                 <dd className="mt-1 text-lg font-semibold">{car.color}</dd>
               </div>
               <div className="p-4 bg-gray-50 rounded-lg">
-                <dt className="text-sm font-medium text-gray-500">Conditoin</dt>
+                <dt className="text-sm font-medium text-gray-500">Condition</dt>
                 <dd className="mt-1 text-lg font-semibold">{car.condition}</dd>
               </div>
               <div className="p-4 bg-gray-50 rounded-lg">
@@ -134,7 +130,7 @@ const MyCarDetails = () => {
               </div>
             </div>
 
-            {/* Seller Info Card */}
+            {/* Seller Information */}
             <div className="bg-indigo-50 p-6 rounded-xl">
               <h3 className="text-lg font-semibold text-blue-400 mb-4">
                 Seller Information
@@ -155,45 +151,25 @@ const MyCarDetails = () => {
               </div>
             </div>
 
-            {/* Action Buttons */}
-            {car.status === "pending" && (
-              <div className="flex space-x-4 mt-8">
+            {/* Edit Button - Only show if car is not approved */}
+            <div className="mt-4">
+              {car.status === "approved" ? (
                 <button
-                  onClick={() => {
-                    setActionType("approve");
-                    setIsModalOpen(true);
-                  }}
-                  className="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-xl font-medium transition-colors flex items-center justify-center"
-                  disabled={isApproving || isRejecting}
+                  disabled
+                  className="bg-gray-400 text-white py-2 px-4 rounded cursor-not-allowed"
+                  title="Car is approved and cannot be edited"
                 >
-                  {isApproving ? (
-                    <span className="animate-pulse">Approving...</span>
-                  ) : (
-                    <>
-                      <CheckBadgeIcon className="w-5 h-5 mr-2" />
-                      Approve Listing
-                    </>
-                  )}
+                  Editing Disabled (Approved)
                 </button>
-                <button
-                  onClick={() => {
-                    setActionType("reject");
-                    setIsModalOpen(true);
-                  }}
-                  className="flex-1 bg-red-600 hover:bg-red-700 text-white py-3 px-6 rounded-xl font-medium transition-colors flex items-center justify-center"
-                  disabled={isApproving || isRejecting}
+              ) : (
+                <Link
+                  to={`/dashboard/seller/edit-car/${car._id}`}
+                  className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
                 >
-                  {isRejecting ? (
-                    <span className="animate-pulse">Rejecting...</span>
-                  ) : (
-                    <>
-                      <XCircleIcon className="w-5 h-5 mr-2" />
-                      Reject Listing
-                    </>
-                  )}
-                </button>
-              </div>
-            )}
+                  Edit Car
+                </Link>
+              )}
+            </div>
           </div>
         </div>
       </div>

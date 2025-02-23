@@ -31,6 +31,8 @@ import ManageSubscriptionPlans from "../pages/Dashboard/Admin/ManageSubscription
 import AdminCarDetails from "../pages/Dashboard/Admin/AdminCarDetails";
 import Checkout from "../pages/Checkout/Checkout";
 import MyCarDetails from "../pages/Dashboard/Seller/MyCarDetails";
+import EditCar from "../pages/Dashboard/Seller/EditCar";
+import AuctionCars from "@/pages/AuctionCars/AuctionCars";
 
 export const router = createBrowserRouter([
   {
@@ -82,6 +84,7 @@ export const router = createBrowserRouter([
           { path: "my-cars", element: <MyCars /> },
           { path: "my-cars/:id", element: <MyCarDetails /> },
           { path: "add-new-car", element: <AddNewCar /> },
+          { path: "edit-car/:id", element: <EditCar /> },
           { path: "verify-seller", element: <VerifyAccount /> },
           { path: "settings", element: <Settings /> },
           // Admin routes
@@ -105,6 +108,11 @@ export const router = createBrowserRouter([
       {
         path: "/signup",
         element: <Signup />,
+      },
+
+      {
+        path: "/auction-cars",
+        element: <AuctionCars></AuctionCars>,
       },
       {
         path: "/car/:carId",

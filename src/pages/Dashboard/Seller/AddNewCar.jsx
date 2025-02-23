@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
   useCreateCarMutation,
   useGetSellerLimitQuery,
 } from "../../../redux/apiSlice";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
+import { useDropzone } from "react-dropzone";
 const AddNewCar = () => {
   const navigate = useNavigate();
   const uid = useSelector((state) => state.auth.user?._id);
@@ -31,8 +31,30 @@ const AddNewCar = () => {
     images: [],
   });
 
+  const [previewImages, setPreviewImages] = useState([]);
   const [createCar, { isLoading, isError, isSuccess }] = useCreateCarMutation();
   const sellerId = useSelector((state) => state.auth.user?._id);
+
+  // DROP ZONE
+
+  const onDrop = useCallback((acceptedFiles) => {
+    setFormData((prev) => ({
+      ...prev,
+      images: [...prev.images, ...acceptedFiles],
+    }));
+    const newPreviews = acceptedFiles.map((file) =>
+      Object.assign(file, { preview: URL.createObjectURL(file) })
+    );
+    setPreviewImages((prev) => [...prev, ...newPreviews]);
+  }, []);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: "image/*",
+    multiple: true,
+  });
+
+  // CONDITIONS
 
   if (subscriptionLimitLoading) {
     return <p>Loading...</p>;
@@ -42,7 +64,6 @@ const AddNewCar = () => {
     return <p>Error fetching data.</p>;
   }
 
-  // If no remaining listings, hide the form and show an upgrade message
   if (subscriptionLimitData.remaining <= 0) {
     return (
       <div className="text-center py-8">
@@ -109,7 +130,7 @@ const AddNewCar = () => {
       await createCar(data).unwrap();
       alert("Car added successfully!");
       // Optionally, redirect the user after successful submission
-      navigate("/my-cars");
+      navigate("/dashboard/seller/my-cars");
     } catch (error) {
       console.error("Failed to add car:", error);
     }
@@ -328,19 +349,39 @@ const AddNewCar = () => {
           </div>
 
           {/* Upload Images */}
+
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Car Images
             </label>
-            <input
-              type="file"
-              name="images"
-              onChange={handleFileChange}
-              className="mt-2 p-3 w-full rounded-lg border border-gray-300"
-              multiple
-              required
-            />
+            <div
+              {...getRootProps({
+                className:
+                  "mt-2 p-3 w-full rounded-lg border border-gray-300 cursor-pointer text-center",
+              })}
+            >
+              <input {...getInputProps()} />
+              {isDragActive ? (
+                <p>Drop the images here...</p>
+              ) : (
+                <p>Drag 'n' drop some images here, or click to select images</p>
+              )}
+            </div>
           </div>
+
+          {/* Image Previews */}
+          {previewImages.length > 0 && (
+            <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-4">
+              {previewImages.map((file, index) => (
+                <img
+                  key={index}
+                  src={file.preview}
+                  alt={`Preview ${index + 1}`}
+                  className="w-full h-32 object-cover rounded-lg border"
+                />
+              ))}
+            </div>
+          )}
 
           {/* Submit Button */}
           <div className="text-center">

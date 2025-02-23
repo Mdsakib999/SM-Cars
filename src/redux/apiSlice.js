@@ -10,7 +10,6 @@ export const apiSlice = createApi({
     prepareHeaders: (headers, { getState }) => {
       const state = getState();
       const token = state.auth?.token;
-      const user = state.auth?.user;
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
       }
@@ -35,12 +34,16 @@ export const apiSlice = createApi({
       async onQueryStarted({ email, password }, { dispatch, queryFulfilled }) {
         try {
           const response = await queryFulfilled;
-          console.log("login response", response.data);
           const { token: customToken, user: userData } = response.data;
+
+          // Step 1: Sign in with the custom token
           const auth = getAuth();
           const userCredential = await signInWithCustomToken(auth, customToken);
 
-          const idToken = await userCredential.user.getIdToken(true);
+          // Step 2: Get the ID token
+          const idToken = await userCredential.user.getIdToken(true); // Force refresh
+
+          // Step 3: Store the ID token (NOT the custom token)
           dispatch(setUser({ user: userData, token: idToken }));
         } catch (error) {
           console.error("Login error:", error);
@@ -86,6 +89,11 @@ export const apiSlice = createApi({
     getUserInfo: builder.query({
       query: (uid) => `/users/me/${uid}`,
     }),
+
+    // Get All Auction Cars
+    getAllAuctionCars: builder.query({
+      query: () => `/buyer/auction-cars`,
+    }),
     // check sellers listing limit
     getSellerLimit: builder.query({
       query: (userId) => `/seller/check-limit/${userId}`,
@@ -98,6 +106,14 @@ export const apiSlice = createApi({
         body: formData,
       }),
     }),
+    editCar: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/seller/edit-car/${id}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: (result, error, { id }) => [{ type: "SellerCars", id }],
+    }),
     // get seller cars
     getSellerCars: builder.query({
       query: (sellerId) => `seller/my-cars?sellerId=${sellerId}`,
@@ -105,6 +121,7 @@ export const apiSlice = createApi({
     }),
     getSellerCarDetails: builder.query({
       query: (id) => `/seller/my-cars/${id}`,
+      providesTags: (result, error, id) => [{ type: "SellerCars", id }],
     }),
     // create auction for seller
     createAuction: builder.mutation({
@@ -178,8 +195,14 @@ export const {
   useForgotPasswordMutation,
   useResetPasswordMutation,
   useGetUserInfoQuery,
+
+  // AUCTION CARS
+  // BUYER HOOKS
+  useGetAllAuctionCarsQuery,
+
   // SELLER HOOKS
   useCreateCarMutation,
+  useEditCarMutation,
   useGetSellerCarsQuery,
   useGetSellerCarDetailsQuery,
   useGetSellerLimitQuery,
