@@ -18,13 +18,14 @@ const sidebarMenu = {
   buyer: [
     { name: "Dashboard", path: "", icon: <SlHome /> },
     { name: "Bid History", path: "bid-history", icon: <GoHistory /> },
-    { name: "Saved Cars", path: "saved-cars", icon: <CiBookmark /> },
+    { name: "My Wins", path: "my-wins", icon: <CiMedal /> },
+
     {
       name: "Subscription Plan",
       path: "subscription-plan",
       icon: <AiOutlineDollarCircle />,
     },
-    { name: "My Wins", path: "my-wins", icon: <CiMedal /> },
+
     { name: "Settings", path: "settings", icon: <CiSettings /> },
   ],
   seller: [
@@ -55,11 +56,7 @@ const sidebarMenu = {
       path: "manage-listings",
       icon: <CiBoxList />,
     },
-    {
-      name: "Manage Biddings",
-      path: "manage-biddings",
-      icon: <IoHammerOutline />,
-    },
+
     {
       name: "Reports",
       path: "reports",

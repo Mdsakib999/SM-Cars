@@ -3,13 +3,16 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import { useSignupMutation } from "../../redux/apiSlice";
-import { useDispatch } from "react-redux";
-import { setLoading, setUser } from "../../redux/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoading, clearLoading, setUser } from "../../redux/authSlice";
 
 const Signup = () => {
-  const [signup, { isLoading }] = useSignupMutation();
+  const [signup] = useSignupMutation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  // Pull loading state from redux
+  const { loading } = useSelector((state) => state.auth);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -20,7 +23,6 @@ const Signup = () => {
     userRole: "buyer",
     termsAccepted: false,
   });
-
   const [showPassword, setShowPassword] = useState(false);
 
   const handleInputChange = (e) => {
@@ -37,7 +39,6 @@ const Signup = () => {
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-
     const { name, contact, email, password, confirmPassword, termsAccepted } =
       formData;
 
@@ -51,36 +52,35 @@ const Signup = () => {
       return;
     }
 
+    // Start loading state
     dispatch(setLoading());
 
     try {
-      // Call signup mutation
+      // Call signup mutation and unwrap the result so errors are thrown
       const response = await signup({
         name,
         contact,
         email,
         password, // Send password for creation
-        role: formData.userRole, // Send user role (buyer/seller)
+        role: formData.userRole,
       }).unwrap();
 
-      // Dispatching user and token to the Redux store
+      // Dispatch user data and token to the store
       dispatch(
         setUser({
           user: response.user,
           token: response.token,
         })
       );
-
       toast.success("Signup successful! Logged in automatically.");
+      // Optionally, navigate to login or dashboard
       navigate("/login");
     } catch (err) {
-      // Check for error messages
-      if (err?.data?.message) {
-        toast.error(err?.data?.message || "An error occurred during signup.");
-      } else {
-        toast.error("An error occurred during signup.");
-      }
+      // Clear loading state on error
+      dispatch(clearLoading());
       console.error("Error during signup:", err);
+      // Display error message
+      toast.error(err?.data?.message || "An error occurred during signup.");
     }
   };
 
@@ -264,9 +264,9 @@ const Signup = () => {
           <button
             type="submit"
             className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            disabled={isLoading}
+            disabled={loading} // Use loading state from redux
           >
-            {isLoading ? "Signing up..." : "Sign Up"}
+            {loading ? "Signing up..." : "Sign Up"}
           </button>
 
           <div className="mt-4 text-center">

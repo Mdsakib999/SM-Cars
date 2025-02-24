@@ -5,23 +5,22 @@ import { BsBackpack, BsBezier } from "react-icons/bs";
 import { AiOutlineSafety } from "react-icons/ai";
 import { Link } from "react-router-dom";
 
-const SellerCarCard = ({ car, onRequestVerification, onAddToAuction }) => {
+const SellerCarCard = ({
+  car,
+  onAddToAuction,
+  onRequestApproval,
+  isRequestingApproval,
+}) => {
   return (
-    <div className="bg-white border rounded-xl overflow-hidden relative">
+    <div className="bg-white border rounded-xl overflow-hidden  ">
       {/* Image Section */}
-      <div className="relative">
+      <div className="">
         <img
           className="w-full h-48 object-cover"
           src={car.images?.[0]?.url || ""}
           alt={car.carName || "No Car Available"}
         />
 
-        {/* Auction Status Badge */}
-        {car.auctionStatus === "in_auction" && (
-          <div className="absolute top-2 right-2 bg-yellow-500 text-white px-3 py-1 text-sm rounded">
-            In Auction
-          </div>
-        )}
         {car.auctionStatus === "sold" && (
           <div className="absolute top-2 right-2 bg-red-500 text-white px-3 py-1 text-sm rounded">
             Sold
@@ -67,13 +66,14 @@ const SellerCarCard = ({ car, onRequestVerification, onAddToAuction }) => {
         </div>
 
         {/* Action Buttons */}
-        {car.status === "pending" && (
+        {car.status === "on_hold" && (
           <button
-            onClick={() => onRequestVerification(car._id)}
+            onClick={() => onRequestApproval(car._id)}
+            disabled={isRequestingApproval}
             className="w-full flex items-center justify-center bg-orange-500 text-white py-2 px-4 rounded-md hover:bg-orange-600 transition duration-200"
           >
             <AiOutlineSafety className="mr-2" />
-            view Details
+            {isRequestingApproval ? "Requesting..." : "Request Approval"}
           </button>
         )}
 
@@ -86,6 +86,7 @@ const SellerCarCard = ({ car, onRequestVerification, onAddToAuction }) => {
             Add to Auction
           </button>
         )}
+
         <Link to={`/dashboard/seller/my-cars/${car._id}`}>
           <button className="w-full flex items-center justify-center bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-400 transition duration-200 mt-3">
             View Details

@@ -6,14 +6,7 @@ import RemainingListingsOverview from "../../../components/DashboardComponent/Ov
 import BiddingHistoryOverview from "../../../components/DashboardComponent/Overview/BiddingHistoryOverview";
 import LatestWinCard from "../../../components/DashboardComponent/Overview/LatestWinCard";
 import VerifyAccountCard from "../../../components/DashboardComponent/Overview/VerifyAccountCard";
-
-const user = {
-  name: "Jane Smith",
-  email: "janesmith@example.com",
-  role: "seller", // Options: "buyer", "seller", "admin"
-  profilePicture: "https://example.com/profile-pictures/user456.jpg",
-  isVerified: true, // Account verification status
-};
+import { useSelector } from "react-redux";
 
 const latestWin = {
   carName: "Tesla Model 3",
@@ -25,6 +18,7 @@ const latestWin = {
 };
 
 const Overview = () => {
+  const user = useSelector((state) => state.auth.user);
   return (
     <div className="lg:p-6 bg-gray-100 min-h-screen">
       <div className="grid grid-cols-1 gap-6 md:grid-cols-4">

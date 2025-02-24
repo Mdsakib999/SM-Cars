@@ -3,13 +3,6 @@ import Sidebar from "../../components/DashboardComponent/Sidebar";
 import DashboardNav from "../../components/DashboardComponent/DashboardNav";
 import { Outlet } from "react-router-dom";
 
-const user = {
-  name: "Jane Smith",
-  email: "janesmith@example.com",
-  role: "seller",
-  profilePicture: "https://example.com/profile-pictures/user456.jpg",
-};
-
 const Dashboard = () => {
   const [activeSection, setActiveSection] = useState("Dashboard");
 

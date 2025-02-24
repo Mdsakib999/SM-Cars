@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { setUser, clearUser } from "./authSlice";
 import { getAuth, signInWithCustomToken } from "firebase/auth";
+import { data } from "autoprefixer";
 
 export const apiSlice = createApi({
   reducerPath: "api",
@@ -114,6 +115,15 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: (result, error, { id }) => [{ type: "SellerCars", id }],
     }),
+    // request for approval
+    requestCarApproval: builder.mutation({
+      query: (carId) => ({
+        url: `/seller/request-car-approval/${carId}`,
+        method: "PUT",
+      }),
+      invalidatesTags: (result, error, { id }) => [{ type: "SellerCars", id }],
+    }),
+
     // get seller cars
     getSellerCars: builder.query({
       query: (sellerId) => `seller/my-cars?sellerId=${sellerId}`,
@@ -142,7 +152,8 @@ export const apiSlice = createApi({
     getAllSubscriptions: builder.query({
       query: () => "subscriptions/",
     }),
-    // ADMIN ROUTES: Create, update, delete subscription plans
+
+    //* ADMIN ROUTES: Create, update, delete subscription plans
     createSubscription: builder.mutation({
       query: (subscriptionData) => ({
         url: "/admin/create-sub",
@@ -207,6 +218,7 @@ export const {
   useGetSellerCarDetailsQuery,
   useGetSellerLimitQuery,
   useCreateAuctionMutation,
+  useRequestCarApprovalMutation,
 
   useGetRoleBasedPlansQuery,
   useGetUserSubscriptionQuery,

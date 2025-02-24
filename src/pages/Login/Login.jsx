@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../redux/apiSlice";
-import { setLoading, setUser } from "../../redux/authSlice";
+import { setLoading, setUser, clearLoading } from "../../redux/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const Login = () => {
@@ -29,8 +29,10 @@ const Login = () => {
     try {
       const response = await login({ email, password }).unwrap();
       dispatch(setUser(response));
+
       console.log("Login successful");
     } catch (err) {
+      dispatch(clearLoading());
       console.error("Login failed:", err);
     }
   };

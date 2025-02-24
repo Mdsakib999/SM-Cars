@@ -10,6 +10,7 @@ import { LuBadgeCheck } from "react-icons/lu";
 import { CiClock2 } from "react-icons/ci";
 import { BiXCircle } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
+import { CheckCircle2, XCircle } from "lucide-react";
 const AdminCarDetails = () => {
   const { carId } = useParams();
   const { data, isLoading, isError, refetch } =
@@ -190,7 +191,7 @@ const AdminCarDetails = () => {
                     <span className="animate-pulse">Approving...</span>
                   ) : (
                     <>
-                      <CheckBadgeIcon className="w-5 h-5 mr-2" />
+                      <CheckCircle2 className="w-5 h-5 mr-2" />
                       Approve Listing
                     </>
                   )}
@@ -207,7 +208,7 @@ const AdminCarDetails = () => {
                     <span className="animate-pulse">Rejecting...</span>
                   ) : (
                     <>
-                      <XCircleIcon className="w-5 h-5 mr-2" />
+                      <XCircle className="w-5 h-5 mr-2" />
                       Reject Listing
                     </>
                   )}

@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { useGetSellerCarsQuery } from "../../../redux/apiSlice";
+import {
+  useGetSellerCarsQuery,
+  useRequestCarApprovalMutation,
+} from "@/redux/apiSlice";
 import { BsPlusCircleFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import SellerCarCard from "../../../components/DashboardComponent/Seller/SellerCarCard";
@@ -12,20 +15,27 @@ const MyCars = () => {
   const [selectedCar, setSelectedCar] = useState(null);
   const [isAuctionModalOpen, setAuctionModalOpen] = useState(false);
 
-  console.log("car data", data);
+  const [requestCarApproval, { isLoading: isRequestingApproval }] =
+    useRequestCarApprovalMutation();
+
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading cars</div>;
 
   const carsList = data?.cars?.length ? data.cars : [];
 
-  const handleVerificationRequest = (carId) => {
-    alert(`Verification request sent for Car ID: ${carId}`);
-  };
-
   const handleAddToAuction = (carId) => {
     const car = carsList.find((c) => c._id === carId);
     setSelectedCar(car);
     setAuctionModalOpen(true);
+  };
+
+  const handleRequestApproval = async (carId) => {
+    try {
+      await requestCarApproval(carId).unwrap();
+      console.log("Car approval requested successfully!");
+    } catch (error) {
+      console.error("Failed to request approval:", error);
+    }
   };
 
   return (
@@ -36,8 +46,9 @@ const MyCars = () => {
             <SellerCarCard
               key={car._id}
               car={car}
-              onRequestVerification={handleVerificationRequest}
               onAddToAuction={handleAddToAuction}
+              onRequestApproval={handleRequestApproval} // Pass the new handler
+              isRequestingApproval={isRequestingApproval} // Pass loading state
             />
           ))}
         </div>

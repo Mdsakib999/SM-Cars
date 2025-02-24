@@ -34,10 +34,14 @@ const authSlice = createSlice({
     setLoading(state) {
       state.loading = true;
     },
+    clearLoading: (state) => {
+      state.loading = false;
+    },
   },
 });
 
-export const { setUser, clearUser, setLoading } = authSlice.actions;
+export const { setUser, clearUser, setLoading, clearLoading } =
+  authSlice.actions;
 export default authSlice.reducer;
 
 // Async function to check auth state
