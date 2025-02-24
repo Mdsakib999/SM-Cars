@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const RemainingListingsOverview = () => {
   const uid = useSelector((state) => state.auth.user?._id);
-  console.log("seller id", uid);
+
   const navigate = useNavigate();
 
   const { data, isLoading, error } = useGetSellerLimitQuery(uid);

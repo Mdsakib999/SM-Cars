@@ -90,6 +90,20 @@ export const apiSlice = createApi({
     getUserInfo: builder.query({
       query: (uid) => `/users/me/${uid}`,
     }),
+    updateUserInfo: builder.mutation({
+      query: (formData) => ({
+        url: "/users/update-profile",
+        method: "PUT",
+        body: formData,
+      }),
+    }),
+    updateUserPassword: builder.mutation({
+      query: (formData) => ({
+        url: "/users/update-password",
+        method: "PUT",
+        body: formData,
+      }),
+    }),
 
     // Get All Auction Cars
     getAllAuctionCars: builder.query({
@@ -154,6 +168,7 @@ export const apiSlice = createApi({
     }),
 
     //* ADMIN ROUTES: Create, update, delete subscription plans
+
     createSubscription: builder.mutation({
       query: (subscriptionData) => ({
         url: "/admin/create-sub",
@@ -206,7 +221,8 @@ export const {
   useForgotPasswordMutation,
   useResetPasswordMutation,
   useGetUserInfoQuery,
-
+  useUpdateUserInfoMutation,
+  useUpdateUserPasswordMutation,
   // AUCTION CARS
   // BUYER HOOKS
   useGetAllAuctionCarsQuery,

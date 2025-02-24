@@ -1,11 +1,20 @@
+import { useGetUserInfoQuery } from "@/redux/apiSlice";
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 
 const VerifyAccount = () => {
+  const user = useSelector((state) => state.auth.user);
+  const {
+    data,
+    isLoading: isUserLoading,
+    isError: isUserError,
+    error: userError,
+  } = useGetUserInfoQuery(user.uid);
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    address: "",
+    name: data?.name,
+    email: data?.email,
+    phone: data?.contact,
+    address: data?.presentAddress,
   });
   const [agreementAccepted, setAgreementAccepted] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
