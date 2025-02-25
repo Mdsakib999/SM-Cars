@@ -189,6 +189,28 @@ export const apiSlice = createApi({
         method: "DELETE",
       }),
     }),
+
+    getAllUsers: builder.query({
+      query: () => "/admin/all-users",
+    }),
+
+    getSingleUser: builder.query({
+      query: (userId) => `/admin/user-details/${userId}`,
+    }),
+
+    verifyUser: builder.mutation({
+      query: (userId) => ({
+        url: `/admin/verify-user/${userId}`,
+        method: "PATCH",
+      }),
+    }),
+    banUser: builder.mutation({
+      query: (userId) => ({
+        url: `/admin/ban-user/${userId}`,
+        method: "PATCH",
+      }),
+    }),
+
     getAllCars: builder.query({
       query: () => "/admin/allCars",
       providesTags: ["Cars"],
@@ -243,7 +265,12 @@ export const {
   useCreateSubscriptionMutation,
   useUpdateSubscriptionMutation,
   useDeleteSubscriptionMutation,
+
+  useGetAllUsersQuery,
+  useGetSingleUserQuery,
   useGetAllCarsQuery,
+  useVerifyUserMutation,
+  useBanUserMutation,
   useGetAdminCarDetailsQuery,
   useApproveCarMutation,
   useRejectCarMutation,

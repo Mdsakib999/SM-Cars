@@ -137,16 +137,18 @@ const MyCarDetails = () => {
               </h3>
               <div className="space-y-2">
                 <div className="flex items-center">
-                  <span className="w-24 text-gray-600">Name:</span>
-                  <span className="font-medium">{car.sellerId?.name}</span>
+                  <span className="w-24 text-gray-600">Location</span>
+                  <span className="font-medium">
+                    {car.contactInfo?.location}
+                  </span>
                 </div>
                 <div className="flex items-center">
-                  <span className="w-24 text-gray-600">Email:</span>
-                  <span className="font-medium">{car.sellerId?.email}</span>
+                  <span className="w-24 text-gray-600">City</span>
+                  <span className="font-medium">{car.contactInfo?.city}</span>
                 </div>
                 <div className="flex items-center">
                   <span className="w-24 text-gray-600">Contact:</span>
-                  <span className="font-medium">{car.sellerId?.contact}</span>
+                  <span className="font-medium">{car.contactInfo?.phone}</span>
                 </div>
               </div>
             </div>

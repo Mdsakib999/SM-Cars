@@ -30,9 +30,10 @@ import Reports from "../pages/Dashboard/Admin/Reports";
 import ManageSubscriptionPlans from "../pages/Dashboard/Admin/ManageSubscriptionPlans";
 import AdminCarDetails from "../pages/Dashboard/Admin/AdminCarDetails";
 import Checkout from "../pages/Checkout/Checkout";
-import MyCarDetails from "../pages/Dashboard/Seller/MyCarDetails";
-import EditCar from "../pages/Dashboard/Seller/EditCar";
+import MyCarDetails from "@/pages/Dashboard/Seller/MyCarDetails";
+import EditCar from "@/pages/Dashboard/Seller/EditCar";
 import AuctionCars from "@/pages/AuctionCars/AuctionCars";
+import UserDetails from "@/pages/Dashboard/Admin/UserDetails";
 
 export const router = createBrowserRouter([
   {
@@ -92,6 +93,10 @@ export const router = createBrowserRouter([
           { path: "manage-listings", element: <ManageListings /> },
           { path: "manage-biddings", element: <ManageUsers /> },
           { path: "admin-car-details/:carId", element: <AdminCarDetails /> },
+          {
+            path: "user-details/:userId",
+            element: <UserDetails></UserDetails>,
+          },
           {
             path: "manage-subscriptions",
             element: <ManageSubscriptionPlans />,

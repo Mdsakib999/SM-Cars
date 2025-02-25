@@ -1,37 +1,27 @@
-import React from "react";
+import { useGetAllUsersQuery } from "@/redux/apiSlice";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const ManageUsers = () => {
-  const users = [
-    {
-      id: 1,
-      name: "John Doe",
-      email: "john@example.com",
-      role: "buyer",
-      status: "verified",
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      email: "jane@example.com",
-      role: "seller",
-      status: "not verified",
-    },
-    {
-      id: 3,
-      name: "Admin User",
-      email: "admin@example.com",
-      role: "admin",
-      status: "verified",
-    },
-  ];
+  const navigate = useNavigate();
+  const { data, isLoading, isError } = useGetAllUsersQuery();
+  const [currentPage, setCurrentPage] = useState(1);
+  const usersPerPage = 20;
 
-  const handleRoleChange = (userId) => {
-    console.log(`Change role for user with ID: ${userId}`);
-  };
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error loading users</div>;
+  if (!data) return <div>No data available</div>;
+
+  const users = data.users || data;
+  const totalPages = Math.ceil(users.length / usersPerPage);
+
+  // Get users for the current page
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
-      <h1 className="text-2xl font-semibold mb-6">Manage Users</h1>
       <div className="bg-white border rounded-lg overflow-hidden">
         <table className="table-auto w-full border-collapse">
           <thead className="bg-gray-200">
@@ -54,8 +44,8 @@ const ManageUsers = () => {
             </tr>
           </thead>
           <tbody>
-            {users.map((user) => (
-              <tr key={user.id} className="border-t hover:bg-gray-50">
+            {currentUsers.map((user) => (
+              <tr key={user._id} className="border-t hover:bg-gray-50">
                 <td className="px-4 py-3 text-sm text-gray-800">{user.name}</td>
                 <td className="px-4 py-3 text-sm text-gray-800">
                   {user.email}
@@ -65,17 +55,19 @@ const ManageUsers = () => {
                 </td>
                 <td
                   className={`px-4 py-3 text-sm capitalize ${
-                    user.status === "verified"
+                    user.accountStatus === "verified"
                       ? "text-green-500"
                       : "text-red-500"
                   }`}
                 >
-                  {user.status}
+                  {user.accountStatus}
                 </td>
                 <td className="px-4 py-3 flex gap-2">
                   {user.role !== "admin" && (
                     <button
-                      onClick={() => handleRoleChange(user.id)}
+                      onClick={() =>
+                        navigate(`/dashboard/admin/user-details/${user._id}`)
+                      }
                       className="px-4 py-2 bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-400"
                     >
                       Manage User
@@ -86,6 +78,28 @@ const ManageUsers = () => {
             ))}
           </tbody>
         </table>
+      </div>
+      {/* Pagination Controls */}
+      <div className="flex justify-center mt-4 gap-2">
+        <button
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+          className="px-3 py-1 bg-gray-300 rounded-md disabled:opacity-50"
+        >
+          Prev
+        </button>
+        <span className="px-4 py-1 bg-gray-200 rounded-md">
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          onClick={() =>
+            setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+          }
+          disabled={currentPage === totalPages}
+          className="px-3 py-1 bg-gray-300 rounded-md disabled:opacity-50"
+        >
+          Next
+        </button>
       </div>
     </div>
   );
