@@ -1,7 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { setUser, clearUser } from "./authSlice";
 import { getAuth, signInWithCustomToken } from "firebase/auth";
-import { data } from "autoprefixer";
 
 export const apiSlice = createApi({
   reducerPath: "api",
@@ -102,6 +101,14 @@ export const apiSlice = createApi({
         url: "/users/update-password",
         method: "PUT",
         body: formData,
+      }),
+    }),
+
+    submitVerification: builder.mutation({
+      query: (payload) => ({
+        url: `/users/submit-verification`,
+        method: "PATCH",
+        body: payload,
       }),
     }),
 
@@ -245,6 +252,7 @@ export const {
   useGetUserInfoQuery,
   useUpdateUserInfoMutation,
   useUpdateUserPasswordMutation,
+  useSubmitVerificationMutation,
   // AUCTION CARS
   // BUYER HOOKS
   useGetAllAuctionCarsQuery,

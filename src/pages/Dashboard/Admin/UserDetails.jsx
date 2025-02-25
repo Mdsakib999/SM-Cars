@@ -24,6 +24,10 @@ const UserDetails = () => {
   const user = data?.user || data;
 
   const handleVerify = async () => {
+    const confirmed = window.confirm(
+      "Are you sure you want to verify this user?"
+    );
+    if (!confirmed) return;
     try {
       await verifyUser(userId).unwrap();
     } catch (error) {
@@ -32,6 +36,8 @@ const UserDetails = () => {
   };
 
   const handleBan = async () => {
+    const confirmed = window.confirm("Are you sure you want to ban this user?");
+    if (!confirmed) return;
     try {
       await banUser(userId).unwrap();
     } catch (error) {
