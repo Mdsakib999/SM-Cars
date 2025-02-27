@@ -53,7 +53,7 @@ const Navbar = () => {
         {user ? (
           <Link
             className="hidden md:block btn btn-primary"
-            to={`/dashboard/${user.role}`}
+            to={`/dashboard`}
             onClick={toggleMenu}
           >
             Dashboard

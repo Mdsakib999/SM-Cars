@@ -11,7 +11,7 @@ import { CiBookmark, CiSettings, CiMedal, CiBoxList } from "react-icons/ci";
 import { SlHome } from "react-icons/sl";
 import { GoHistory } from "react-icons/go";
 import { IoAddCircleOutline, IoHammerOutline } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const sidebarMenu = {
@@ -70,12 +70,12 @@ const sidebarMenu = {
 const Sidebar = ({ setActiveSection }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [activeItem, setActiveItem] = useState(0);
-
+  const location = useLocation();
   const { user } = useSelector((state) => state.auth);
   const userRole = user?.role;
-
-  // Filter menu items based on userRole
   const menuItems = sidebarMenu[userRole] || [];
+  const pathSegments = location.pathname.split("/").filter(Boolean);
+  const activePath = pathSegments[2] || "";
 
   const toggleSidebar = () => setIsExpanded((prev) => !prev);
 
@@ -108,41 +108,48 @@ const Sidebar = ({ setActiveSection }) => {
         <nav className="space-y-10 flex flex-col w-full">
           {/* User role */}
 
-          {menuItems.map((item, index) => (
-            <Link
-              key={index}
-              to={`/dashboard/${userRole}/${item.path}`}
-              onClick={() => {
-                setActiveItem(index);
-                setActiveSection(item.name);
-              }}
-              className={`relative flex items-center space-x-2 p-2 rounded w-full text-md lg:text-xl ${
-                activeItem === index ? "text-orange-500" : "text-gray-500"
-              }`}
-            >
-              {activeItem === index && (
-                <div className="absolute -left-5 top-0 bottom-0 w-2 rounded-md bg-orange-500"></div>
-              )}
+          {menuItems.map((item, index) => {
+            const linkPath = `/dashboard/${item.path}`;
+            const isActive = activePath === item.path;
 
-              <span
-                className={
-                  activeItem === index
-                    ? "text-black text-xl lg:text-2xl"
-                    : "text-gray-500 text-xl lg:text-2xl"
-                }
-              >
-                {item.icon}
-              </span>
-
-              <span
-                className={`ml-2 ${isExpanded ? "block" : "hidden"} lg:block ${
-                  activeItem === index ? "text-orange-500" : "text-gray-500"
+            return (
+              <Link
+                key={index}
+                to={linkPath}
+                onClick={() => {
+                  setActiveItem(index);
+                  setActiveSection(item.name);
+                }}
+                className={`relative flex items-center space-x-2 p-2 rounded w-full text-md lg:text-xl ${
+                  isActive ? "text-orange-500" : "text-gray-500"
                 }`}
               >
-                {item.name}
-              </span>
-            </Link>
-          ))}
+                {isActive && (
+                  <div className="absolute -left-5 top-0 bottom-0 w-2 rounded-md bg-orange-500"></div>
+                )}
+
+                <span
+                  className={
+                    activeItem === index
+                      ? "text-black text-xl lg:text-2xl"
+                      : "text-gray-500 text-xl lg:text-2xl"
+                  }
+                >
+                  {item.icon}
+                </span>
+
+                <span
+                  className={`ml-2 ${
+                    isExpanded ? "block" : "hidden"
+                  } lg:block ${
+                    activeItem === index ? "text-orange-500" : "text-gray-500"
+                  }`}
+                >
+                  {item.name}
+                </span>
+              </Link>
+            );
+          })}
         </nav>
       </div>
     </div>

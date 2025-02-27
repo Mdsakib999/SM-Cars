@@ -1,6 +1,8 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { useGetAllAuctionCarsQuery } from "@/redux/apiSlice";
 import Countdown from "@/components/AuctionComponent/CountDown";
+
 const AuctionCars = () => {
   const { data, isLoading, error } = useGetAllAuctionCarsQuery();
 
@@ -13,16 +15,17 @@ const AuctionCars = () => {
 
   return (
     <div className="space-y-6 p-4 w-[93%] mx-auto flex flex-col ">
-      <div className="text-center">All Cars</div>
+      <div className="text-center text-xl font-semibold">All Cars</div>
       <div className="space-y-6 p-4 ">
         {auctions.map((auction) => {
           const car = auction.car;
           return (
-            <div
+            <Link
+              to={`/auction-cars/${car._id}`}
               key={auction._id}
-              className="flex flex-col md:flex-row bg-gray-100 shadow-md rounded-lg overflow-hidden"
+              className="flex flex-col md:flex-row bg-gray-100 shadow-md rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
             >
-              {/* Image on the left */}
+              {/* Image Section */}
               <div className="md:w-1/3">
                 <img
                   src={
@@ -35,7 +38,7 @@ const AuctionCars = () => {
                 />
               </div>
 
-              {/* Car details on the right */}
+              {/* Details Section */}
               <div className="md:w-2/3 p-4">
                 <h2 className="text-2xl font-bold mb-2">{car.carName}</h2>
                 <p className="text-gray-600">Brand: {car.brand}</p>
@@ -43,17 +46,16 @@ const AuctionCars = () => {
                 <p className="text-gray-600">
                   Price: ${car.price.toLocaleString()}
                 </p>
-
                 <p className="text-gray-600">
                   Auction Status: {auction.status}
                 </p>
-                {/* Add the live countdown */}
+                {/* Countdown Component */}
                 <div className="mt-2">
                   <strong>Time Left: </strong>
-                  <Countdown endTime={auction.endTime} />
+                  <Countdown time={auction.endTime} />
                 </div>
               </div>
-            </div>
+            </Link>
           );
         })}
       </div>

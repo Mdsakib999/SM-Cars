@@ -19,6 +19,7 @@ const latestWin = {
 
 const Overview = () => {
   const user = useSelector((state) => state.auth.user);
+
   return (
     <div className="lg:p-6 bg-gray-100 min-h-screen">
       <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
@@ -30,8 +31,6 @@ const Overview = () => {
         {user.role === "buyer" && (
           <>
             <RemainingBidsOverview />
-            <BiddingHistoryOverview />
-            <LatestWinCard latestWin={latestWin} />
           </>
         )}
         {user.role === "seller" && (

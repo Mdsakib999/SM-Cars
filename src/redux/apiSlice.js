@@ -111,11 +111,27 @@ export const apiSlice = createApi({
         body: payload,
       }),
     }),
-
+    // Buyer
     // Get All Auction Cars
     getAllAuctionCars: builder.query({
       query: () => `/buyer/auction-cars`,
     }),
+    getAuctionCarDetails: builder.query({
+      query: (carId) => `/buyer/auction-cars/${carId}`,
+    }),
+
+    getBuyerLimit: builder.query({
+      query: (userId) => `/buyer/check-bid-limit/${userId}`,
+    }),
+
+    placeBid: builder.mutation({
+      query: ({ carId, auctionId, amount }) => ({
+        url: `/buyer/place-bid/${carId}`,
+        method: "PATCH",
+        body: { auctionId, amount },
+      }),
+    }),
+
     // check sellers listing limit
     getSellerLimit: builder.query({
       query: (userId) => `/seller/check-limit/${userId}`,
@@ -127,6 +143,7 @@ export const apiSlice = createApi({
         method: "POST",
         body: formData,
       }),
+      invalidatesTags: ["SellerCars"],
     }),
     editCar: builder.mutation({
       query: ({ id, data }) => ({
@@ -142,7 +159,11 @@ export const apiSlice = createApi({
         url: `/seller/request-car-approval/${carId}`,
         method: "PUT",
       }),
-      invalidatesTags: (result, error, { id }) => [{ type: "SellerCars", id }],
+      invalidatesTags: (result, error, carId) => [
+        { type: "SellerCars", id: carId }, // Invalidate specific car
+        "SellerCars", // Invalidate entire seller's list
+        "Cars", // Invalidate admin's car list
+      ],
     }),
 
     // get seller cars
@@ -230,14 +251,22 @@ export const apiSlice = createApi({
         url: `/admin/approve-car/${carId}`,
         method: "PATCH",
       }),
-      invalidatesTags: ["Cars", "SellerCars"],
+      invalidatesTags: (result, error, carId) => [
+        { type: "SellerCars", id: carId }, // Invalidate specific car
+        "SellerCars", // Invalidate entire seller's list
+        "Cars", // Invalidate admin's car list
+      ],
     }),
     rejectCar: builder.mutation({
       query: (carId) => ({
         url: `/admin/reject-car/${carId}`,
         method: "PATCH",
       }),
-      invalidatesTags: ["Cars", "SellerCars"],
+      invalidatesTags: (result, error, carId) => [
+        { type: "SellerCars", id: carId },
+        "SellerCars",
+        "Cars",
+      ],
     }),
   }),
 });
@@ -256,7 +285,9 @@ export const {
   // AUCTION CARS
   // BUYER HOOKS
   useGetAllAuctionCarsQuery,
-
+  useGetAuctionCarDetailsQuery,
+  useGetBuyerLimitQuery,
+  usePlaceBidMutation,
   // SELLER HOOKS
   useCreateCarMutation,
   useEditCarMutation,

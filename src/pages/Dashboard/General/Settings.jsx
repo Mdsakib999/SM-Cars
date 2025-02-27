@@ -10,6 +10,9 @@ import { useSelector } from "react-redux";
 
 const Settings = () => {
   const user = useSelector((state) => state.auth.user);
+  if (!user) {
+    return <div>Please log in to access your settings.</div>;
+  }
   const [showPasswordForm, setShowPasswordForm] = useState(false);
 
   // Fetch user info
