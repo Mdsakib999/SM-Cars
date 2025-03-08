@@ -87,7 +87,7 @@ const SellerCarCard = ({
           </button>
         )}
 
-        <Link to={`/dashboard/seller/my-cars/${car._id}`}>
+        <Link to={`/dashboard/my-cars/${car._id}`}>
           <button className="w-full flex items-center justify-center bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-400 transition duration-200 mt-3">
             View Details
           </button>

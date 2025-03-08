@@ -103,7 +103,6 @@ export const apiSlice = createApi({
         body: formData,
       }),
     }),
-
     submitVerification: builder.mutation({
       query: (payload) => ({
         url: `/users/submit-verification`,
@@ -218,10 +217,19 @@ export const apiSlice = createApi({
       }),
     }),
 
+    createAuctionAdmin: builder.mutation({
+      query: (auctionData) => ({
+        url: "/admin/create-auction",
+        method: "POST",
+        body: auctionData,
+      }),
+    }),
     getAllUsers: builder.query({
       query: () => "/admin/all-users",
     }),
-
+    getBannedUsers: builder.query({
+      query: () => "/admin/banned-users",
+    }),
     getSingleUser: builder.query({
       query: (userId) => `/admin/user-details/${userId}`,
     }),
@@ -241,6 +249,10 @@ export const apiSlice = createApi({
 
     getAllCars: builder.query({
       query: () => "/admin/allCars",
+      providesTags: ["Cars"],
+    }),
+    getApprovedCars: builder.query({
+      query: () => "/admin/get-approved-cars",
       providesTags: ["Cars"],
     }),
     getAdminCarDetails: builder.query({
@@ -304,10 +316,12 @@ export const {
   useCreateSubscriptionMutation,
   useUpdateSubscriptionMutation,
   useDeleteSubscriptionMutation,
-
+  useCreateAuctionAdminMutation,
   useGetAllUsersQuery,
+  useGetBannedUsersQuery,
   useGetSingleUserQuery,
   useGetAllCarsQuery,
+  useGetApprovedCarsQuery,
   useVerifyUserMutation,
   useBanUserMutation,
   useGetAdminCarDetailsQuery,

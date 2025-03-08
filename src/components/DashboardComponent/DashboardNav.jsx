@@ -5,8 +5,8 @@ import { getAuth, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../../redux/apiSlice";
 import { clearUser } from "../../redux/authSlice";
-
 import { persistor } from "../../redux/store";
+
 const DashboardNav = ({ sectionName }) => {
   // Read the user directly from Redux
   const user = useSelector((state) => state.auth.user);

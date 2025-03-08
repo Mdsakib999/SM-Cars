@@ -8,10 +8,7 @@ const ManageListings = () => {
   if (isError) return <div>Error loading listings</div>;
   if (!data) return <div>No data available</div>;
 
-  // If your API returns an object with a "cars" key:
   const listings = data.cars || data;
-
-  console.log(listings);
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
@@ -63,7 +60,7 @@ const ManageListings = () => {
                 <td className="px-4 py-2 text-center">
                   <Link
                     className="border py-2 px-4 rounded-md bg-blue-400 text-white"
-                    to={`/dashboard/admin/admin-car-details/${listing._id}`}
+                    to={`/dashboard/admin-car-details/${listing._id}`}
                   >
                     View Details
                   </Link>

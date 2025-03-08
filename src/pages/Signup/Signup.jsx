@@ -5,84 +5,80 @@ import { toast, ToastContainer } from "react-toastify";
 import { useSignupMutation } from "../../redux/apiSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading, clearLoading, setUser } from "../../redux/authSlice";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const Signup = () => {
   const [signup] = useSignupMutation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  // Pull loading state from redux
   const { loading } = useSelector((state) => state.auth);
-
-  const [formData, setFormData] = useState({
-    name: "",
-    contact: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    userRole: "buyer",
-    termsAccepted: false,
-  });
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === "checkbox" ? checked : value,
-    });
-  };
-
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+    setShowPassword((prev) => !prev);
   };
 
-  const handleSignUp = async (e) => {
-    e.preventDefault();
-    const { name, contact, email, password, confirmPassword, termsAccepted } =
-      formData;
+  const validationSchema = Yup.object({
+    name: Yup.string().required("Name is required"),
+    contact: Yup.string()
+      .required("Contact number is required")
+      .matches(/^[0-9]+$/, "Contact must be digits only"),
+    email: Yup.string()
+      .email("Invalid email address")
+      .required("Email is required"),
+    password: Yup.string()
+      .required("Password is required")
+      .min(6, "Password must be at least 6 characters"),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref("password"), null], "Passwords must match")
+      .required("Confirm Password is required"),
+    userRole: Yup.string()
+      .oneOf(["buyer", "seller"], "Invalid role")
+      .required("Role is required"),
+    termsAccepted: Yup.boolean().oneOf(
+      [true],
+      "You must accept the terms and conditions"
+    ),
+  });
 
-    if (password !== confirmPassword) {
-      toast.error("Passwords do not match!");
-      return;
-    }
-
-    if (!termsAccepted) {
-      toast.error("Please accept the terms and conditions.");
-      return;
-    }
-
-    // Start loading state
-    dispatch(setLoading());
-
-    try {
-      // Call signup mutation and unwrap the result so errors are thrown
-      const response = await signup({
-        name,
-        contact,
-        email,
-        password, // Send password for creation
-        role: formData.userRole,
-      }).unwrap();
-
-      // Dispatch user data and token to the store
-      dispatch(
-        setUser({
-          user: response.user,
-          token: response.token,
-        })
-      );
-      toast.success("Signup successful! Logged in automatically.");
-      // Optionally, navigate to login or dashboard
-      navigate("/login");
-    } catch (err) {
-      // Clear loading state on error
-      dispatch(clearLoading());
-      console.error("Error during signup:", err);
-      // Display error message
-      toast.error(err?.data?.message || "An error occurred during signup.");
-    }
-  };
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      contact: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      userRole: "buyer",
+      termsAccepted: false,
+    },
+    validationSchema,
+    onSubmit: async (values) => {
+      // Start loading state
+      dispatch(setLoading());
+      try {
+        const response = await signup({
+          name: values.name,
+          contact: values.contact,
+          email: values.email,
+          password: values.password,
+          role: values.userRole,
+        }).unwrap();
+        dispatch(
+          setUser({
+            user: response.user,
+            token: response.token,
+          })
+        );
+        toast.success("Signup successful! Logged in automatically.");
+        navigate("/login");
+      } catch (err) {
+        dispatch(clearLoading());
+        console.error("Error during signup:", err);
+        toast.error(err?.data?.message || "An error occurred during signup.");
+      }
+    },
+  });
 
   return (
     <div className="flex min-h-full">
@@ -97,7 +93,10 @@ const Signup = () => {
 
       {/* Right Side - Form */}
       <div className="flex items-center justify-center w-full md:w-1/2 bg-white p-8">
-        <form className="bg-white p-6 w-full max-w-md" onSubmit={handleSignUp}>
+        <form
+          className="bg-white p-6 w-full max-w-md"
+          onSubmit={formik.handleSubmit}
+        >
           <h2 className="text-2xl font-semibold mb-6 tracking-wide leading-5">
             Welcome
           </h2>
@@ -106,8 +105,8 @@ const Signup = () => {
           {/* Name Field */}
           <div className="mb-4">
             <label
-              className="block text-gray-700 text-sm font-md mb-2"
               htmlFor="name"
+              className="block text-gray-700 text-sm font-md mb-2"
             >
               Name
             </label>
@@ -116,18 +115,21 @@ const Signup = () => {
               id="name"
               name="name"
               placeholder="Enter your name"
-              value={formData.name}
-              onChange={handleInputChange}
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               className="bg-gray-100 appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              required
             />
+            {formik.touched.name && formik.errors.name && (
+              <div className="text-red-500 text-sm">{formik.errors.name}</div>
+            )}
           </div>
 
           {/* Contact Number Field */}
           <div className="mb-4">
             <label
-              className="block text-gray-700 text-sm font-md mb-2"
               htmlFor="contact"
+              className="block text-gray-700 text-sm font-md mb-2"
             >
               Contact Number
             </label>
@@ -136,18 +138,23 @@ const Signup = () => {
               id="contact"
               name="contact"
               placeholder="Enter your contact number"
-              value={formData.contact}
-              onChange={handleInputChange}
+              value={formik.values.contact}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               className="bg-gray-100 appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              required
             />
+            {formik.touched.contact && formik.errors.contact && (
+              <div className="text-red-500 text-sm">
+                {formik.errors.contact}
+              </div>
+            )}
           </div>
 
           {/* Email Field */}
           <div className="mb-4">
             <label
-              className="block text-gray-700 text-sm font-md mb-2"
               htmlFor="email"
+              className="block text-gray-700 text-sm font-md mb-2"
             >
               Email
             </label>
@@ -156,18 +163,21 @@ const Signup = () => {
               id="email"
               name="email"
               placeholder="Enter your email"
-              value={formData.email}
-              onChange={handleInputChange}
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               className="bg-gray-100 appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              required
             />
+            {formik.touched.email && formik.errors.email && (
+              <div className="text-red-500 text-sm">{formik.errors.email}</div>
+            )}
           </div>
 
           {/* Password Field */}
           <div className="mb-4 relative">
             <label
-              className="block text-gray-700 text-sm font-md mb-2"
               htmlFor="password"
+              className="block text-gray-700 text-sm font-md mb-2"
             >
               Password
             </label>
@@ -176,10 +186,10 @@ const Signup = () => {
               id="password"
               name="password"
               placeholder="Enter your password"
-              value={formData.password}
-              onChange={handleInputChange}
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               className="bg-gray-100 appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              required
             />
             <div
               className="absolute inset-y-0 right-0 pr-2 pt-6 flex items-center cursor-pointer"
@@ -191,13 +201,18 @@ const Signup = () => {
                 <AiOutlineEye className="text-gray-600" />
               )}
             </div>
+            {formik.touched.password && formik.errors.password && (
+              <div className="text-red-500 text-sm">
+                {formik.errors.password}
+              </div>
+            )}
           </div>
 
           {/* Confirm Password Field */}
           <div className="mb-4 relative">
             <label
-              className="block text-gray-700 text-sm font-md mb-2"
               htmlFor="confirmPassword"
+              className="block text-gray-700 text-sm font-md mb-2"
             >
               Confirm Password
             </label>
@@ -206,11 +221,17 @@ const Signup = () => {
               id="confirmPassword"
               name="confirmPassword"
               placeholder="Confirm your password"
-              value={formData.confirmPassword}
-              onChange={handleInputChange}
+              value={formik.values.confirmPassword}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               className="bg-gray-100 appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              required
             />
+            {formik.touched.confirmPassword &&
+              formik.errors.confirmPassword && (
+                <div className="text-red-500 text-sm">
+                  {formik.errors.confirmPassword}
+                </div>
+              )}
           </div>
 
           {/* Register As */}
@@ -221,9 +242,9 @@ const Signup = () => {
             <div className="flex space-x-4">
               <button
                 type="button"
-                onClick={() => setFormData({ ...formData, userRole: "buyer" })}
+                onClick={() => formik.setFieldValue("userRole", "buyer")}
                 className={`px-4 py-2 border rounded ${
-                  formData.userRole === "buyer"
+                  formik.values.userRole === "buyer"
                     ? "bg-orange-500 text-white"
                     : "bg-white text-gray-700"
                 }`}
@@ -232,9 +253,9 @@ const Signup = () => {
               </button>
               <button
                 type="button"
-                onClick={() => setFormData({ ...formData, userRole: "seller" })}
+                onClick={() => formik.setFieldValue("userRole", "seller")}
                 className={`px-4 py-2 border rounded ${
-                  formData.userRole === "seller"
+                  formik.values.userRole === "seller"
                     ? "bg-orange-500 text-white"
                     : "bg-white text-gray-700"
                 }`}
@@ -242,6 +263,11 @@ const Signup = () => {
                 Seller
               </button>
             </div>
+            {formik.touched.userRole && formik.errors.userRole && (
+              <div className="text-red-500 text-sm">
+                {formik.errors.userRole}
+              </div>
+            )}
           </div>
 
           {/* Terms and Conditions */}
@@ -250,21 +276,27 @@ const Signup = () => {
               <input
                 type="checkbox"
                 name="termsAccepted"
-                checked={formData.termsAccepted}
-                onChange={handleInputChange}
+                checked={formik.values.termsAccepted}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 className="form-checkbox"
               />
               <span className="ml-2 text-gray-700 text-sm">
                 I agree to the terms and conditions
               </span>
             </label>
+            {formik.touched.termsAccepted && formik.errors.termsAccepted && (
+              <div className="text-red-500 text-sm">
+                {formik.errors.termsAccepted}
+              </div>
+            )}
           </div>
 
           {/* Submit Button */}
           <button
             type="submit"
             className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            disabled={loading} // Use loading state from redux
+            disabled={loading}
           >
             {loading ? "Signing up..." : "Sign Up"}
           </button>

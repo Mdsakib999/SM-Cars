@@ -26,7 +26,7 @@ import MyCarDetails from "@/pages/Dashboard/Seller/MyCarDetails";
 import EditCar from "@/pages/Dashboard/Seller/EditCar";
 
 import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
-import BanUsers from "../pages/Dashboard/Admin/BanUsers";
+import BannedUsers from "../pages/Dashboard/Admin/BannedUsers";
 import ManageListings from "../pages/Dashboard/Admin/ManageListings";
 import Reports from "../pages/Dashboard/Admin/Reports";
 import ManageSubscriptionPlans from "../pages/Dashboard/Admin/ManageSubscriptionPlans";
@@ -39,6 +39,8 @@ import SubscriptionPlan from "../pages/Dashboard/General/SubscriptionPlan";
 
 import ProtectedRoute from "./ProtectedRoute";
 import AuthLayout from "./AuthLayout";
+import RoleRedirect from "@/components/RolesRedirect";
+import ManageAuctions from "@/pages/Dashboard/Admin/ManageAuctions";
 
 export const router = createBrowserRouter([
   {
@@ -98,6 +100,7 @@ export const router = createBrowserRouter([
           </ProtectedRoute>
         ),
         children: [
+          { index: true, element: <RoleRedirect /> },
           // Buyer Routes
           { path: "", element: <Overview /> },
           {
@@ -234,10 +237,18 @@ export const router = createBrowserRouter([
             ),
           },
           {
+            path: "manage-auctions",
+            element: (
+              <ProtectedRoute requiredRole="admin">
+                <ManageAuctions />
+              </ProtectedRoute>
+            ),
+          },
+          {
             path: "reports",
             element: (
               <ProtectedRoute requiredRole="admin">
-                <Reports />{" "}
+                <Reports />
               </ProtectedRoute>
             ),
           },
@@ -245,7 +256,7 @@ export const router = createBrowserRouter([
             path: "ban-users",
             element: (
               <ProtectedRoute requiredRole="admin">
-                <BanUsers />
+                <BannedUsers />
               </ProtectedRoute>
             ),
           },

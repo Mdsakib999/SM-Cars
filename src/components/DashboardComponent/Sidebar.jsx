@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   AiOutlineUser,
   AiOutlineDollarCircle,
@@ -19,13 +19,11 @@ const sidebarMenu = {
     { name: "Dashboard", path: "", icon: <SlHome /> },
     { name: "Bid History", path: "bid-history", icon: <GoHistory /> },
     { name: "My Wins", path: "my-wins", icon: <CiMedal /> },
-
     {
       name: "Subscription Plan",
       path: "subscription-plan",
       icon: <AiOutlineDollarCircle />,
     },
-
     { name: "Settings", path: "settings", icon: <CiSettings /> },
   ],
   seller: [
@@ -56,6 +54,11 @@ const sidebarMenu = {
       path: "manage-listings",
       icon: <CiBoxList />,
     },
+    {
+      name: "Manage Auctions",
+      path: "manage-auctions",
+      icon: <CiBoxList />,
+    },
 
     {
       name: "Reports",
@@ -69,13 +72,27 @@ const sidebarMenu = {
 
 const Sidebar = ({ setActiveSection }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [activeItem, setActiveItem] = useState(0);
   const location = useLocation();
   const { user } = useSelector((state) => state.auth);
   const userRole = user?.role;
   const menuItems = sidebarMenu[userRole] || [];
+
   const pathSegments = location.pathname.split("/").filter(Boolean);
   const activePath = pathSegments[2] || "";
+
+  // Find active index based on current path
+  const activeItemIndex = menuItems.findIndex((item) => {
+    // Handle empty path case (dashboard root)
+    if (item.path === "" && pathSegments.length === 2) return true;
+    return item.path === activePath;
+  });
+
+  const [lastActiveIndex, setLastActiveIndex] = useState(activeItemIndex);
+
+  // Update active index when path changes
+  useEffect(() => {
+    setLastActiveIndex(activeItemIndex);
+  }, [activeItemIndex]);
 
   const toggleSidebar = () => setIsExpanded((prev) => !prev);
 
@@ -106,18 +123,16 @@ const Sidebar = ({ setActiveSection }) => {
         </div>
 
         <nav className="space-y-10 flex flex-col w-full">
-          {/* User role */}
-
           {menuItems.map((item, index) => {
             const linkPath = `/dashboard/${item.path}`;
-            const isActive = activePath === item.path;
+            const isActive = lastActiveIndex === index;
 
             return (
               <Link
                 key={index}
                 to={linkPath}
                 onClick={() => {
-                  setActiveItem(index);
+                  setLastActiveIndex(index);
                   setActiveSection(item.name);
                 }}
                 className={`relative flex items-center space-x-2 p-2 rounded w-full text-md lg:text-xl ${
@@ -130,7 +145,7 @@ const Sidebar = ({ setActiveSection }) => {
 
                 <span
                   className={
-                    activeItem === index
+                    isActive
                       ? "text-black text-xl lg:text-2xl"
                       : "text-gray-500 text-xl lg:text-2xl"
                   }
@@ -141,9 +156,7 @@ const Sidebar = ({ setActiveSection }) => {
                 <span
                   className={`ml-2 ${
                     isExpanded ? "block" : "hidden"
-                  } lg:block ${
-                    activeItem === index ? "text-orange-500" : "text-gray-500"
-                  }`}
+                  } lg:block ${isActive ? "text-orange-500" : "text-gray-500"}`}
                 >
                   {item.name}
                 </span>

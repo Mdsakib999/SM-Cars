@@ -1,21 +1,26 @@
-import { useGetAllUsersQuery } from "@/redux/apiSlice";
 import React, { useState } from "react";
+import { useGetBannedUsersQuery } from "@/redux/apiSlice";
 import { useNavigate } from "react-router-dom";
 
-const ManageUsers = () => {
-  const navigate = useNavigate();
-  const { data, isLoading, isError } = useGetAllUsersQuery();
+const BannedUsers = () => {
+  const { data, isLoading, isError } = useGetBannedUsersQuery();
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 20;
+  const navigate = useNavigate();
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error loading users</div>;
   if (!data) return <div>No data available</div>;
 
-  const users = data.users || data;
-  const totalPages = Math.ceil(users.length / usersPerPage);
+  // Ensure we're working with an array. Our controller returns { bannedUsers: [...] }
+  const users = Array.isArray(data.bannedUsers) ? data.bannedUsers : [];
 
-  // Get users for the current page
+  // If there are no banned users, display a message.
+  if (users.length === 0) {
+    return <div className="mx-auto">No banned users available.</div>;
+  }
+
+  const totalPages = Math.ceil(users.length / usersPerPage);
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
@@ -105,4 +110,4 @@ const ManageUsers = () => {
   );
 };
 
-export default ManageUsers;
+export default BannedUsers;
