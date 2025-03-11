@@ -7,13 +7,14 @@ import CarDetails from "@/components/CarDetailComponent/CarDetails";
 
 const Car = () => {
   const { carId } = useParams();
-  const { data, isLoading, error } = useGetAuctionCarDetailsQuery(carId);
+  const { data, isLoading, error } = useGetAuctionCarDetailsQuery(carId, {
+    refetchOnMountOrArgChange: true,
+  });
 
   if (isLoading) return <p>Loading car details...</p>;
   if (error) return <p>Error loading car details</p>;
 
   const { car, auction } = data;
-  console.log(data);
 
   return (
     <div className="container p-4">

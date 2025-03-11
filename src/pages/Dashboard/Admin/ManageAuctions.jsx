@@ -21,6 +21,7 @@ const ManageAuctions = () => {
   if (!data) return <div>No data available</div>;
 
   const listings = data.approvedCars || data;
+  console.log(listings);
 
   const openAuctionModal = (car) => {
     setSelectedCar(car);
@@ -217,7 +218,7 @@ const ManageAuctions = () => {
                 <p className="text-gray-700 mb-2">
                   Starting Price: ${car.price.toLocaleString()}
                 </p>
-                <p className="text-gray-700 mb-4">
+                <p className="text-gray-700 mb-2">
                   Status:{" "}
                   <span
                     className={`font-medium ${
@@ -229,6 +230,12 @@ const ManageAuctions = () => {
                     }`}
                   >
                     {car.status}
+                  </span>
+                </p>
+                <p className="text-gray-700 mb-4">
+                  Auction Status:{" "}
+                  <span className="font-medium">
+                    {car.auctionStatus || "none"}
                   </span>
                 </p>
 

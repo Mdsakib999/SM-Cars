@@ -3,24 +3,26 @@ import { useSelector } from "react-redux";
 import { IoHammerSharp } from "react-icons/io5";
 import { FaMapMarkerAlt, FaPhoneAlt } from "react-icons/fa";
 import Countdown from "../AuctionComponent/CountDown";
-import { usePlaceBidMutation } from "@/redux/apiSlice";
+import {
+  usePlaceBidMutation,
+  useGetAuctionCarDetailsQuery,
+} from "@/redux/apiSlice";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
 const CarBidDetail = ({ auction, car }) => {
   const user = useSelector((state) => state.auth.user);
-  console.log(auction);
+  const { data: auctionData, refetch } = useGetAuctionCarDetailsQuery(car._id);
+  console.log(auction.bids);
   // Correctly initialize the mutation hook
-  const [placeBid, { isLoading, isError, data: bidData }] = usePlaceBidMutation(
-    car._id
-  );
+  const [placeBid, { isLoading }] = usePlaceBidMutation();
 
   // Determine the minimum bid: currentBid if exists, otherwise reservePrice (or car price)
   const minimumBid = auction.currentBid || auction.reservePrice || car.price;
 
   // Set up Formik for bid placement
   const formik = useFormik({
-    initialValues: { amount: "" },
+    initialValues: { amount: car.price },
     validationSchema: Yup.object({
       amount: Yup.number()
         .typeError("Bid must be a number")
@@ -30,11 +32,13 @@ const CarBidDetail = ({ auction, car }) => {
     onSubmit: async (values, { resetForm }) => {
       try {
         await placeBid({
+          carId: car._id,
           auctionId: auction._id,
           amount: Number(values.amount),
-          carId: car._id,
         }).unwrap();
         resetForm();
+        // Optionally, trigger a manual refetch if necessary:
+        refetch();
       } catch (error) {
         console.error("Error placing bid:", error);
       }

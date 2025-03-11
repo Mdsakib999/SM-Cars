@@ -1,22 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import {
   useGetAdminCarDetailsQuery,
   useApproveCarMutation,
   useRejectCarMutation,
+  useDeleteCarMutation,
 } from "../../../redux/apiSlice";
 import { Dialog } from "@headlessui/react";
 import { LuBadgeCheck } from "react-icons/lu";
 import { CiClock2 } from "react-icons/ci";
 import { BiXCircle } from "react-icons/bi";
-import { useNavigate } from "react-router-dom";
 import { CheckCircle2, XCircle } from "lucide-react";
+import { toast } from "react-toastify";
+
 const AdminCarDetails = () => {
   const { carId } = useParams();
   const { data, isLoading, isError, refetch } =
     useGetAdminCarDetailsQuery(carId);
   const [approveCar, { isLoading: isApproving }] = useApproveCarMutation();
   const [rejectCar, { isLoading: isRejecting }] = useRejectCarMutation();
+  const [deleteCar, { isLoading: isDeleting }] = useDeleteCarMutation();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [actionType, setActionType] = useState(null);
   const [car, setCar] = useState(null);
@@ -38,6 +41,11 @@ const AdminCarDetails = () => {
         await approveCar(carId).unwrap();
       } else if (actionType === "reject") {
         await rejectCar(carId).unwrap();
+      } else if (actionType === "delete") {
+        await deleteCar({ carId: car._id.toString() }).unwrap();
+        toast.success("Car deleted successfully");
+        navigate(-1);
+        return;
       }
       await refetch();
     } catch (error) {
@@ -74,11 +82,12 @@ const AdminCarDetails = () => {
         );
     }
   };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <button
         onClick={() => navigate(-1)}
-        className="mb-4 bg-white  shadow-sm font-bold py-2 px-4 rounded"
+        className="mb-4 bg-white shadow-sm font-bold py-2 px-4 rounded"
       >
         ← Back to Listings
       </button>
@@ -146,7 +155,7 @@ const AdminCarDetails = () => {
                 <dd className="mt-1 text-lg font-semibold">{car.color}</dd>
               </div>
               <div className="p-4 bg-gray-50 rounded-lg">
-                <dt className="text-sm font-medium text-gray-500">Conditoin</dt>
+                <dt className="text-sm font-medium text-gray-500">Condition</dt>
                 <dd className="mt-1 text-lg font-semibold">{car.condition}</dd>
               </div>
               <div className="p-4 bg-gray-50 rounded-lg">
@@ -175,6 +184,25 @@ const AdminCarDetails = () => {
                 </div>
               </div>
             </div>
+            <div>
+              <button
+                onClick={() => {
+                  setActionType("delete");
+                  setIsModalOpen(true);
+                }}
+                className="flex-1 bg-gray-800 hover:bg-gray-900 text-white py-3 px-6 rounded-xl font-medium transition-colors flex items-center justify-center"
+                disabled={isApproving || isRejecting || isDeleting}
+              >
+                {isDeleting ? (
+                  <span className="animate-pulse">Deleting...</span>
+                ) : (
+                  <>
+                    <BiXCircle className="w-5 h-5 mr-2" />
+                    Delete Listing
+                  </>
+                )}
+              </button>
+            </div>
 
             {/* Action Buttons */}
             {car.status === "pending" && (
@@ -185,7 +213,7 @@ const AdminCarDetails = () => {
                     setIsModalOpen(true);
                   }}
                   className="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-xl font-medium transition-colors flex items-center justify-center"
-                  disabled={isApproving || isRejecting}
+                  disabled={isApproving || isRejecting || isDeleting}
                 >
                   {isApproving ? (
                     <span className="animate-pulse">Approving...</span>
@@ -202,7 +230,7 @@ const AdminCarDetails = () => {
                     setIsModalOpen(true);
                   }}
                   className="flex-1 bg-red-600 hover:bg-red-700 text-white py-3 px-6 rounded-xl font-medium transition-colors flex items-center justify-center"
-                  disabled={isApproving || isRejecting}
+                  disabled={isApproving || isRejecting || isDeleting}
                 >
                   {isRejecting ? (
                     <span className="animate-pulse">Rejecting...</span>
@@ -228,15 +256,19 @@ const AdminCarDetails = () => {
           <div className="fixed inset-0 flex items-center justify-center p-4">
             <Dialog.Panel className="w-full max-w-md rounded-xl bg-white p-8 space-y-6">
               <Dialog.Title className="text-2xl font-bold text-gray-900">
-                Confirm {actionType === "approve" ? "Approval" : "Rejection"}
+                {actionType === "approve"
+                  ? "Confirm Approval"
+                  : actionType === "reject"
+                  ? "Confirm Rejection"
+                  : "Confirm Deletion"}
               </Dialog.Title>
               <p className="text-gray-600">
-                Are you sure you want to {actionType} this car listing? This
-                action will
-                {actionType === "approve"
-                  ? " make it visible"
-                  : " remove it"}{" "}
-                from the public platform.
+                {actionType === "approve" &&
+                  "Are you sure you want to approve this car listing? This action will make it visible on the platform."}
+                {actionType === "reject" &&
+                  "Are you sure you want to reject this car listing? This action will remove it from the public platform."}
+                {actionType === "delete" &&
+                  "Are you sure you want to delete this car listing? This action cannot be undone."}
               </p>
               <div className="flex justify-end space-x-4">
                 <button
@@ -247,13 +279,19 @@ const AdminCarDetails = () => {
                 </button>
                 <button
                   onClick={handleAction}
-                  className={`${
+                  className={`px-6 py-2 text-white rounded-lg font-medium transition-colors ${
                     actionType === "approve"
                       ? "bg-green-600 hover:bg-green-700"
-                      : "bg-red-600 hover:bg-red-700"
-                  } px-6 py-2 text-white rounded-lg font-medium transition-colors`}
+                      : actionType === "reject"
+                      ? "bg-red-600 hover:bg-red-700"
+                      : "bg-gray-800 hover:bg-gray-900"
+                  }`}
                 >
-                  Confirm {actionType}
+                  {actionType === "approve"
+                    ? "Confirm Approval"
+                    : actionType === "reject"
+                    ? "Confirm Rejection"
+                    : "Confirm Deletion"}
                 </button>
               </div>
             </Dialog.Panel>

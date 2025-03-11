@@ -74,8 +74,11 @@ const Signup = () => {
         navigate("/login");
       } catch (err) {
         dispatch(clearLoading());
-        console.error("Error during signup:", err);
-        toast.error(err?.data?.message || "An error occurred during signup.");
+        const errorMessage =
+          err?.data?.message ||
+          err?.error ||
+          "An error occurred during signup.";
+        toast.error(errorMessage);
       }
     },
   });
@@ -100,7 +103,6 @@ const Signup = () => {
           <h2 className="text-2xl font-semibold mb-6 tracking-wide leading-5">
             Welcome
           </h2>
-          <ToastContainer />
 
           {/* Name Field */}
           <div className="mb-4">

@@ -15,8 +15,6 @@ const BuyerOverview = () => {
         <SubscriptionCard />
         {/* Bids Remaining Card */}
         <RemainingBidsOverview />
-        {/* Bidding History Card */}
-        <BiddingHistoryOverview />
       </div>
     </div>
   );

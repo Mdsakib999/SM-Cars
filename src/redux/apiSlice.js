@@ -16,7 +16,7 @@ export const apiSlice = createApi({
       return headers;
     },
   }),
-  tagTypes: ["SellerCars", "Cars", "Subscriptions"],
+  tagTypes: ["SellerCars", "Cars", "Subscriptions", "Auction"],
   endpoints: (builder) => ({
     signup: builder.mutation({
       query: (userData) => ({
@@ -117,10 +117,19 @@ export const apiSlice = createApi({
     }),
     getAuctionCarDetails: builder.query({
       query: (carId) => `/buyer/auction-cars/${carId}`,
+      providesTags: (result, error, carId) => [{ type: "Auction", id: carId }],
     }),
-
+    getBiddedCars: builder.query({
+      query: (carId) => `/buyer/bidded-cars`,
+      invalidatesTags: (result, error, { carId }) => [
+        { type: "Auction", id: carId },
+      ],
+    }),
     getBuyerLimit: builder.query({
       query: (userId) => `/buyer/check-bid-limit/${userId}`,
+      providesTags: (result, error, userId) => [
+        { type: "BuyerLimit", id: userId },
+      ],
     }),
 
     placeBid: builder.mutation({
@@ -129,6 +138,12 @@ export const apiSlice = createApi({
         method: "PATCH",
         body: { auctionId, amount },
       }),
+      invalidatesTags: (result, error, { carId }) => [
+        { type: "Auction", id: carId },
+      ],
+      invalidatesTags: (result, error, { userId }) => [
+        { type: "BuyerLimit", id: userId },
+      ],
     }),
 
     // check sellers listing limit
@@ -216,13 +231,13 @@ export const apiSlice = createApi({
         method: "DELETE",
       }),
     }),
-
     createAuctionAdmin: builder.mutation({
       query: (auctionData) => ({
         url: "/admin/create-auction",
         method: "POST",
         body: auctionData,
       }),
+      invalidatesTags: ["Cars"],
     }),
     getAllUsers: builder.query({
       query: () => "/admin/all-users",
@@ -247,6 +262,13 @@ export const apiSlice = createApi({
       }),
     }),
 
+    deleteCar: builder.mutation({
+      query: (carId) => ({
+        url: `/admin/delete-car/`,
+        method: "DELETE",
+        body: carId,
+      }),
+    }),
     getAllCars: builder.query({
       query: () => "/admin/allCars",
       providesTags: ["Cars"],
@@ -298,6 +320,7 @@ export const {
   // BUYER HOOKS
   useGetAllAuctionCarsQuery,
   useGetAuctionCarDetailsQuery,
+  useGetBiddedCarsQuery,
   useGetBuyerLimitQuery,
   usePlaceBidMutation,
   // SELLER HOOKS
@@ -327,4 +350,5 @@ export const {
   useGetAdminCarDetailsQuery,
   useApproveCarMutation,
   useRejectCarMutation,
+  useDeleteCarMutation,
 } = apiSlice;

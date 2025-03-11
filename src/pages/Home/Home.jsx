@@ -8,6 +8,7 @@ import Benefits from "../../components/HomeComponent/Benefits";
 import ContactForm from "../../components/HomeComponent/ContactForm";
 import BlogCard from "../../components/HomeComponent/BlogCard";
 import Testimonial from "../../components/HomeComponent/Testimonial/Testimonial";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
@@ -29,7 +30,9 @@ const Home = () => {
               service. We are committed to providing our customers with
               exceptional service.
             </p>
-            <button className="btn btn-secondary">Get Started</button>
+            <Link to="/login">
+              <button className="btn btn-secondary">Get Started</button>
+            </Link>
             <div className="flex justify-end">
               <IoCarSportOutline className="text-7xl text-orange-600" />
             </div>
@@ -42,9 +45,12 @@ const Home = () => {
               We are committed to providing our customers with exceptional
               service.
             </p>
-            <button className="btn  bg-black text-white border-white">
-              Get Started
-            </button>
+            <Link to="/login">
+              <button className="btn  bg-black text-white border-white">
+                Get Started
+              </button>
+            </Link>
+
             <div className="flex justify-end">
               <GrMoney className="text-7xl text-orange-600" />
             </div>
@@ -64,7 +70,9 @@ const Home = () => {
               today.
             </p>
             <div>
-              <button className="btn btn-secondary">Get Started</button>
+              <Link to="/login">
+                <button className="btn btn-secondary">Get Started</button>
+              </Link>
             </div>
           </div>
 

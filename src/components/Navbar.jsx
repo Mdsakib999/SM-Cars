@@ -45,6 +45,9 @@ const Navbar = () => {
             <Link to="/sell">Sell Car</Link>
           </li>
           <li className="cursor-pointer hover:text-black">
+            <Link to="/auction-cars">Cars</Link>
+          </li>
+          <li className="cursor-pointer hover:text-black">
             <Link to="/pricing">Pricing</Link>
           </li>
         </ul>
@@ -118,6 +121,13 @@ const Navbar = () => {
             onClick={toggleMenu}
           >
             Contact
+          </Link>
+          <Link
+            to="/auction-cars"
+            className="text-lg font-medium text-gray-700"
+            onClick={toggleMenu}
+          >
+            Cars
           </Link>
           <Link
             to="/buy"
