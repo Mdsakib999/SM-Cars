@@ -23,5 +23,3 @@ dist-ssr
 *.sln
 *.sw?
 *.env
-# change this later
-*firebase 
