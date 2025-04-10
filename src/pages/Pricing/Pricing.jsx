@@ -5,7 +5,7 @@ import ContactForm from "../../components/HomeComponent/ContactForm";
 
 const Pricing = () => {
   return (
-    <div>
+    <div className="">
       <CarSubscription />
       <FAQ />
       <ContactForm />

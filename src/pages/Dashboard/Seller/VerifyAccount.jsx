@@ -1,6 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import {
+  useGetUserInfoQuery,
+  useSubmitVerificationMutation,
+} from "@/redux/apiSlice";
+import { useSelector } from "react-redux";
 
 const VerifyAccount = () => {
+  const user = useSelector((state) => state.auth.user);
+  const { data, isLoading, isError } = useGetUserInfoQuery(user.uid);
+  const [submitVerification, { isLoading: isSubmitting }] =
+    useSubmitVerificationMutation();
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -10,8 +20,20 @@ const VerifyAccount = () => {
   const [agreementAccepted, setAgreementAccepted] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  useEffect(() => {
+    if (data) {
+      setFormData({
+        name: data.name,
+        email: data.email,
+        phone: data.contact,
+        address: data.presentAddress,
+      });
+    }
+  }, [data]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
+    // Only allow changes to phone and address
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -22,53 +44,61 @@ const VerifyAccount = () => {
     setAgreementAccepted(!agreementAccepted);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (agreementAccepted) {
+    if (!agreementAccepted) {
+      alert("Please accept the terms and conditions to continue.");
+      return;
+    }
+    try {
+      // We'll send only the editable fields
+      const payload = {
+        phone: formData.phone,
+        address: formData.address,
+      };
+      await submitVerification(payload).unwrap();
       setIsSubmitted(true);
       alert(
         "You have successfully submitted your information. Please check your email for the contract."
       );
-    } else {
-      alert("Please accept the terms and conditions to continue.");
+    } catch (error) {
+      console.error("Error submitting verification:", error);
     }
   };
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error loading user info</div>;
 
   return (
     <div className="bg-white p-6 rounded-xl border max-w-lg mx-auto mt-10">
       <h2 className="text-2xl font-semibold mb-6 text-center">
         Verify Your Account
       </h2>
-
       {!isSubmitted ? (
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Personal Information Fields */}
+          {/* Full Name (read-only) */}
           <div>
             <label className="block text-lg font-medium mb-2">Full Name</label>
             <input
               type="text"
               name="name"
               value={formData.name}
-              onChange={handleChange}
-              placeholder="Enter your full name"
-              required
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-orange-500"
+              readOnly
+              className="w-full px-4 py-2 border rounded-lg bg-gray-100"
             />
           </div>
-
+          {/* Email (read-only) */}
           <div>
             <label className="block text-lg font-medium mb-2">Email</label>
             <input
               type="email"
               name="email"
               value={formData.email}
-              onChange={handleChange}
-              placeholder="Enter your email"
-              required
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-orange-500"
+              readOnly
+              className="w-full px-4 py-2 border rounded-lg bg-gray-100"
             />
           </div>
-
+          {/* Phone (editable) */}
           <div>
             <label className="block text-lg font-medium mb-2">
               Phone Number
@@ -83,7 +113,7 @@ const VerifyAccount = () => {
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-orange-500"
             />
           </div>
-
+          {/* Address (editable) */}
           <div>
             <label className="block text-lg font-medium mb-2">Address</label>
             <textarea
@@ -95,7 +125,6 @@ const VerifyAccount = () => {
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-orange-500"
             />
           </div>
-
           {/* Agreement Section */}
           <div className="bg-gray-100 p-4 rounded-lg">
             <h3 className="text-lg font-semibold mb-2">SMCars Agreement</h3>
@@ -107,7 +136,7 @@ const VerifyAccount = () => {
             </p>
             <p className="text-sm text-gray-600 mb-4">
               A copy of the contract will be sent to your email. Please sign the
-              document and email it back to us at
+              document and email it back to us at{" "}
               <a
                 href="mailto:support@smcars.com"
                 className="text-orange-500 underline ml-1"
@@ -116,7 +145,6 @@ const VerifyAccount = () => {
               </a>
               .
             </p>
-
             <div className="flex items-center">
               <input
                 type="checkbox"
@@ -130,16 +158,15 @@ const VerifyAccount = () => {
               </label>
             </div>
           </div>
-
           {/* Submit Button */}
           <button
             type="submit"
+            disabled={!agreementAccepted || isSubmitting}
             className={`w-full py-2 px-4 rounded-lg text-white transition ${
               agreementAccepted
                 ? "bg-orange-500 hover:bg-orange-600"
                 : "bg-gray-400 cursor-not-allowed"
             }`}
-            disabled={!agreementAccepted}
           >
             Sign Agreement and Submit
           </button>

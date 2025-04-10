@@ -1,7 +1,7 @@
 import React from "react";
 import ProfileCard from "../../../components/DashboardComponent/Overview/ProfileCard";
 import SubscriptionCard from "../../../components/DashboardComponent/Overview/SubscriptionCard";
-import RemainingBidsOverview from "../../../components/DashboardComponent/Overview/RemainingBidsOverview";
+import RemainingListingsOverview from "../../../components/DashboardComponent/Overview/RemainingListingsOverview";
 
 const SellerOverview = () => {
   return (
@@ -11,7 +11,7 @@ const SellerOverview = () => {
         {/* Full-width Profile Card */}
         <ProfileCard />
         <SubscriptionCard />
-        <RemainingBidsOverview />
+        <RemainingListingsOverview />
       </div>
     </div>
   );

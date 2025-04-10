@@ -1,44 +1,31 @@
 import React from "react";
 import { FiCheck } from "react-icons/fi";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-const BuyCarSubscription = () => {
-  const plans = [
-    {
-      title: "Basic",
-      price: "$20",
-      features: [
-        "1 Car Listing",
-        "Basic Support",
-        "1 Car Listing",
-        "Basic Support",
-      ],
-    },
-    {
-      title: "Standard",
-      price: "$40",
-      features: ["5 Car Listings", "Priority Support"],
-    },
-    {
-      title: "Premium",
-      price: "$70",
-      features: ["10 Car Listings", "Premium Support"],
-    },
-    {
-      title: "Exclusive",
-      price: "$100",
-      features: ["Unlimited Listings", "24/7 Support"],
-    },
-  ];
+const BuyCarSubscription = ({ plans }) => {
+  const user = useSelector((state) => state.auth.user);
+  const navigate = useNavigate();
+
+  const handleSelectPlan = (planId) => {
+    if (!user) {
+      // Not logged in: redirect to login and pass intended destination as state
+      navigate("/login", { state: { from: `/checkout?planId=${planId}` } });
+    } else {
+      // Logged in: go directly to checkout page with selected plan
+      navigate(`/checkout?planId=${planId}`);
+    }
+  };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 ">
-      {plans.map((plan, index) => (
+    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      {plans.map((plan) => (
         <div
-          key={index}
+          key={plan._id}
           className="bg-white border rounded-lg p-6 flex flex-col justify-between h-full hover:bg-orange-100 transition"
         >
           <div className="flex-grow">
-            <h3 className="text-2xl font-md">{plan.title}</h3>
+            <h3 className="text-2xl font-md">{plan.name}</h3>
             <p className="text-3xl font-md mb-4 text-black">{plan.price}</p>
             <ul className="text-gray-600 mb-4">
               {plan.features.map((feature, i) => (
@@ -51,7 +38,10 @@ const BuyCarSubscription = () => {
           </div>
           {/* Sticky Button at Bottom */}
           <div className="mt-auto">
-            <button className="w-full btn btn-primary hover:bg-black hover:text-white hover:border-white transition duration-300">
+            <button
+              onClick={() => handleSelectPlan(plan._id)}
+              className="w-full btn btn-primary hover:bg-black hover:text-white hover:border-white transition duration-300"
+            >
               Select Plan
             </button>
           </div>

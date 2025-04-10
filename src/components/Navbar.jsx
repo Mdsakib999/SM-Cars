@@ -1,9 +1,15 @@
 import React, { useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { user } = useSelector((state) => state.auth);
+
+  if (user === null) {
+    console.log("No user found");
+  }
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -39,16 +45,31 @@ const Navbar = () => {
             <Link to="/sell">Sell Car</Link>
           </li>
           <li className="cursor-pointer hover:text-black">
+            <Link to="/auction-cars">Cars</Link>
+          </li>
+          <li className="cursor-pointer hover:text-black">
             <Link to="/pricing">Pricing</Link>
           </li>
         </ul>
-        <Link
-          className="hidden md:block btn btn-primary"
-          to="/signup"
-          onClick={toggleMenu}
-        >
-          Get Started
-        </Link>
+
+        {/* Conditionally render based on user */}
+        {user ? (
+          <Link
+            className="hidden md:block btn btn-primary"
+            to={`/dashboard`}
+            onClick={toggleMenu}
+          >
+            Dashboard
+          </Link>
+        ) : (
+          <Link
+            className="hidden md:block btn btn-primary"
+            to="/signup"
+            onClick={toggleMenu}
+          >
+            Get Started
+          </Link>
+        )}
 
         {/* Mobile Menu Button */}
         <div className="md:hidden">
@@ -102,6 +123,13 @@ const Navbar = () => {
             Contact
           </Link>
           <Link
+            to="/auction-cars"
+            className="text-lg font-medium text-gray-700"
+            onClick={toggleMenu}
+          >
+            Cars
+          </Link>
+          <Link
             to="/buy"
             className="text-lg font-medium text-gray-700"
             onClick={toggleMenu}
@@ -123,9 +151,19 @@ const Navbar = () => {
             Pricing
           </Link>
 
-          <Link className="btn btn-primary" to="/signup" onClick={toggleMenu}>
-            Submit Listing
-          </Link>
+          {user ? (
+            <Link
+              className="btn btn-primary"
+              to="/dashboard"
+              onClick={toggleMenu}
+            >
+              Dashboard
+            </Link>
+          ) : (
+            <Link className="btn btn-primary" to="/signup" onClick={toggleMenu}>
+              Get Started
+            </Link>
+          )}
         </div>
       </div>
 

@@ -15,11 +15,11 @@ const Buy = () => {
       ></div>
 
       {/* AuthForm Section */}
-      <div className="flex justify-center items-center -mt-60 px-4">
+      {/* <div className="flex justify-center items-center -mt-60 px-4">
         <div className="container">
           <AuthForm defaultRole="buyer" />
         </div>
-      </div>
+      </div> */}
       <BuyCarBenefits />
       <BuyCarSteps />
       <div className="container mx-auto my-12 p-6 text-center  rounded-lg ">

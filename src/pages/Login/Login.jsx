@@ -1,13 +1,51 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { Link } from "react-router-dom";
-const Signup = () => {
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLoginMutation } from "../../redux/apiSlice";
+import { setLoading, setUser, clearLoading } from "../../redux/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+
+const Login = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [showPassword, setShowPassword] = useState(false);
-  const [userRole, setUserRole] = useState("buyer");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [login, { isLoading, isSuccess, data: responseData, error }] =
+    useLoginMutation();
+  const dispatch = useDispatch();
+
+  const userToken = useSelector((state) => state.auth.token);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    dispatch(setLoading());
+
+    try {
+      const response = await login({ email, password }).unwrap();
+      dispatch(setUser(response));
+
+      console.log("Login successful");
+    } catch (err) {
+      dispatch(clearLoading());
+      console.error("Login failed:", err);
+    }
+  };
+
+  // After a successful login, redirect based on location.state
+  useEffect(() => {
+    if (isSuccess && responseData?.token) {
+      const redirectPath =
+        location.state?.from || `/dashboard/${responseData.user.role}`;
+      console.log("Token is set, proceeding to:", redirectPath);
+      navigate(redirectPath, { replace: true });
+    }
+  }, [isSuccess, responseData, location, navigate]);
 
   return (
     <div className="flex min-h-full">
@@ -22,23 +60,25 @@ const Signup = () => {
 
       {/* Right side - Form */}
       <div className="flex items-center justify-center w-full md:w-1/2 bg-white p-8">
-        <form className="bg-white p-6 w-full max-w-md">
+        <form className="bg-white p-6 w-full max-w-md" onSubmit={handleLogin}>
           <h2 className="text-2xl font-semibold mb-6 tracking-wide leading-5">
             Nice to see you again
           </h2>
 
-          {/* Contact Number Field */}
+          {/* Email Field */}
           <div className="mb-4">
             <label
               className="block text-gray-700 text-sm font-md mb-2"
-              htmlFor="contact"
+              htmlFor="email"
             >
-              Contact Number
+              Email
             </label>
             <input
-              type="tel"
-              id="contact"
-              placeholder="Enter your contact number"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              id="email"
+              placeholder="Enter your email"
               className="bg-gray-100 appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               required
             />
@@ -55,6 +95,8 @@ const Signup = () => {
             <input
               type={showPassword ? "text" : "password"}
               id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
               className="bg-gray-100 appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               required
@@ -75,16 +117,21 @@ const Signup = () => {
           <div>
             <button
               type="submit"
+              disabled={isLoading}
               className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             >
-              Log In
+              {isLoading ? "Logging in..." : "Login"}
             </button>
+            {/* Error Message */}
+            {error && (
+              <p className="text-red-500 mt-2">{error.data?.message}</p>
+            )}
           </div>
           <div className="mt-4 text-center">
             <span className="text-gray-700 text-sm">
               Don't have an account?{" "}
               <Link to="/signup" className="text-orange-500 hover:underline">
-                Log In
+                Sign Up
               </Link>
             </span>
           </div>
@@ -94,4 +141,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Login;
