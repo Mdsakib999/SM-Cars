@@ -223,7 +223,7 @@ export const router = createBrowserRouter([
             ),
           },
           {
-            path: "admin-auction-details/:auctionId",
+            path: "car-auction-details/:carId",
             element: (
               <ProtectedRoute requiredRole="admin">
                 <AdminAuctionCarDetails />

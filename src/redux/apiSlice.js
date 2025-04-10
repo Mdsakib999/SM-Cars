@@ -322,7 +322,7 @@ export const apiSlice = createApi({
     }),
     // auction detail for admin
     getAdminAuctionDetails: builder.query({
-      query: (auctionId) => `/admin/auction-details/${auctionId}`,
+      query: (carId) => `/admin/car-auction-details/${carId}`,
       providesTags: (result, error, carId) => [{ type: "Auction", id: carId }],
     }),
     approveCar: builder.mutation({

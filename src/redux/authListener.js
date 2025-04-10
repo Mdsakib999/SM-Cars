@@ -1,4 +1,5 @@
 import { onAuthStateChanged } from "firebase/auth";
+
 import { auth } from "../firebase/firebase.config";
 import store from "./store";
 import { setUser, clearUser, setLoading } from "./authSlice";

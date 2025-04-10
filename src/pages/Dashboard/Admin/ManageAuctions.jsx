@@ -242,7 +242,7 @@ const ManageAuctions = () => {
                 {/* Action Buttons */}
                 <div className="flex gap-3">
                   <Link
-                    to={`/dashboard/admin-auction-details/${car._id}`}
+                    to={`/dashboard/car-auction-details/${car._id}`}
                     className="flex-1 bg-blue-500 text-white py-2 text-center rounded-md hover:bg-blue-600 transition"
                   >
                     View Details

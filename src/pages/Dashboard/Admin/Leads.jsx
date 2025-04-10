@@ -2,7 +2,6 @@ import React from "react";
 import { useGetMessagesQuery } from "@/redux/apiSlice";
 
 const Leads = () => {
-  // Fetch messages using RTK Query
   const { data, isLoading, error } = useGetMessagesQuery();
 
   if (isLoading) {

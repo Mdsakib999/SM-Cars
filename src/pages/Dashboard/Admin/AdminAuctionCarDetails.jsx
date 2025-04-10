@@ -9,8 +9,8 @@ import {
 } from "react-icons/bs";
 
 const AdminAuctionCarDetails = () => {
-  const { auctionId } = useParams();
-  const { data, isLoading, error } = useGetAdminAuctionDetailsQuery(auctionId);
+  const { carId } = useParams();
+  const { data, isLoading, error } = useGetAdminAuctionDetailsQuery(carId);
 
   if (isLoading)
     return <div className="text-center p-8">Loading auction details...</div>;
