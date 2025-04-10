@@ -24,6 +24,34 @@ export const apiSlice = createApi({
         method: "POST",
         body: userData,
       }),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          const response = await queryFulfilled;
+          const { token: customToken, user: userData } = response.data;
+
+          // Firebase authentication flow
+          const auth = getAuth();
+          const userCredential = await signInWithCustomToken(auth, customToken);
+          const idToken = await userCredential.user.getIdToken(true);
+
+          // Dispatch user to Redux store
+          dispatch(
+            setUser({
+              user: {
+                _id: userData._id,
+                email: userData.email,
+                name: userData.name,
+                role: userData.role,
+                subscription: userData.subscription,
+                uid: userData.uid,
+              },
+              token: idToken,
+            })
+          );
+        } catch (error) {
+          console.error("Signup error:", error);
+        }
+      },
     }),
     login: builder.mutation({
       query: (credentials) => ({
@@ -83,6 +111,15 @@ export const apiSlice = createApi({
         url: "/users/reset-password",
         method: "POST",
         body: resetData,
+      }),
+    }),
+
+    //
+    sendMessage: builder.mutation({
+      query: (messageData) => ({
+        url: "/users/send-message",
+        method: "POST",
+        body: messageData,
       }),
     }),
     // Get User info
@@ -210,6 +247,9 @@ export const apiSlice = createApi({
     }),
 
     //* ADMIN ROUTES: Create, update, delete subscription plans
+    getMessages: builder.query({
+      query: () => "/admin/messages",
+    }),
 
     createSubscription: builder.mutation({
       query: (subscriptionData) => ({
@@ -280,6 +320,11 @@ export const apiSlice = createApi({
     getAdminCarDetails: builder.query({
       query: (id) => `/admin/listing/${id}`,
     }),
+    // auction detail for admin
+    getAdminAuctionDetails: builder.query({
+      query: (auctionId) => `/admin/auction-details/${auctionId}`,
+      providesTags: (result, error, carId) => [{ type: "Auction", id: carId }],
+    }),
     approveCar: builder.mutation({
       query: (carId) => ({
         url: `/admin/approve-car/${carId}`,
@@ -316,6 +361,7 @@ export const {
   useUpdateUserInfoMutation,
   useUpdateUserPasswordMutation,
   useSubmitVerificationMutation,
+  useSendMessageMutation,
   // AUCTION CARS
   // BUYER HOOKS
   useGetAllAuctionCarsQuery,
@@ -336,6 +382,7 @@ export const {
   useGetUserSubscriptionQuery,
   useGetAllSubscriptionsQuery,
   // ADMIN HOOKS
+  useGetMessagesQuery,
   useCreateSubscriptionMutation,
   useUpdateSubscriptionMutation,
   useDeleteSubscriptionMutation,
@@ -347,7 +394,9 @@ export const {
   useGetApprovedCarsQuery,
   useVerifyUserMutation,
   useBanUserMutation,
+
   useGetAdminCarDetailsQuery,
+  useGetAdminAuctionDetailsQuery,
   useApproveCarMutation,
   useRejectCarMutation,
   useDeleteCarMutation,

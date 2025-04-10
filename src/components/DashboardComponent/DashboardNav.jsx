@@ -8,7 +8,6 @@ import { clearUser } from "../../redux/authSlice";
 import { persistor } from "../../redux/store";
 
 const DashboardNav = ({ sectionName }) => {
-  // Read the user directly from Redux
   const user = useSelector((state) => state.auth.user);
   const [logout] = useLogoutMutation();
   const dispatch = useDispatch();

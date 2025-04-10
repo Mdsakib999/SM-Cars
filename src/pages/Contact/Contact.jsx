@@ -1,8 +1,44 @@
-import React from "react";
-
+import React, { useState } from "react";
 import { CiPhone, CiLocationOn, CiPaperplane } from "react-icons/ci";
+import { useSendMessageMutation } from "@/redux/apiSlice";
 
 const Contact = () => {
+  const [sendMessage, { isLoading }] = useSendMessageMutation();
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [message, setMessage] = useState("");
+
+  const [feedback, setFeedback] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setFeedback("");
+
+    const messageData = {
+      name,
+      email,
+      contactNo: phone,
+      message,
+    };
+
+    try {
+      await sendMessage(messageData).unwrap();
+      setFeedback("Your message was sent successfully!");
+
+      setName("");
+      setEmail("");
+      setPhone("");
+      setMessage("");
+    } catch (err) {
+      console.error("Failed to send message:", err);
+      setFeedback(
+        err?.data?.message || "Failed to send message. Please try again."
+      );
+    }
+  };
+
   return (
     <div>
       <div className="container mx-auto px-4 py-12">
@@ -57,11 +93,16 @@ const Contact = () => {
           </div>
         </div>
       </div>
-      <div>
-        <h3 className="text-3xl font-semibold text-center mb-4 ">
-          Send a message
+
+      {/* Send a Message Form */}
+      <div className="container mx-auto px-4 mb-12">
+        <h3 className="text-3xl font-semibold text-center mb-4">
+          Send a Message
         </h3>
-        <form className="space-y-6 mx-4 md:mx-auto  max-w-2xl bg-gray-100 p-8 rounded-xl ">
+        <form
+          className="space-y-6 mx-4 md:mx-auto max-w-2xl bg-gray-100 p-8 rounded-xl"
+          onSubmit={handleSubmit}
+        >
           <div>
             <label htmlFor="name" className="block text-gray-700 font-medium">
               Name
@@ -69,6 +110,8 @@ const Contact = () => {
             <input
               type="text"
               id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               className="w-full border rounded-lg px-4 py-2"
               placeholder="Enter your name"
               required
@@ -81,6 +124,8 @@ const Contact = () => {
             <input
               type="email"
               id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full border rounded-lg px-4 py-2"
               placeholder="Enter your email"
               required
@@ -93,6 +138,8 @@ const Contact = () => {
             <input
               type="tel"
               id="phone"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
               className="w-full border rounded-lg px-4 py-2"
               placeholder="Enter your phone number"
             />
@@ -106,6 +153,8 @@ const Contact = () => {
             </label>
             <textarea
               id="message"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
               className="w-full border rounded-lg px-4 py-2"
               placeholder="Enter your message"
               rows="4"
@@ -114,16 +163,27 @@ const Contact = () => {
           </div>
           <button
             type="submit"
-            className="w-full bg-orange-500 text-white border border-white py-2 px-4 rounded-lg hover:bg-orange-600 hover:text-white hover:border-white transition duration-300"
+            disabled={isLoading}
+            className="w-full bg-orange-500 text-white border border-white py-2 px-4 rounded-lg hover:bg-orange-600 transition duration-300"
           >
-            Send message
+            {isLoading ? "Sending..." : "Send Message"}
           </button>
+          {feedback && (
+            <p
+              className={`text-center text-sm mt-2 ${
+                feedback.includes("successfully")
+                  ? "text-green-500"
+                  : "text-red-500"
+              }`}
+            >
+              {feedback}
+            </p>
+          )}
         </form>
       </div>
 
-      {/* Request a Call Form */}
-      <div className="relative w-full h-[350px] mt-12">
-        {/* Google Maps iframe */}
+      {/* Request a Call Section (Static Google Maps) */}
+      <div className="relative w-full h-[350px]">
         <div className="absolute inset-0 w-full h-full">
           <iframe
             className="w-full h-full"

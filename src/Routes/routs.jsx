@@ -41,6 +41,8 @@ import ProtectedRoute from "./ProtectedRoute";
 import AuthLayout from "./AuthLayout";
 import RoleRedirect from "@/components/RolesRedirect";
 import ManageAuctions from "@/pages/Dashboard/Admin/ManageAuctions";
+import AdminAuctionCarDetails from "@/pages/Dashboard/Admin/AdminAuctionCarDetails";
+import Leads from "@/pages/Dashboard/Admin/Leads";
 
 export const router = createBrowserRouter([
   {
@@ -221,6 +223,14 @@ export const router = createBrowserRouter([
             ),
           },
           {
+            path: "admin-auction-details/:auctionId",
+            element: (
+              <ProtectedRoute requiredRole="admin">
+                <AdminAuctionCarDetails />
+              </ProtectedRoute>
+            ),
+          },
+          {
             path: "user-details/:userId",
             element: (
               <ProtectedRoute requiredRole="admin">
@@ -249,6 +259,14 @@ export const router = createBrowserRouter([
             element: (
               <ProtectedRoute requiredRole="admin">
                 <Reports />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: "leads",
+            element: (
+              <ProtectedRoute requiredRole="admin">
+                <Leads />
               </ProtectedRoute>
             ),
           },

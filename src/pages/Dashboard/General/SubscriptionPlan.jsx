@@ -53,7 +53,7 @@ const SubscriptionPlan = () => {
               </div>
 
               <p className="text-3xl font-medium mb-4 text-black">
-                ${plan.price}
+                ৳{plan.price}
               </p>
 
               {/* Plan Features */}

@@ -40,7 +40,6 @@ const Login = () => {
   // After a successful login, redirect based on location.state
   useEffect(() => {
     if (isSuccess && responseData?.token) {
-      // If there's a redirect path in state, use it; otherwise, default to dashboard
       const redirectPath =
         location.state?.from || `/dashboard/${responseData.user.role}`;
       console.log("Token is set, proceeding to:", redirectPath);

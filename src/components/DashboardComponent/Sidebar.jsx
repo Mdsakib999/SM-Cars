@@ -5,6 +5,7 @@ import {
   AiOutlineCar,
   AiOutlineUserDelete,
   AiOutlineSafety,
+  AiOutlineMessage,
 } from "react-icons/ai";
 import { FiChevronRight, FiChevronLeft, FiBarChart } from "react-icons/fi";
 import { CiBookmark, CiSettings, CiMedal, CiBoxList } from "react-icons/ci";
@@ -47,7 +48,7 @@ const sidebarMenu = {
     {
       name: "Manage Subscriptions",
       path: "manage-subscriptions",
-      icon: <AiOutlineUser />,
+      icon: <CiBookmark />,
     },
     {
       name: "Manage Listings",
@@ -57,7 +58,7 @@ const sidebarMenu = {
     {
       name: "Manage Auctions",
       path: "manage-auctions",
-      icon: <CiBoxList />,
+      icon: <IoHammerOutline />,
     },
 
     {
@@ -65,6 +66,7 @@ const sidebarMenu = {
       path: "reports",
       icon: <FiBarChart />,
     },
+    { name: "Leads", path: "leads", icon: <AiOutlineMessage /> },
     { name: "Ban Users", path: "ban-users", icon: <AiOutlineUserDelete /> },
     { name: "Settings", path: "settings", icon: <CiSettings /> },
   ],
@@ -74,6 +76,7 @@ const Sidebar = ({ setActiveSection }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const location = useLocation();
   const { user } = useSelector((state) => state.auth);
+  console.log(user);
   const userRole = user?.role;
   const menuItems = sidebarMenu[userRole] || [];
 

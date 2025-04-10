@@ -145,7 +145,6 @@ const AddNewCar = () => {
           {({ setFieldValue, values, isSubmitting }) => {
             const onDrop = useCallback(
               (acceptedFiles) => {
-                // Safeguard: ensure values.images is defined as an array
                 setFieldValue("images", [
                   ...(values.images || []),
                   ...acceptedFiles,

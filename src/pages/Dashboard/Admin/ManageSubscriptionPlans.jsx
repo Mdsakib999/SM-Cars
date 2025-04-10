@@ -159,7 +159,7 @@ const ManageSubscriptionPlans = () => {
                 <div>
                   <h3 className="text-lg font-bold">{plan.name}</h3>
                   <p>
-                    ${plan.price} / {plan.duration} days
+                    ৳{plan.price} / {plan.duration} days
                   </p>
                 </div>
                 <div className="flex space-x-2">

@@ -13,16 +13,14 @@ import * as Yup from "yup";
 const CarBidDetail = ({ auction, car }) => {
   const user = useSelector((state) => state.auth.user);
   const { data: auctionData, refetch } = useGetAuctionCarDetailsQuery(car._id);
-  console.log(auction.bids);
-  // Correctly initialize the mutation hook
+
   const [placeBid, { isLoading }] = usePlaceBidMutation();
 
-  // Determine the minimum bid: currentBid if exists, otherwise reservePrice (or car price)
-  const minimumBid = auction.currentBid || auction.reservePrice || car.price;
+  const minimumBid = auction.currentBid || car.price;
 
   // Set up Formik for bid placement
   const formik = useFormik({
-    initialValues: { amount: car.price },
+    initialValues: { amount: minimumBid },
     validationSchema: Yup.object({
       amount: Yup.number()
         .typeError("Bid must be a number")
@@ -37,7 +35,6 @@ const CarBidDetail = ({ auction, car }) => {
           amount: Number(values.amount),
         }).unwrap();
         resetForm();
-        // Optionally, trigger a manual refetch if necessary:
         refetch();
       } catch (error) {
         console.error("Error placing bid:", error);
@@ -87,37 +84,46 @@ const CarBidDetail = ({ auction, car }) => {
             </span>
           </div>
           {/* Bid placement form */}
-          <form
-            onSubmit={formik.handleSubmit}
-            className="flex flex-col sm:flex-row items-center gap-4 border rounded-md p-4 bg-white"
-          >
-            <label
-              htmlFor="amount"
-              className="text-lg font-medium text-gray-700"
+          {/* Conditionally render the bid placement form */}
+          {user?.role === "buyer" ? (
+            <form
+              onSubmit={formik.handleSubmit}
+              className="flex flex-col sm:flex-row items-center gap-4 border rounded-md p-4 bg-white"
             >
-              Enter Amount:
-            </label>
-            <input
-              id="amount"
-              type="number"
-              name="amount"
-              placeholder="Amount"
-              value={formik.values.amount}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              className="flex-1 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
-            />
-            {formik.touched.amount && formik.errors.amount && (
-              <div className="text-red-500 text-sm">{formik.errors.amount}</div>
-            )}
-            <button
-              type="submit"
-              className="btn btn-secondary"
-              disabled={isLoading}
-            >
-              {isLoading ? "Placing bid..." : "Place Bid"}
-            </button>
-          </form>
+              <label
+                htmlFor="amount"
+                className="text-lg font-medium text-gray-700"
+              >
+                Enter Amount:
+              </label>
+              <input
+                id="amount"
+                type="number"
+                name="amount"
+                placeholder="Amount"
+                value={formik.values.amount}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                className="flex-1 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+              />
+              {formik.touched.amount && formik.errors.amount && (
+                <div className="text-red-500 text-sm">
+                  {formik.errors.amount}
+                </div>
+              )}
+              <button
+                type="submit"
+                className="btn btn-secondary"
+                disabled={isLoading}
+              >
+                {isLoading ? "Placing bid..." : "Place Bid"}
+              </button>
+            </form>
+          ) : (
+            <div className="p-4 bg-white border rounded-md">
+              <p className="text-gray-600">Only buyers can place bids.</p>
+            </div>
+          )}
           {highestBidders.length > 0 && (
             <div className="bg-gray-100 p-4 rounded-md space-y-2">
               <h4 className="text-lg font-semibold text-gray-700 mb-2">

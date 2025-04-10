@@ -1,4 +1,3 @@
-// authListener.js
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase/firebase.config";
 import store from "./store";
@@ -34,12 +33,10 @@ onAuthStateChanged(auth, async (firebaseUser) => {
         store.dispatch(setUser({ user: persistedUser, token }));
       }
     } else {
-      // No firebase user: ensure we clear the user state and loading is false
       store.dispatch(clearUser());
     }
   } catch (error) {
     console.error("Auth state error:", error);
-    // Optionally clear user if an error occurs
     store.dispatch(clearUser());
   } finally {
     if (!initialAuthCheckDone) {
