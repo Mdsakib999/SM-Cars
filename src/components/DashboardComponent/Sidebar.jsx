@@ -11,7 +11,11 @@ import { FiChevronRight, FiChevronLeft, FiBarChart } from "react-icons/fi";
 import { CiBookmark, CiSettings, CiMedal, CiBoxList } from "react-icons/ci";
 import { SlHome } from "react-icons/sl";
 import { GoHistory } from "react-icons/go";
-import { IoAddCircleOutline, IoHammerOutline } from "react-icons/io5";
+import {
+  IoAddCircleOutline,
+  IoHammerOutline,
+  IoCarOutline,
+} from "react-icons/io5";
 import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -19,7 +23,8 @@ const sidebarMenu = {
   buyer: [
     { name: "Dashboard", path: "", icon: <SlHome /> },
     { name: "Bid History", path: "bid-history", icon: <GoHistory /> },
-    { name: "My Wins", path: "my-wins", icon: <CiMedal /> },
+    // { name: "My Wins", path: "my-wins", icon: <CiMedal /> },
+    { name: "Auction Cars", path: "auction-cars", icon: <IoCarOutline /> },
     {
       name: "Subscription Plan",
       path: "subscription-plan",
