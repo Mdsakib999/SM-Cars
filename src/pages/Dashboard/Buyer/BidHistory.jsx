@@ -6,6 +6,7 @@ import {
   BsClock,
 } from "react-icons/bs";
 import { useGetBiddedCarsQuery } from "@/redux/apiSlice";
+import { Link } from "react-router-dom";
 
 const BidHistory = () => {
   const { data, isLoading, isError } = useGetBiddedCarsQuery();
@@ -18,6 +19,17 @@ const BidHistory = () => {
     return (
       <div className="text-center text-red-500 font-medium">
         Failed to load bidding history.
+      </div>
+    );
+  }
+
+  if (data.auctionsWithBids?.length === 0) {
+    return (
+      <div className="text-center p-6">
+        <p className="text-lg font-medium mb-4">You have not bidded yet.</p>
+        <Link to="/auction-cars" className="text-orange-500 hover:underline">
+          Browse Cars to Place a Bid
+        </Link>
       </div>
     );
   }
@@ -167,7 +179,6 @@ const BidStatusBadge = ({ status }) => {
   }
 };
 
-// Helper Functions
 const statusColor = (status) => {
   switch (status) {
     case "active":

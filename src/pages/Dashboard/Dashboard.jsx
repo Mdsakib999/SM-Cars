@@ -8,15 +8,12 @@ const Dashboard = () => {
 
   return (
     <div className="flex min-h-screen bg-gray-100 ml-20 lg:ml-0">
-      {/* Sidebar */}
-      <Sidebar setActiveSection={setActiveSection} />
-
-      {/* Main Content Area */}
+      <Sidebar
+        activeSection={activeSection}
+        setActiveSection={setActiveSection}
+      />
       <div className="flex-1">
-        {/* Dashboard Navbar with dynamic user information */}
         <DashboardNav sectionName={activeSection} />
-
-        {/* Dynamic Content based on selected section */}
         <div className="p-6 mt-20">
           <Outlet />
         </div>

@@ -62,13 +62,13 @@ const ManageUsers = () => {
                 >
                   {user.accountStatus}
                 </td>
-                <td className="px-4 py-3 flex gap-2">
+                <td className="px-2 text-sm flex gap-2">
                   {user.role !== "admin" && (
                     <button
                       onClick={() =>
                         navigate(`/dashboard/user-details/${user._id}`)
                       }
-                      className="px-4 py-2 bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-400"
+                      className="px-2 lg:px-4 py-2 bg-blue-500 text-white text-sm rounded-lg hover:text-blue-400"
                     >
                       Manage User
                     </button>

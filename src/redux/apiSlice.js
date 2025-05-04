@@ -33,7 +33,7 @@ export const apiSlice = createApi({
           const auth = getAuth();
           const userCredential = await signInWithCustomToken(auth, customToken);
           const idToken = await userCredential.user.getIdToken(true);
-
+          dispatch(authSlice.actions.setToken(idToken));
           // Dispatch user to Redux store
           dispatch(
             setUser({
@@ -93,27 +93,6 @@ export const apiSlice = createApi({
           console.error("Logout error:", error);
         }
       },
-    }),
-    verifyEmail: builder.mutation({
-      query: (verificationData) => ({
-        url: "/users/verify-email",
-        method: "POST",
-        body: verificationData,
-      }),
-    }),
-    forgotPassword: builder.mutation({
-      query: (emailData) => ({
-        url: "/users/forgot-password",
-        method: "POST",
-        body: emailData,
-      }),
-    }),
-    resetPassword: builder.mutation({
-      query: (resetData) => ({
-        url: "/users/reset-password",
-        method: "POST",
-        body: resetData,
-      }),
     }),
 
     //

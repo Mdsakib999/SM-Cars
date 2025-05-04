@@ -1,18 +1,21 @@
 import React, { useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Logo from "../../public/logo.png";
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useSelector((state) => state.auth);
-
-  if (user === null) {
-    console.log("No user found");
-  }
+  const location = useLocation();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  };
+
+  // Helper to check active path
+  const isActiveLink = (path) => {
+    return location.pathname === path;
   };
 
   return (
@@ -21,7 +24,7 @@ const Navbar = () => {
         {/* Logo */}
         <div className="flex items-center lg:mr-14 cursor-pointer">
           <img
-            className="w-[45px] lg:w-[50px] rounded-full"
+            className="w-[45px] lg:w-[55px] rounded-full"
             src={Logo}
             alt="Logo"
           />
@@ -29,33 +32,34 @@ const Navbar = () => {
 
         {/* Desktop Menu */}
         <ul className="hidden md:flex flex-grow justify-left space-x-6 font-medium text-gray-700 tracking-wider">
-          <li className="cursor-pointer hover:text-black">
-            <Link to="/">Home</Link>
-          </li>
-          <li className="cursor-pointer hover:text-black">
-            <Link to="/about">About</Link>
-          </li>
-          <li className="cursor-pointer hover:text-black">
-            <Link to="/contact">Contact</Link>
-          </li>
-          <li className="cursor-pointer hover:text-black">
-            <Link to="/buy">Buy Car</Link>
-          </li>
-          <li className="cursor-pointer hover:text-black">
-            <Link to="/sell">Sell Car</Link>
-          </li>
-          <li className="cursor-pointer hover:text-black">
-            <Link to="/auction-cars">Cars</Link>
-          </li>
-          <li className="cursor-pointer hover:text-black">
-            <Link to="/pricing">Pricing</Link>
-          </li>
+          {[
+            { to: "/", label: "Home" },
+            { to: "/about", label: "About" },
+            { to: "/contact", label: "Contact" },
+            { to: "/buy", label: "Buy Car" },
+            { to: "/sell", label: "Sell Car" },
+            { to: "/auction-cars", label: "Cars" },
+            { to: "/pricing", label: "Pricing" },
+          ].map(({ to, label }) => (
+            <li key={to} className="cursor-pointer">
+              <Link
+                to={to}
+                className={`hover:text-orange-500 transition-colors ${
+                  isActiveLink(to) ? "text-orange-500" : "text-gray-700"
+                }`}
+              >
+                {label}
+              </Link>
+            </li>
+          ))}
         </ul>
 
         {/* Conditionally render based on user */}
         {user ? (
           <Link
-            className="hidden md:block btn btn-primary"
+            className={`hidden md:block btn btn-primary transition-colors ${
+              isActiveLink("/dashboard") && "bg-orange-500 border-orange-500"
+            }`}
             to={`/dashboard`}
             onClick={toggleMenu}
           >
@@ -63,7 +67,9 @@ const Navbar = () => {
           </Link>
         ) : (
           <Link
-            className="hidden md:block btn btn-primary"
+            className={`hidden md:block btn btn-primary transition-colors ${
+              isActiveLink("/signup") && "bg-orange-500 border-orange-500"
+            }`}
             to="/signup"
             onClick={toggleMenu}
           >
@@ -101,66 +107,45 @@ const Navbar = () => {
 
         {/* Drawer Menu Items */}
         <div className="flex flex-col p-6 space-y-6">
-          <Link
-            to="/"
-            className="text-lg font-medium text-gray-700"
-            onClick={toggleMenu}
-          >
-            Home
-          </Link>
-          <Link
-            to="/about"
-            className="text-lg font-medium text-gray-700"
-            onClick={toggleMenu}
-          >
-            About
-          </Link>
-          <Link
-            to="/contact"
-            className="text-lg font-medium text-gray-700"
-            onClick={toggleMenu}
-          >
-            Contact
-          </Link>
-          <Link
-            to="/auction-cars"
-            className="text-lg font-medium text-gray-700"
-            onClick={toggleMenu}
-          >
-            Cars
-          </Link>
-          <Link
-            to="/buy"
-            className="text-lg font-medium text-gray-700"
-            onClick={toggleMenu}
-          >
-            Buy Car
-          </Link>
-          <Link
-            to="/sell"
-            className="text-lg font-medium text-gray-700"
-            onClick={toggleMenu}
-          >
-            Sell Car
-          </Link>
-          <Link
-            to="/pricing"
-            className="text-lg font-medium text-gray-700"
-            onClick={toggleMenu}
-          >
-            Pricing
-          </Link>
+          {[
+            { to: "/", label: "Home" },
+            { to: "/about", label: "About" },
+            { to: "/contact", label: "Contact" },
+            { to: "/auction-cars", label: "Cars" },
+            { to: "/buy", label: "Buy Car" },
+            { to: "/sell", label: "Sell Car" },
+            { to: "/pricing", label: "Pricing" },
+          ].map(({ to, label }) => (
+            <Link
+              key={to}
+              to={to}
+              className={`text-lg font-medium transition-colors ${
+                isActiveLink(to) ? "text-orange-500" : "text-gray-700"
+              }`}
+              onClick={toggleMenu}
+            >
+              {label}
+            </Link>
+          ))}
 
           {user ? (
             <Link
-              className="btn btn-primary"
+              className={`btn btn-primary transition-colors ${
+                isActiveLink("/dashboard") && "bg-orange-500 border-orange-500"
+              }`}
               to="/dashboard"
               onClick={toggleMenu}
             >
               Dashboard
             </Link>
           ) : (
-            <Link className="btn btn-primary" to="/signup" onClick={toggleMenu}>
+            <Link
+              className={`btn btn-primary transition-colors ${
+                isActiveLink("/signup") && "bg-orange-500 border-orange-500"
+              }`}
+              to="/signup"
+              onClick={toggleMenu}
+            >
               Get Started
             </Link>
           )}
