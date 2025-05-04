@@ -11,7 +11,17 @@ import { apiSlice } from "./apiSlice.js";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth", apiSlice.reducerPath],
+  whitelist: ["auth"],
+  migrate: (state) => {
+    return Promise.resolve({
+      ...state,
+      auth: {
+        ...state.auth,
+        loading: true,
+        initialized: false,
+      },
+    });
+  },
 };
 
 // Combine reducers

@@ -43,6 +43,7 @@ import RoleRedirect from "@/components/RolesRedirect";
 import ManageAuctions from "@/pages/Dashboard/Admin/ManageAuctions";
 import AdminAuctionCarDetails from "@/pages/Dashboard/Admin/AdminAuctionCarDetails";
 import Leads from "@/pages/Dashboard/Admin/Leads";
+import BuyerAuctionCars from "@/pages/Dashboard/Seller/BuyerAuctionCars";
 
 export const router = createBrowserRouter([
   {
@@ -135,6 +136,14 @@ export const router = createBrowserRouter([
             element: (
               <ProtectedRoute requiredRole="buyer">
                 <MyWins />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: "auction-cars",
+            element: (
+              <ProtectedRoute requiredRole="buyer">
+                <BuyerAuctionCars />
               </ProtectedRoute>
             ),
           },

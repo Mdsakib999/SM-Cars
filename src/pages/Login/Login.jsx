@@ -24,12 +24,9 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    dispatch(setLoading());
-
+    // dispatch(setLoading());
     try {
-      const response = await login({ email, password }).unwrap();
-      dispatch(setUser(response));
-
+      await login({ email, password }).unwrap();
       console.log("Login successful");
     } catch (err) {
       dispatch(clearLoading());
@@ -37,15 +34,13 @@ const Login = () => {
     }
   };
 
-  // After a successful login, redirect based on location.state
   useEffect(() => {
-    if (isSuccess && responseData?.token) {
+    if (userToken) {
       const redirectPath =
-        location.state?.from || `/dashboard/${responseData.user.role}`;
-      console.log("Token is set, proceeding to:", redirectPath);
+        location.state?.from || `/dashboard/${responseData?.user?.role}`;
       navigate(redirectPath, { replace: true });
     }
-  }, [isSuccess, responseData, location, navigate]);
+  }, [userToken, navigate, location, responseData]);
 
   return (
     <div className="flex min-h-full">
@@ -124,7 +119,9 @@ const Login = () => {
             </button>
             {/* Error Message */}
             {error && (
-              <p className="text-red-500 mt-2">{error.data?.message}</p>
+              <p className="text-red-500 mt-2">
+                {error.data?.message || "An error occurred. Please try again."}
+              </p>
             )}
           </div>
           <div className="mt-4 text-center">

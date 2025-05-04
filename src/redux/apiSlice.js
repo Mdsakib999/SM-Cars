@@ -59,7 +59,9 @@ export const apiSlice = createApi({
         method: "POST",
         body: credentials,
       }),
-      async onQueryStarted({ email, password }, { dispatch, queryFulfilled }) {
+      invalidatesTags: [],
+      keepUnusedDataFor: 0,
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
           const response = await queryFulfilled;
           const { token: customToken, user: userData } = response.data;

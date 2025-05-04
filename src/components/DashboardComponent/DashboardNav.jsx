@@ -34,7 +34,7 @@ const DashboardNav = ({ sectionName }) => {
   };
 
   return (
-    <div className="flex items-center justify-between px-4 bg-white py-4 w-full fixed">
+    <div className="flex items-center justify-between px-4 bg-white py-4 w-full fixed z-50">
       {/* Section Name */}
       <div className="flex items-center justify-between w-[80%]">
         <h2 className="text-md lg:text-2xl font-semibold">{sectionName}</h2>

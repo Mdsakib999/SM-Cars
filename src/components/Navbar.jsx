@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-
+import Logo from "../../public/logo.png";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useSelector((state) => state.auth);
@@ -22,7 +22,7 @@ const Navbar = () => {
         <div className="flex items-center lg:mr-14 cursor-pointer">
           <img
             className="w-[45px] lg:w-[50px] rounded-full"
-            src="https://i.ibb.co/4S75tm6/SM-Foods-logo.jpg"
+            src={Logo}
             alt="Logo"
           />
         </div>
