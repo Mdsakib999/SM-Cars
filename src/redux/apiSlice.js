@@ -306,6 +306,10 @@ export const apiSlice = createApi({
       query: (carId) => `/admin/car-auction-details/${carId}`,
       providesTags: (result, error, carId) => [{ type: "Auction", id: carId }],
     }),
+    getAdminAuctionHistory: builder.query({
+      query: (carId) => `/admin/car-auction-history/${carId}`,
+      providesTags: (result, error, carId) => [{ type: "Auction", id: carId }],
+    }),
     approveCar: builder.mutation({
       query: (carId) => ({
         url: `/admin/approve-car/${carId}`,
@@ -375,9 +379,11 @@ export const {
   useGetApprovedCarsQuery,
   useVerifyUserMutation,
   useBanUserMutation,
-
+  // auction
   useGetAdminCarDetailsQuery,
   useGetAdminAuctionDetailsQuery,
+  useGetAdminAuctionHistoryQuery,
+  // car
   useApproveCarMutation,
   useRejectCarMutation,
   useDeleteCarMutation,

@@ -1,16 +1,23 @@
 import React from "react";
-import { useParams } from "react-router-dom";
-import { useGetAdminAuctionDetailsQuery } from "@/redux/apiSlice";
+import { Link, useParams } from "react-router-dom";
+import {
+  useGetAdminAuctionDetailsQuery,
+  useGetAdminAuctionHistoryQuery,
+} from "@/redux/apiSlice";
 import {
   BsClockHistory,
   BsPeople,
   BsCashCoin,
   BsCheckCircle,
 } from "react-icons/bs";
+import { GiSandsOfTime } from "react-icons/gi";
 
 const AdminAuctionCarDetails = () => {
   const { carId } = useParams();
   const { data, isLoading, error } = useGetAdminAuctionDetailsQuery(carId);
+  const { data: history } = useGetAdminAuctionHistoryQuery(carId);
+  console.log(history?.auctions);
+  // console.log(data);
 
   if (isLoading)
     return <div className="text-center p-8">Loading auction details...</div>;
@@ -64,6 +71,16 @@ const AdminAuctionCarDetails = () => {
                 {new Date(endTime).toLocaleDateString()}
               </p>
             </div>
+          </div>
+        </div>
+        {/* View Previous Auction Details */}
+        <div className="bg-white p-4 rounded-xl shadow-sm">
+          <div className="flex items-center gap-3">
+            <GiSandsOfTime className="text-yellow-400 text-xl" />
+            <p className="font-medium">
+              <p className="text-sm text-gray-500">Auction History</p>
+              {history?.auctions.length}
+            </p>
           </div>
         </div>
 
@@ -130,10 +147,13 @@ const AdminAuctionCarDetails = () => {
             <h2 className="text-lg font-semibold mb-4">Seller Information</h2>
             <div className="space-y-3">
               <div className="flex items-center gap-3">
-                <div className="flex-1">
-                  <p className="font-medium">{seller.name}</p>
-                  <p className="text-sm text-gray-500">{seller.email}</p>
-                </div>
+                <Link to={`/dashboard/user-details/${seller._id}`}>
+                  <div className="flex-1">
+                    <p className="font-medium">{seller.name}</p>
+                    <p className="text-sm text-gray-500">{seller.email}</p>
+                  </div>
+                </Link>
+
                 <span
                   className={`px-2 py-1 text-xs rounded-full ${
                     seller.accountStatus === "verified"
@@ -172,12 +192,16 @@ const AdminAuctionCarDetails = () => {
                     <tr key={bid._id} className="border-b hover:bg-gray-50">
                       <td className="py-4">
                         <div className="flex items-center gap-3">
-                          <div>
-                            <p className="font-medium">{bid.bidder.name}</p>
-                            <p className="text-sm text-gray-500">
-                              {bid.bidder.email}
-                            </p>
-                          </div>
+                          <Link
+                            to={`/dashboard/user-details/${bid.bidder._id}`}
+                          >
+                            <div>
+                              <p className="font-medium">{bid.bidder.name}</p>
+                              <p className="text-sm text-gray-500">
+                                {bid.bidder.email}
+                              </p>
+                            </div>
+                          </Link>
                           {bid.amount === statistics.highestBid && (
                             <span className="px-2 py-1 bg-green-100 text-green-600 text-xs rounded-full">
                               Winning Bid
