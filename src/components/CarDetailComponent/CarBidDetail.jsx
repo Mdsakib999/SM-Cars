@@ -13,7 +13,7 @@ import * as Yup from "yup";
 const CarBidDetail = ({ auction, car }) => {
   const user = useSelector((state) => state.auth.user);
   const { data: auctionData, refetch } = useGetAuctionCarDetailsQuery(car._id);
-
+  console.log(auctionData);
   const [placeBid, { isLoading }] = usePlaceBidMutation();
 
   const minimumBid = auction.currentBid || car.price;
@@ -57,11 +57,13 @@ const CarBidDetail = ({ auction, car }) => {
           <div className="flex items-center justify-between gap-4 border-b-2 pb-3">
             <IoHammerSharp className="text-4xl lg:text-6xl text-orange-500 p-2" />
 
-            <h3 className="text-xl lg:text-2xl font-md uppercase">
-              {auction.status === "scheduled"
-                ? "Bidding starts at"
-                : "Bidding ends at"}
-            </h3>
+            {auction.status !== "ended" && (
+              <h3 className="text-xl lg:text-2xl font-md uppercase mb-2">
+                {auction.status === "scheduled"
+                  ? "Bidding starts at"
+                  : "Bidding ends at"}
+              </h3>
+            )}
 
             <div className="text-lg lg:text-2xl border bg-orange-500 text-white rounded-lg p-2">
               <Countdown
@@ -97,14 +99,14 @@ const CarBidDetail = ({ auction, car }) => {
                 Enter Amount:
               </label>
               <input
-                id="amount"
                 type="number"
-                name="amount"
-                placeholder="Amount"
-                value={formik.values.amount}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                className="flex-1 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                placeholder="Enter your bid"
+                className={`w-full p-2 border rounded ${
+                  auction.status !== "active"
+                    ? "bg-gray-100 text-gray-500 cursor-not-allowed"
+                    : ""
+                }`}
+                disabled={auction.status !== "active"}
               />
               {formik.touched.amount && formik.errors.amount && (
                 <div className="text-red-500 text-sm">
@@ -139,9 +141,7 @@ const CarBidDetail = ({ auction, car }) => {
                   }`}
                 >
                   <span className="text-xl">{`#${index + 1}`}</span>
-                  <span className="text-lg">
-                    {bidder.bidderName || "Bidder"}
-                  </span>
+                  <span className="text-lg">{bidder.name || "Bidder"}</span>
                   <span className="text-lg font-medium">
                     ${bidder.amount.toLocaleString()}
                   </span>
