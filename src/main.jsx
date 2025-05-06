@@ -5,11 +5,10 @@ import "./index.css";
 import { ToastContainer } from "react-toastify";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./Routes/routs.jsx";
-import { PersistGate } from "redux-persist/integration/react";
-import { store, persistor } from "./redux/store.js";
+import { store } from "./redux/store.js";
 import { Provider } from "react-redux";
-import "./redux/authListener.js";
 import "react-toastify/dist/ReactToastify.css";
+import AuthProvider from "./provider/AuthProvider.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -27,9 +26,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     />
 
     <Provider store={store}>
-      <PersistGate loading={<div>Loading app...</div>} persistor={persistor}>
+      <AuthProvider>
         <RouterProvider router={router} />
-      </PersistGate>
+      </AuthProvider>
     </Provider>
   </React.StrictMode>
 );

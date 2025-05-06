@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
@@ -6,11 +6,12 @@ import {
   useUpdateUserInfoMutation,
   useUpdateUserPasswordMutation,
 } from "@/redux/apiSlice";
-import { useSelector } from "react-redux";
+import { AuthContext } from "@/provider/AuthProvider";
 
 const Settings = () => {
-  const user = useSelector((state) => state.auth.user);
-  if (!user) {
+  const { profile } = useContext(AuthContext);
+  console.log("present ad", profile.presentAddress);
+  if (!profile) {
     return <div>Please log in to access your settings.</div>;
   }
   const [showPasswordForm, setShowPasswordForm] = useState(false);
@@ -21,7 +22,7 @@ const Settings = () => {
     isLoading: isUserLoading,
     isError: isUserError,
     error: userError,
-  } = useGetUserInfoQuery(user.uid);
+  } = useGetUserInfoQuery(profile._id);
 
   // Mutations for updating profile and changing password
   const [updateProfile, { isLoading: isUpdatingProfile }] =
@@ -33,10 +34,10 @@ const Settings = () => {
   const profileFormik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      contact: data?.contact || "",
-      presentAddress: data?.presentAddress || "",
-      permanentAddress: data?.permanentAddress || "",
-      city: data?.city || "",
+      contact: data?.data?.contact || "",
+      presentAddress: data?.data?.presentAddress || "",
+      permanentAddress: data?.data?.permanentAddress || "",
+      city: data?.data?.city || "",
     },
     validationSchema: Yup.object({
       contact: Yup.string()
@@ -75,7 +76,7 @@ const Settings = () => {
     }),
     onSubmit: async (values) => {
       try {
-        await changePassword({ userId: user._id, ...values }).unwrap();
+        await changePassword({ userId: profile._id, ...values }).unwrap();
         alert("Password changed successfully!");
         passwordFormik.resetForm();
         setShowPasswordForm(false); // Hide password form after successful change
@@ -110,7 +111,7 @@ const Settings = () => {
               <input
                 type="text"
                 name="name"
-                value={data?.name || ""}
+                value={profile?.name || ""}
                 disabled
                 className="mt-2 p-3 w-full rounded-lg border border-gray-300 bg-gray-100"
               />
@@ -121,7 +122,7 @@ const Settings = () => {
               <input
                 type="email"
                 name="email"
-                value={data?.email || ""}
+                value={profile?.email || ""}
                 disabled
                 className="mt-2 p-3 w-full rounded-lg border border-gray-300 bg-gray-100"
               />

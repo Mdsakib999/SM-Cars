@@ -1,101 +1,43 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { setUser, clearUser } from "./authSlice";
-import { getAuth, signInWithCustomToken } from "firebase/auth";
+
+const BASE_URL = import.meta.env.VITE_SERVER_URL;
 
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:3000/api",
+    baseUrl: `${BASE_URL}/api`,
     credentials: "include",
-    prepareHeaders: (headers, { getState }) => {
-      const state = getState();
-      const token = state.auth?.token;
+    prepareHeaders: (headers) => {
+      const token = localStorage.getItem("accessToken");
+      console.log(token);
       if (token) {
-        headers.set("Authorization", `Bearer ${token}`);
+        headers.set("authorization", `Bearer ${token}`);
       }
       return headers;
     },
   }),
   tagTypes: ["SellerCars", "Cars", "Subscriptions", "Auction"],
   endpoints: (builder) => ({
-    signup: builder.mutation({
-      query: (userData) => ({
-        url: "/users/signup",
-        method: "POST",
-        body: userData,
-      }),
-      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-        try {
-          const response = await queryFulfilled;
-          const { token: customToken, user: userData } = response.data;
-
-          // Firebase authentication flow
-          const auth = getAuth();
-          const userCredential = await signInWithCustomToken(auth, customToken);
-          const idToken = await userCredential.user.getIdToken(true);
-          dispatch(authSlice.actions.setToken(idToken));
-          // Dispatch user to Redux store
-          dispatch(
-            setUser({
-              user: {
-                _id: userData._id,
-                email: userData.email,
-                name: userData.name,
-                role: userData.role,
-                subscription: userData.subscription,
-                uid: userData.uid,
-              },
-              token: idToken,
-            })
-          );
-        } catch (error) {
-          console.error("Signup error:", error);
-        }
+    createUserInDB: builder.mutation({
+      query: (payload) => {
+        return {
+          url: "/users/create-user",
+          method: "POST",
+          body: payload,
+        };
       },
     }),
-    login: builder.mutation({
-      query: (credentials) => ({
-        url: "/users/login",
-        method: "POST",
-        body: credentials,
-      }),
-      invalidatesTags: [],
-      keepUnusedDataFor: 0,
-      async onQueryStarted(args, { dispatch, queryFulfilled }) {
-        try {
-          const response = await queryFulfilled;
-          const { token: customToken, user: userData } = response.data;
-
-          // Step 1: Sign in with the custom token
-          const auth = getAuth();
-          const userCredential = await signInWithCustomToken(auth, customToken);
-
-          // Step 2: Get the ID token
-          const idToken = await userCredential.user.getIdToken(true); // Force refresh
-
-          // Step 3: Store the ID token (NOT the custom token)
-          dispatch(setUser({ user: userData, token: idToken }));
-        } catch (error) {
-          console.error("Login error:", error);
-        }
-      },
-    }),
-    logout: builder.mutation({
-      query: () => ({
-        url: "/users/logout",
-        method: "POST",
-      }),
-      async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        try {
-          await queryFulfilled;
-          dispatch(clearUser());
-        } catch (error) {
-          console.error("Logout error:", error);
-        }
+    getToken: builder.mutation({
+      query: (payload) => {
+        return {
+          url: "/users/get-token",
+          method: "POST",
+          body: payload,
+        };
       },
     }),
 
-    //
+    // Message
     sendMessage: builder.mutation({
       query: (messageData) => ({
         url: "/users/send-message",
@@ -105,7 +47,7 @@ export const apiSlice = createApi({
     }),
     // Get User info
     getUserInfo: builder.query({
-      query: (uid) => `/users/me/${uid}`,
+      query: () => `/users/me/`,
     }),
     updateUserInfo: builder.mutation({
       query: (formData) => ({
@@ -336,12 +278,8 @@ export const apiSlice = createApi({
 });
 
 export const {
-  useSignupMutation,
-  useLoginMutation,
-  useLogoutMutation,
-  useVerifyEmailMutation,
-  useForgotPasswordMutation,
-  useResetPasswordMutation,
+  //test
+  useCreateUserInDBMutation,
   useGetUserInfoQuery,
   useUpdateUserInfoMutation,
   useUpdateUserPasswordMutation,

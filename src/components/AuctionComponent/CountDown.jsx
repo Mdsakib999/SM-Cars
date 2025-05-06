@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 
 const Countdown = ({ time }) => {
-  // Calculate the remaining time as an object with days, hours, minutes, seconds.
   const calculateTimeLeft = () => {
     const difference = new Date(time) - new Date();
     if (difference <= 0) {
@@ -22,11 +21,9 @@ const Countdown = ({ time }) => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
 
-    // Clean up the interval on unmount
     return () => clearInterval(timer);
   }, [time]);
 
-  // Format hours, minutes, and seconds to always show 2 digits.
   const formatNumber = (number) => number.toString().padStart(2, "0");
 
   return (

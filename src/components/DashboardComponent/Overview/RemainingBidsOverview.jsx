@@ -1,10 +1,13 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useGetBuyerLimitQuery } from "@/redux/apiSlice";
-
+import AuthProvider, { AuthContext } from "@/provider/AuthProvider";
+import { useContext } from "react";
 const RemainingBidsOverview = () => {
   const user = useSelector((state) => state.auth.user);
-  const { data, isLoading, isError } = useGetBuyerLimitQuery(user._id);
+  const { profile } = useContext(AuthContext);
+  const { data, isLoading, isError } = useGetBuyerLimitQuery(profile._id);
+  console.log(data);
   return (
     <div className="border p-4 flex flex-col justify-between rounded-xl bg-white col-span-2 md:col-span-2">
       <div>

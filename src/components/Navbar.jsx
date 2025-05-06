@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
-import Logo from "../../public/logo.png";
-
+import Logo from "/logo.png";
+import { useContext } from "react";
+import AuthProvider, { AuthContext } from "@/provider/AuthProvider";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { user } = useSelector((state) => state.auth);
+  const { profile } = useContext(AuthContext);
+  console.log(profile);
   const location = useLocation();
-
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -54,8 +55,7 @@ const Navbar = () => {
           ))}
         </ul>
 
-        {/* Conditionally render based on user */}
-        {user ? (
+        {profile ? (
           <Link
             className={`hidden md:block btn btn-primary transition-colors ${
               isActiveLink("/dashboard") && "bg-orange-500 border-orange-500"
@@ -128,7 +128,7 @@ const Navbar = () => {
             </Link>
           ))}
 
-          {user ? (
+          {profile ? (
             <Link
               className={`btn btn-primary transition-colors ${
                 isActiveLink("/dashboard") && "bg-orange-500 border-orange-500"
