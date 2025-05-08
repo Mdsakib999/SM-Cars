@@ -1,18 +1,12 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useContext } from "react";
 import { useGetUserSubscriptionQuery } from "../../../redux/apiSlice";
+import { AuthContext } from "@/provider/AuthProvider";
+import { Link } from "react-router-dom";
 const SubscriptionCard = () => {
-  const uid = useSelector((state) => state.auth.user?.uid);
-  const { data, isLoading, error } = useGetUserSubscriptionQuery(uid);
-  if (isLoading) {
+  const { profile, loading } = useContext(AuthContext);
+  if (loading) {
     return (
       <div className="text-center py-6">Loading subscription plans...</div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="text-center py-6 text-red-500">Error loading plans</div>
     );
   }
 
@@ -30,11 +24,13 @@ const SubscriptionCard = () => {
         Current Plan
       </span>
       <span className="text-5xl text-orange-500 tracking-wider ml-8">
-        {data?.name}
+        {profile?.subscription?.name}
       </span>
-      <button className="border px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-400 text-white w-full">
-        Manage Subscription
-      </button>
+      <Link to="/dashboard/subscription-plan">
+        <button className="border px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-400 text-white w-full">
+          Manage Subscription
+        </button>
+      </Link>
     </div>
   );
 };

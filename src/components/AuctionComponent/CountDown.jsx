@@ -35,7 +35,7 @@ const Countdown = ({ time }) => {
         </span>
       ) : (
         <div className="mx-auto text-center">
-          <span className="font-semibold text-xl">Auction Ended</span>
+          <span className="font-semibold text-xl">Auction Details</span>
         </div>
       )}
     </div>

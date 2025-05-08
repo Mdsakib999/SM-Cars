@@ -1,24 +1,21 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useContext } from "react";
 import { IoHammerSharp } from "react-icons/io5";
 import { FaMapMarkerAlt, FaPhoneAlt } from "react-icons/fa";
 import Countdown from "../AuctionComponent/CountDown";
-import {
-  usePlaceBidMutation,
-  useGetAuctionCarDetailsQuery,
-} from "@/redux/apiSlice";
+import { usePlaceBidMutation } from "@/redux/apiSlice";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { AuthContext } from "@/provider/AuthProvider";
+import { toast } from "react-toastify";
 
-const CarBidDetail = ({ auction, car }) => {
-  const user = useSelector((state) => state.auth.user);
-  const { data: auctionData, refetch } = useGetAuctionCarDetailsQuery(car._id);
-  console.log(auctionData);
+const CarBidDetail = ({ auction, car, onRefresh }) => {
+  const { profile } = useContext(AuthContext);
+  console.log("car", car);
+  console.log("auction", auction);
   const [placeBid, { isLoading }] = usePlaceBidMutation();
 
   const minimumBid = auction.currentBid || car.price;
 
-  // Set up Formik for bid placement
   const formik = useFormik({
     initialValues: { amount: minimumBid },
     validationSchema: Yup.object({
@@ -27,17 +24,19 @@ const CarBidDetail = ({ auction, car }) => {
         .min(minimumBid + 1, `Bid must be greater than $${minimumBid}`)
         .required("Bid amount is required"),
     }),
-    onSubmit: async (values, { resetForm }) => {
+    onSubmit: async ({ amount }, { resetForm }) => {
       try {
         await placeBid({
           carId: car._id,
           auctionId: auction._id,
-          amount: Number(values.amount),
+          amount: Number(amount),
         }).unwrap();
+        toast.success("Your bid was placed successfully!");
         resetForm();
-        refetch();
+        onRefresh && onRefresh();
       } catch (error) {
         console.error("Error placing bid:", error);
+        toast.error("Failed to place bid. Please try again.");
       }
     },
   });
@@ -56,7 +55,6 @@ const CarBidDetail = ({ auction, car }) => {
         <>
           <div className="flex items-center justify-between gap-4 border-b-2 pb-3">
             <IoHammerSharp className="text-4xl lg:text-6xl text-orange-500 p-2" />
-
             {auction.status !== "ended" && (
               <h3 className="text-xl lg:text-2xl font-md uppercase mb-2">
                 {auction.status === "scheduled"
@@ -68,7 +66,7 @@ const CarBidDetail = ({ auction, car }) => {
             <div className="text-lg lg:text-2xl border bg-orange-500 text-white rounded-lg p-2">
               <Countdown
                 time={
-                  auction.status === "scheduled"
+                  auction.status === "active"
                     ? auction.startTime
                     : auction.endTime
                 }
@@ -85,11 +83,13 @@ const CarBidDetail = ({ auction, car }) => {
                 : car.price.toLocaleString()}
             </span>
           </div>
-          {/* Bid placement form */}
-          {/* Conditionally render the bid placement form */}
-          {user?.role === "buyer" ? (
+
+          {profile?.role === "buyer" ? (
             <form
-              onSubmit={formik.handleSubmit}
+              onSubmit={(e) => {
+                e.preventDefault();
+                formik.handleSubmit(e);
+              }}
               className="flex flex-col sm:flex-row items-center gap-4 border rounded-md p-4 bg-white"
             >
               <label
@@ -101,6 +101,7 @@ const CarBidDetail = ({ auction, car }) => {
               <input
                 type="number"
                 placeholder="Enter your bid"
+                {...formik.getFieldProps("amount")}
                 className={`w-full p-2 border rounded ${
                   auction.status !== "active"
                     ? "bg-gray-100 text-gray-500 cursor-not-allowed"

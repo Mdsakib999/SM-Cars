@@ -2,7 +2,6 @@ import React from "react";
 import ProfileCard from "../../../components/DashboardComponent/Overview/ProfileCard";
 import SubscriptionCard from "../../../components/DashboardComponent/Overview/SubscriptionCard";
 import RemainingBidsOverview from "../../../components/DashboardComponent/Overview/RemainingBidsOverview";
-import BiddingHistoryOverview from "../../../components/DashboardComponent/Overview/BiddingHistoryOverview";
 
 const BuyerOverview = () => {
   return (

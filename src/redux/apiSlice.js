@@ -36,7 +36,6 @@ export const apiSlice = createApi({
         };
       },
     }),
-
     // Message
     sendMessage: builder.mutation({
       query: (messageData) => ({
@@ -71,9 +70,15 @@ export const apiSlice = createApi({
       }),
     }),
     // Buyer
-    // Get All Auction Cars
     getAllAuctionCars: builder.query({
       query: () => `/buyer/auction-cars`,
+      providesTags: (result, error) => [{ type: "Auction" }],
+    }),
+    getAuctionById: builder.query({
+      query: (auctionId) => `/buyer/auction/${auctionId}`,
+      providesTags: (result, error, auctionId) => [
+        { type: "Auction", id: auctionId },
+      ],
     }),
     getAuctionCarDetails: builder.query({
       query: (carId) => `/buyer/auction-cars/${carId}`,
@@ -98,8 +103,8 @@ export const apiSlice = createApi({
         method: "PATCH",
         body: { auctionId, amount },
       }),
-      invalidatesTags: (result, error, { carId }) => [
-        { type: "Auction", id: carId },
+      invalidatesTags: (result, error, { auctionId }) => [
+        { type: "Auction", id: auctionId },
       ],
       invalidatesTags: (result, error, { userId }) => [
         { type: "BuyerLimit", id: userId },
@@ -288,6 +293,7 @@ export const {
   // AUCTION CARS
   // BUYER HOOKS
   useGetAllAuctionCarsQuery,
+  useGetAuctionByIdQuery,
   useGetAuctionCarDetailsQuery,
   useGetBiddedCarsQuery,
   useGetBuyerLimitQuery,

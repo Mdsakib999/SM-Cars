@@ -1,24 +1,22 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useContext } from "react";
 import { useGetSellerLimitQuery } from "../../../redux/apiSlice";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "@/provider/AuthProvider";
 
 const RemainingListingsOverview = () => {
-  const uid = useSelector((state) => state.auth.user?._id);
+  const { profile } = useContext(AuthContext);
+  const uid = profile?._id;
 
   const navigate = useNavigate();
-
   const { data, isLoading, error } = useGetSellerLimitQuery(uid);
-  console.log(data);
+
+  // Fallback to 2 if the API hasn't returned yet or errored
+  const remaining = data?.remaining ?? 2;
 
   if (isLoading) {
     return <p>Loading your listing limit...</p>;
   }
-  if (error || !data) {
-    return <p>Error fetching listing limit.</p>;
-  }
 
-  const { remaining, limit, used } = data;
   return (
     <div className="border p-4 flex flex-col justify-between rounded-xl bg-white col-span-2 md:col-span-2">
       <div>
@@ -35,14 +33,14 @@ const RemainingListingsOverview = () => {
 
       {remaining > 0 ? (
         <button
-          onClick={() => navigate("/seller/add-car")}
+          onClick={() => navigate("/dashboard/add-new-car")}
           className="border px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-400 text-white w-full"
         >
           Upload a Car for Sale
         </button>
       ) : (
         <button
-          onClick={() => navigate("/subscription-plan")}
+          onClick={() => navigate("/dashboard/subscription-plan")}
           className="border px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-400 text-white w-full"
         >
           Upgrade Subscription

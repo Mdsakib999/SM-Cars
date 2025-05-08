@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 import * as Yup from "yup";
@@ -6,8 +6,8 @@ import {
   useGetSellerCarDetailsQuery,
   useEditCarMutation,
 } from "../../../redux/apiSlice";
-import { useSelector } from "react-redux";
 import CarForm from "../../../components/DashboardComponent/Seller/CarForm";
+import { AuthContext } from "@/provider/AuthProvider";
 
 const EditCar = () => {
   const { id: carId } = useParams();
@@ -18,7 +18,7 @@ const EditCar = () => {
     isError,
   } = useGetSellerCarDetailsQuery(carId);
   const [editCar] = useEditCarMutation();
-  const { user } = useSelector((state) => state.auth);
+  const { profile } = useContext(AuthContext);
 
   const validationSchema = Yup.object().shape({
     carName: Yup.string().required("Car name is required"),
@@ -97,7 +97,7 @@ const EditCar = () => {
       });
 
       // Append sellerId
-      formData.append("sellerId", user._id);
+      formData.append("sellerId", profile._id);
 
       // Append new images if provided
       if (values.images) {

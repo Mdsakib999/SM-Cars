@@ -1,18 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FiCheck } from "react-icons/fi";
 import { BsCheckCircle } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { useGetRoleBasedPlansQuery } from "../../../redux/apiSlice";
 import { Link } from "react-router-dom";
+import { AuthContext } from "@/provider/AuthProvider";
 const SubscriptionPlan = () => {
-  const userRole = useSelector((state) => state.auth.user?.role);
-  const userCurrentSub = useSelector((state) => state.auth.user?.subscription); // current subscription plan ID
+  const { profile } = useContext(AuthContext);
+  const userCurrentSub = profile?.subscription?._id;
 
   const {
     data: plans,
     isLoading,
     error,
-  } = useGetRoleBasedPlansQuery(userRole, {
+  } = useGetRoleBasedPlansQuery(profile.role, {
     refetchOnMountOrArgChange: true,
   });
 

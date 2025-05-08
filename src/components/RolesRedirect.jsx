@@ -9,10 +9,6 @@ const RoleRedirect = () => {
     return <>Loading...</>;
   }
 
-  if (!profile) {
-    return <Navigate to="/login" replace />;
-  }
-
   switch (profile.role) {
     case "admin":
       return <Navigate to="/dashboard/manage-users" replace />;

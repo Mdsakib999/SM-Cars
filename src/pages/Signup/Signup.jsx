@@ -4,13 +4,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { AuthContext } from "../../provider/AuthProvider";
-import { useCreateUserInDBMutation } from "@/redux/apiSlice";
+import { AuthContext } from "@/provider/AuthProvider";
 
 const Signup = () => {
   const navigate = useNavigate();
-  const { createUser, updateUserProfile } = useContext(AuthContext);
-  const [createUserInDB] = useCreateUserInDBMutation();
+  const { register } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
 
   const formik = useFormik({
@@ -38,20 +36,13 @@ const Signup = () => {
     }),
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        // 1) Firebase signup
-        const cred = await createUser(values.email, values.password);
-        // 2) Set displayName
-        await updateUserProfile({ name: values.name, photo: "" });
-        // 3) Create in your DB
-        await createUserInDB({
+        await register({
           email: values.email,
+          password: values.password,
           name: values.name,
           contact: values.contact,
-          picture: "",
           role: values.userRole,
-        }).unwrap();
-
-        // 4) Show toast, then navigate
+        });
         toast.success("Signup successful! Redirecting…", {
           onClose: () => navigate("/dashboard"),
           autoClose: 2000,

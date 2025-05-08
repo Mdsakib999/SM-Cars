@@ -10,7 +10,6 @@ import { AuthContext } from "@/provider/AuthProvider";
 
 const Settings = () => {
   const { profile } = useContext(AuthContext);
-  console.log("present ad", profile.presentAddress);
   if (!profile) {
     return <div>Please log in to access your settings.</div>;
   }
@@ -22,7 +21,9 @@ const Settings = () => {
     isLoading: isUserLoading,
     isError: isUserError,
     error: userError,
+    refetch,
   } = useGetUserInfoQuery(profile._id);
+  console.log("data", data);
 
   // Mutations for updating profile and changing password
   const [updateProfile, { isLoading: isUpdatingProfile }] =
@@ -49,8 +50,9 @@ const Settings = () => {
     }),
     onSubmit: async (values) => {
       try {
-        await updateProfile({ userId: user._id, ...values }).unwrap();
+        await updateProfile({ userId: profile._id, ...values }).unwrap();
         alert("Profile updated successfully!");
+        refetch();
       } catch (error) {
         console.error("Profile update failed:", error);
         alert("Failed to update profile. Please try again.");
@@ -79,7 +81,7 @@ const Settings = () => {
         await changePassword({ userId: profile._id, ...values }).unwrap();
         alert("Password changed successfully!");
         passwordFormik.resetForm();
-        setShowPasswordForm(false); // Hide password form after successful change
+        setShowPasswordForm(false);
       } catch (error) {
         console.error("Password change failed:", error);
         alert("Failed to change password. Please try again.");
@@ -92,7 +94,7 @@ const Settings = () => {
   if (isUserError)
     return (
       <div>
-        Error loading user info:{" "}
+        Error loading user info:
         {userError?.data?.message || userError?.message || "Unknown error"}
       </div>
     );

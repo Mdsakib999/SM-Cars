@@ -7,7 +7,7 @@ import AuthProvider, { AuthContext } from "../../provider/AuthProvider";
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { signIn, user, profile, loading } = useContext(AuthContext);
+  const { login, user, profile, loading } = useContext(AuthContext);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,7 +20,7 @@ const Login = () => {
     e.preventDefault();
     setError(null);
     try {
-      await signIn(email, password);
+      await login(email, password);
       toast.success("Logged in successfully!");
     } catch (err) {
       console.error("Login failed", err);

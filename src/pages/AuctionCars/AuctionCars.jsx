@@ -34,10 +34,8 @@ const AuctionCars = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {/* Header and Filters */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
         <h1 className="text-3xl font-bold text-gray-900">Live Auctions</h1>
-
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2 text-sm">
             <BsFunnel className="text-gray-500" />
@@ -74,17 +72,16 @@ const AuctionCars = () => {
           </div>
         </div>
       </div>
-
-      {/* Auction Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredAuctions.map((auction) => {
-          const car = auction.car;
           const isEnded = auction.status === "ended";
+          const { _id: auctionId, car } = auction;
+          console.log(auction);
 
           return (
             <Link
-              to={`/auction-cars/${car._id}`}
-              key={auction._id}
+              to={`/auction-cars/${auctionId}`}
+              key={auctionId}
               className="group block bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden"
             >
               {/* Image Section */}
@@ -109,8 +106,6 @@ const AuctionCars = () => {
                   </div>
                 )}
               </div>
-
-              {/* Details Section */}
               <div className="p-4">
                 <div className="flex justify-between items-start mb-2">
                   <h3 className="text-xl font-semibold text-gray-900">

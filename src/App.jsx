@@ -4,8 +4,10 @@ import { FaArrowUp } from "react-icons/fa";
 import Footer from "./Pages/Footer/Footer";
 import Navbar from "./Components/Navbar";
 import { useSelector } from "react-redux";
+import { useAuctionSocket } from "./hooks/useAuctionSocket";
 
 function App() {
+  useAuctionSocket();
   const [isVisible, setIsVisible] = useState(false);
   const [user, setUser] = useState(null);
   const { loading } = useSelector((state) => state.auth);
