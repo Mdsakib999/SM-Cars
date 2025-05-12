@@ -76,7 +76,6 @@ const AuctionCars = () => {
         {filteredAuctions.map((auction) => {
           const isEnded = auction.status === "ended";
           const { _id: auctionId, car } = auction;
-          console.log(auction);
 
           return (
             <Link

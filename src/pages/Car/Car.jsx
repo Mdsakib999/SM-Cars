@@ -1,14 +1,14 @@
 // src/pages/Car.jsx
 import React from "react";
 import { useParams } from "react-router-dom";
-import { useGetAuctionByIdQuery } from "@/redux/apiSlice";
+import { useGetAuctionCarDetailsQuery } from "@/redux/apiSlice";
 import CarImageGallery from "@/components/CarDetailComponent/CarImageGallary";
 import CarBidDetail from "@/components/CarDetailComponent/CarBidDetail";
 import CarDetails from "@/components/CarDetailComponent/CarDetails";
 
 const Car = () => {
   const { auctionId } = useParams();
-  const { data, isLoading, isError, refetch } = useGetAuctionByIdQuery(
+  const { data, isLoading, isError, refetch } = useGetAuctionCarDetailsQuery(
     auctionId,
     {
       refetchOnMountOrArgChange: true,
