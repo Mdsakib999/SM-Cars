@@ -10,7 +10,7 @@ const Signup = () => {
   const navigate = useNavigate();
   const { register } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
-
+  // form
   const formik = useFormik({
     initialValues: {
       name: "",
