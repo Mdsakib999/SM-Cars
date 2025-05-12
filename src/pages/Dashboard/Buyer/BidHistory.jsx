@@ -131,8 +131,13 @@ const BidHistory = () => {
               >
                 {auction.status === "active" ? (
                   <>
-                    <BsArrowRepeat className="text-xl" />
-                    Place New Bid
+                    <Link
+                      to={`/auction-cars/${auction._id}`}
+                      className="flex gap-3"
+                    >
+                      <BsArrowRepeat className="text-xl" />
+                      Place New Bid
+                    </Link>
                   </>
                 ) : (
                   "Auction Ended"

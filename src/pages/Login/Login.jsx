@@ -81,13 +81,13 @@ const Login = () => {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 border rounded"
+              className="w-full px-4 py-2 border rounded relative"
             />
             <div
-              className="absolute inset-y-0 right-0 pr-3 pt-3 cursor-pointer"
+              className="absolute right-2 top-9 cursor-pointer"
               onClick={togglePasswordVisibility}
             >
-              {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+              {showPassword ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
             </div>
           </div>
 
