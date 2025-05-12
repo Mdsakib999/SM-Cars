@@ -4,6 +4,9 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updatePassword as firebaseUpdatePassword,
+  EmailAuthProvider,
+  reauthenticateWithCredential,
   onAuthStateChanged,
   updateProfile,
   signOut,
@@ -115,6 +118,18 @@ export function AuthProvider({ children }) {
     setToken(null);
   };
 
+  const updatePassword = async (currentPassword, newPassword) => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (!user || !user.email) {
+      throw new Error("No user logged in");
+    }
+
+    const cred = EmailAuthProvider.credential(user.email, currentPassword);
+    await reauthenticateWithCredential(user, cred);
+    await firebaseUpdatePassword(user, newPassword);
+    await user.getIdToken(true);
+  };
   const authInfo = {
     firebaseUser,
     profile,
@@ -123,6 +138,7 @@ export function AuthProvider({ children }) {
     register,
     login,
     logOut,
+    updatePassword,
   };
 
   return (
