@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 import {
   AiOutlineUser,
   AiOutlineDollarCircle,
@@ -71,7 +70,6 @@ const sidebarMenu = {
 const Sidebar = ({ setActiveSection }) => {
   const location = useLocation();
   const { profile } = useContext(AuthContext);
-  const { user } = useSelector((state) => state.auth);
   const menuItems = sidebarMenu[profile?.role] || [];
 
   const segments = location.pathname.split("/").filter(Boolean);

@@ -83,7 +83,7 @@ const BuyerAuctionCars = () => {
 
           return (
             <Link
-              to={`/auction-cars/${car._id}`}
+              to={`/auction-cars/${auction._id}`}
               key={auction._id}
               className="group block bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden"
             >

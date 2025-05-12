@@ -74,15 +74,12 @@ export const apiSlice = createApi({
       query: () => `/buyer/auction-cars`,
       providesTags: (result, error) => [{ type: "Auction" }],
     }),
-    getAuctionById: builder.query({
-      query: (auctionId) => `/buyer/auction/${auctionId}`,
+
+    getAuctionCarDetails: builder.query({
+      query: (auctionId) => `/buyer/auction-cars/${auctionId}`,
       providesTags: (result, error, auctionId) => [
         { type: "Auction", id: auctionId },
       ],
-    }),
-    getAuctionCarDetails: builder.query({
-      query: (carId) => `/buyer/auction-cars/${carId}`,
-      providesTags: (result, error, carId) => [{ type: "Auction", id: carId }],
     }),
     getBiddedCars: builder.query({
       query: (carId) => `/buyer/bidded-cars`,
@@ -293,7 +290,6 @@ export const {
   // AUCTION CARS
   // BUYER HOOKS
   useGetAllAuctionCarsQuery,
-  useGetAuctionByIdQuery,
   useGetAuctionCarDetailsQuery,
   useGetBiddedCarsQuery,
   useGetBuyerLimitQuery,

@@ -41,7 +41,7 @@ import RoleRedirect from "@/components/RolesRedirect";
 import ManageAuctions from "@/pages/Dashboard/Admin/ManageAuctions";
 import AdminAuctionCarDetails from "@/pages/Dashboard/Admin/AdminAuctionCarDetails";
 import Leads from "@/pages/Dashboard/Admin/Leads";
-import BuyerAuctionCars from "@/pages/Dashboard/Seller/BuyerAuctionCars";
+import BuyerAuctionCars from "@/pages/Dashboard/Buyer/BuyerAuctionCars";
 
 export const router = createBrowserRouter([
   {
