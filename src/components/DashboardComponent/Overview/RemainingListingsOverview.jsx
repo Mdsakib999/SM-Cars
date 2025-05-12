@@ -39,12 +39,14 @@ const RemainingListingsOverview = () => {
           Upload a Car for Sale
         </button>
       ) : (
-        <button
-          onClick={() => navigate("/dashboard/subscription-plan")}
-          className="border px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-400 text-white w-full"
-        >
-          Upgrade Subscription
-        </button>
+        <Link to="/dashboard/subscription-plan">
+          <button
+            onClick={() => navigate("/dashboard/subscription-plan")}
+            className="border px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-400 text-white w-full"
+          >
+            Upgrade Subscription
+          </button>
+        </Link>
       )}
     </div>
   );

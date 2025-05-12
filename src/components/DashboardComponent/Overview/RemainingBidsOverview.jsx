@@ -2,9 +2,11 @@ import React from "react";
 import { useGetBuyerLimitQuery } from "@/redux/apiSlice";
 import AuthProvider, { AuthContext } from "@/provider/AuthProvider";
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 const RemainingBidsOverview = () => {
   const { profile } = useContext(AuthContext);
   const { data, isLoading, isError } = useGetBuyerLimitQuery(profile._id);
+  console.log(data);
   return (
     <div className="border p-4 flex flex-col justify-between rounded-xl bg-white col-span-2 md:col-span-2">
       <div>
@@ -18,9 +20,19 @@ const RemainingBidsOverview = () => {
       <h1 className="text-8xl font-md text-orange-500 mb-4 ml-8">
         {data?.remaining}
       </h1>
-      <button className="border px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-400 text-white w-full">
-        Upgrade
-      </button>
+      {data?.remaining >= 0 ? (
+        <Link to="/dashboard/auction-cars/">
+          <button className="border px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-400 text-white w-full">
+            Bid Now
+          </button>
+        </Link>
+      ) : (
+        <Link to="/dashboard/subscription-plan">
+          <button className="border px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-400 text-white w-full">
+            Upgrade
+          </button>
+        </Link>
+      )}
     </div>
   );
 };
