@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   useGetUserInfoQuery,
   useSubmitVerificationMutation,
 } from "@/redux/apiSlice";
-import { useSelector } from "react-redux";
+
+import { AuthContext } from "@/provider/AuthProvider";
 
 const VerifyAccount = () => {
-  const user = useSelector((state) => state.auth.user);
-  const { data, isLoading, isError } = useGetUserInfoQuery(user.uid);
+  const { profile } = useContext(AuthContext);
+  const { data, isLoading, isError } = useGetUserInfoQuery(profile._id);
   const [submitVerification, { isLoading: isSubmitting }] =
     useSubmitVerificationMutation();
 

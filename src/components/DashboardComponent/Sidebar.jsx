@@ -18,7 +18,8 @@ import {
   IoHammerOutline,
   IoCarOutline,
 } from "react-icons/io5";
-
+import AuthProvider, { AuthContext } from "@/provider/AuthProvider";
+import { useContext } from "react";
 const sidebarMenu = {
   buyer: [
     { name: "Dashboard", path: "", icon: <SlHome /> },
@@ -69,10 +70,10 @@ const sidebarMenu = {
 
 const Sidebar = ({ setActiveSection }) => {
   const location = useLocation();
+  const { profile } = useContext(AuthContext);
   const { user } = useSelector((state) => state.auth);
-  const menuItems = sidebarMenu[user?.role] || [];
+  const menuItems = sidebarMenu[profile?.role] || [];
 
-  // Determine active item from URL
   const segments = location.pathname.split("/").filter(Boolean);
   const activePath = segments[1] || "";
   const activeItem =

@@ -1,137 +1,112 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useLoginMutation } from "../../redux/apiSlice";
-import { setLoading, setUser, clearLoading } from "../../redux/authSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { toast, ToastContainer } from "react-toastify";
+import AuthProvider, { AuthContext } from "../../provider/AuthProvider";
 
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [showPassword, setShowPassword] = useState(false);
+  const { login, user, profile, loading } = useContext(AuthContext);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState(null);
 
-  const [login, { isLoading, isSuccess, data: responseData, error }] =
-    useLoginMutation();
-  const dispatch = useDispatch();
+  const togglePasswordVisibility = () => setShowPassword((v) => !v);
 
-  const userToken = useSelector((state) => state.auth.token);
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const handleLogin = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // dispatch(setLoading());
+    setError(null);
     try {
-      await login({ email, password }).unwrap();
-      console.log("Login successful");
+      await login(email, password);
+      toast.success("Logged in successfully!");
     } catch (err) {
-      dispatch(clearLoading());
-      console.error("Login failed:", err);
+      console.error("Login failed", err);
+      setError(err.message || "Login failed");
+      toast.error(err.message || "Login failed");
     }
   };
 
   useEffect(() => {
-    if (userToken) {
-      const redirectPath =
-        location.state?.from || `/dashboard/${responseData?.user?.role}`;
-      navigate(redirectPath, { replace: true });
+    if (profile) {
+      const from =
+        location.state?.from?.pathname || `/dashboard/${profile.role}`;
+      navigate(from, { replace: true });
     }
-  }, [userToken, navigate, location, responseData]);
+  }, [profile, navigate, location]);
 
   return (
     <div className="flex min-h-full">
-      {/* Left side - Image */}
+      <ToastContainer />
       <div className="w-1/2 hidden md:block">
         <img
-          src="https://images.unsplash.com/photo-1577473403731-a36ec9087f44?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          alt="Sign Up"
-          className="object-cover h-[100vh] w-full"
+          src="https://images.unsplash.com/photo-1577473403731-a36ec9087f44?q=80&w=1287&auto=format&fit=crop"
+          alt="Login"
+          className="object-cover h-screen w-full"
         />
       </div>
+      <div className="flex items-center justify-center w-full md:w-1/2 p-8">
+        <form
+          onSubmit={handleSubmit}
+          className="w-full max-w-md bg-white p-8 rounded-lg shadow"
+        >
+          <h2 className="text-2xl font-bold mb-6">Welcome Back</h2>
 
-      {/* Right side - Form */}
-      <div className="flex items-center justify-center w-full md:w-1/2 bg-white p-8">
-        <form className="bg-white p-6 w-full max-w-md" onSubmit={handleLogin}>
-          <h2 className="text-2xl font-semibold mb-6 tracking-wide leading-5">
-            Nice to see you again
-          </h2>
-
-          {/* Email Field */}
           <div className="mb-4">
-            <label
-              className="block text-gray-700 text-sm font-md mb-2"
-              htmlFor="email"
-            >
+            <label htmlFor="email" className="block text-sm font-medium mb-1">
               Email
             </label>
             <input
+              id="email"
               type="email"
+              required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              id="email"
-              placeholder="Enter your email"
-              className="bg-gray-100 appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              required
+              className="w-full px-4 py-2 border rounded"
             />
           </div>
 
-          {/* Password Field */}
           <div className="mb-4 relative">
             <label
-              className="block text-gray-700 text-sm font-md mb-2"
               htmlFor="password"
+              className="block text-sm font-medium mb-1"
             >
               Password
             </label>
             <input
-              type={showPassword ? "text" : "password"}
               id="password"
+              type={showPassword ? "text" : "password"}
+              required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password"
-              className="bg-gray-100 appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              required
+              className="w-full px-4 py-2 border rounded"
             />
             <div
-              className="absolute inset-y-0 right-0 pr-2 pt-6 flex items-center cursor-pointer"
+              className="absolute inset-y-0 right-0 pr-3 pt-3 cursor-pointer"
               onClick={togglePasswordVisibility}
             >
-              {showPassword ? (
-                <AiOutlineEyeInvisible className="text-gray-600" />
-              ) : (
-                <AiOutlineEye className="text-gray-600" />
-              )}
+              {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
             </div>
           </div>
 
-          {/* Submit Button */}
-          <div>
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            >
-              {isLoading ? "Logging in..." : "Login"}
-            </button>
-            {/* Error Message */}
-            {error && (
-              <p className="text-red-500 mt-2">
-                {error.data?.message || "An error occurred. Please try again."}
-              </p>
-            )}
-          </div>
-          <div className="mt-4 text-center">
-            <span className="text-gray-700 text-sm">
-              Don't have an account?{" "}
-              <Link to="/signup" className="text-orange-500 hover:underline">
-                Sign Up
-              </Link>
-            </span>
-          </div>
+          {error && <p className="text-red-500 mb-4">{error}</p>}
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-orange-500 text-white py-2 rounded hover:bg-orange-600 transition"
+          >
+            {loading ? "Signing in…" : "Login"}
+          </button>
+
+          <p className="mt-4 text-sm text-center">
+            Don’t have an account?{" "}
+            <Link to="/signup" className="text-orange-500 hover:underline">
+              Sign up
+            </Link>
+          </p>
         </form>
       </div>
     </div>

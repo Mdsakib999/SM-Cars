@@ -15,8 +15,6 @@ import AuctionCars from "@/pages/AuctionCars/AuctionCars";
 
 import BuyerOverview from "../pages/Dashboard/Buyer/BuyerOverview";
 import BidHistory from "../pages/Dashboard/Buyer/BidHistory";
-import SavedCars from "../pages/Dashboard/Buyer/SavedCars";
-import MyWins from "../pages/Dashboard/Buyer/myWins";
 
 import SellerOverview from "../pages/Dashboard/Seller/SellerOverview";
 import AddNewCar from "../pages/Dashboard/Seller/AddNewCar";
@@ -34,7 +32,7 @@ import AdminCarDetails from "../pages/Dashboard/Admin/AdminCarDetails";
 import UserDetails from "@/pages/Dashboard/Admin/UserDetails";
 
 import Settings from "../pages/Dashboard/General/Settings";
-import Overview from "../pages/Dashboard/General/Overview";
+// import Overview from "../pages/Dashboard/General/Overview";
 import SubscriptionPlan from "../pages/Dashboard/General/SubscriptionPlan";
 
 import ProtectedRoute from "./ProtectedRoute";
@@ -91,7 +89,7 @@ export const router = createBrowserRouter([
         element: <AuctionCars></AuctionCars>,
       },
       {
-        path: "/auction-cars/:carId",
+        path: "/auction-cars/:auctionId",
         element: <Car />,
       },
 
@@ -104,8 +102,7 @@ export const router = createBrowserRouter([
         ),
         children: [
           { index: true, element: <RoleRedirect /> },
-          // Buyer Routes
-          { path: "", element: <Overview /> },
+
           {
             path: "buyer-overview",
             element: (
@@ -119,23 +116,6 @@ export const router = createBrowserRouter([
             element: (
               <ProtectedRoute requiredRole="buyer">
                 <BidHistory />
-              </ProtectedRoute>
-            ),
-          },
-          {
-            path: "saved-cars",
-            element: (
-              <ProtectedRoute requiredRole="buyer">
-                <SavedCars />
-              </ProtectedRoute>
-            ),
-          },
-
-          {
-            path: "my-wins",
-            element: (
-              <ProtectedRoute requiredRole="buyer">
-                <MyWins />
               </ProtectedRoute>
             ),
           },

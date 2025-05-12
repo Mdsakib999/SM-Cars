@@ -1,14 +1,14 @@
 import { useGetAllUsersQuery } from "@/redux/apiSlice";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import SkeletonCard from "@/components/SkeletonCard";
 const ManageUsers = () => {
   const navigate = useNavigate();
   const { data, isLoading, isError } = useGetAllUsersQuery();
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 20;
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <SkeletonCard lines={5} />;
   if (isError) return <div>Error loading users</div>;
   if (!data) return <div>No data available</div>;
 

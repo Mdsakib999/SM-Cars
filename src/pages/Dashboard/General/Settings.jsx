@@ -1,42 +1,41 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
   useGetUserInfoQuery,
   useUpdateUserInfoMutation,
-  useUpdateUserPasswordMutation,
 } from "@/redux/apiSlice";
-import { useSelector } from "react-redux";
+import { AuthContext } from "@/provider/AuthProvider";
+import PasswordChange from "@/components/DashboardComponent/General/PasswordChange";
 
 const Settings = () => {
-  const user = useSelector((state) => state.auth.user);
-  if (!user) {
-    return <div>Please log in to access your settings.</div>;
-  }
+  const { profile } = useContext(AuthContext);
   const [showPasswordForm, setShowPasswordForm] = useState(false);
 
-  // Fetch user info
+  if (!profile) {
+    return <div>Please log in to access your settings.</div>;
+  }
+
   const {
     data,
     isLoading: isUserLoading,
     isError: isUserError,
     error: userError,
-  } = useGetUserInfoQuery(user.uid);
+    refetch,
+  } = useGetUserInfoQuery(profile._id);
+  console.log("data", data);
 
-  // Mutations for updating profile and changing password
   const [updateProfile, { isLoading: isUpdatingProfile }] =
     useUpdateUserInfoMutation();
-  const [changePassword, { isLoading: isChangingPassword }] =
-    useUpdateUserPasswordMutation();
 
   // Profile Form
   const profileFormik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      contact: data?.contact || "",
-      presentAddress: data?.presentAddress || "",
-      permanentAddress: data?.permanentAddress || "",
-      city: data?.city || "",
+      contact: data?.data?.contact || "",
+      presentAddress: data?.data?.presentAddress || "",
+      permanentAddress: data?.data?.permanentAddress || "",
+      city: data?.data?.city || "",
     },
     validationSchema: Yup.object({
       contact: Yup.string()
@@ -48,8 +47,9 @@ const Settings = () => {
     }),
     onSubmit: async (values) => {
       try {
-        await updateProfile({ userId: user._id, ...values }).unwrap();
+        await updateProfile({ userId: profile._id, ...values }).unwrap();
         alert("Profile updated successfully!");
+        refetch();
       } catch (error) {
         console.error("Profile update failed:", error);
         alert("Failed to update profile. Please try again.");
@@ -57,41 +57,11 @@ const Settings = () => {
     },
   });
 
-  // Password Form
-  const passwordFormik = useFormik({
-    initialValues: {
-      currentPassword: "",
-      newPassword: "",
-      confirmPassword: "",
-    },
-    validationSchema: Yup.object({
-      currentPassword: Yup.string().required("Current password is required"),
-      newPassword: Yup.string()
-        .min(6, "Password must be at least 6 characters")
-        .required("New password is required"),
-      confirmPassword: Yup.string()
-        .oneOf([Yup.ref("newPassword")], "Passwords must match")
-        .required("Confirm password is required"),
-    }),
-    onSubmit: async (values) => {
-      try {
-        await changePassword({ userId: user._id, ...values }).unwrap();
-        alert("Password changed successfully!");
-        passwordFormik.resetForm();
-        setShowPasswordForm(false); // Hide password form after successful change
-      } catch (error) {
-        console.error("Password change failed:", error);
-        alert("Failed to change password. Please try again.");
-      }
-    },
-  });
-
-  // Show loader or error if necessary
   if (isUserLoading) return <div>Loading user info...</div>;
   if (isUserError)
     return (
       <div>
-        Error loading user info:{" "}
+        Error loading user info:
         {userError?.data?.message || userError?.message || "Unknown error"}
       </div>
     );
@@ -110,7 +80,7 @@ const Settings = () => {
               <input
                 type="text"
                 name="name"
-                value={data?.name || ""}
+                value={profile?.name || ""}
                 disabled
                 className="mt-2 p-3 w-full rounded-lg border border-gray-300 bg-gray-100"
               />
@@ -121,7 +91,7 @@ const Settings = () => {
               <input
                 type="email"
                 name="email"
-                value={data?.email || ""}
+                value={profile?.email || ""}
                 disabled
                 className="mt-2 p-3 w-full rounded-lg border border-gray-300 bg-gray-100"
               />
@@ -225,89 +195,7 @@ const Settings = () => {
               Change Password
             </button>
           ) : (
-            <form onSubmit={passwordFormik.handleSubmit} className="mt-4">
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Current Password
-                  </label>
-                  <input
-                    type="password"
-                    name="currentPassword"
-                    value={passwordFormik.values.currentPassword}
-                    onChange={passwordFormik.handleChange}
-                    onBlur={passwordFormik.handleBlur}
-                    className="mt-2 p-3 w-full rounded-lg border border-gray-300"
-                    placeholder="Enter current password"
-                  />
-                  {passwordFormik.touched.currentPassword &&
-                    passwordFormik.errors.currentPassword && (
-                      <div className="text-red-500 text-sm mt-1">
-                        {passwordFormik.errors.currentPassword}
-                      </div>
-                    )}
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    New Password
-                  </label>
-                  <input
-                    type="password"
-                    name="newPassword"
-                    value={passwordFormik.values.newPassword}
-                    onChange={passwordFormik.handleChange}
-                    onBlur={passwordFormik.handleBlur}
-                    className="mt-2 p-3 w-full rounded-lg border border-gray-300"
-                    placeholder="Enter new password"
-                  />
-                  {passwordFormik.touched.newPassword &&
-                    passwordFormik.errors.newPassword && (
-                      <div className="text-red-500 text-sm mt-1">
-                        {passwordFormik.errors.newPassword}
-                      </div>
-                    )}
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Confirm New Password
-                  </label>
-                  <input
-                    type="password"
-                    name="confirmPassword"
-                    value={passwordFormik.values.confirmPassword}
-                    onChange={passwordFormik.handleChange}
-                    onBlur={passwordFormik.handleBlur}
-                    className="mt-2 p-3 w-full rounded-lg border border-gray-300"
-                    placeholder="Confirm new password"
-                  />
-                  {passwordFormik.touched.confirmPassword &&
-                    passwordFormik.errors.confirmPassword && (
-                      <div className="text-red-500 text-sm mt-1">
-                        {passwordFormik.errors.confirmPassword}
-                      </div>
-                    )}
-                </div>
-              </div>
-
-              <div className="mt-6 flex gap-4">
-                <button
-                  type="submit"
-                  disabled={isChangingPassword}
-                  className="bg-orange-500 text-white px-4 py-2 rounded"
-                >
-                  {isChangingPassword ? "Saving..." : "Change Password"}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setShowPasswordForm(false)}
-                  className="bg-gray-200 text-gray-700 px-4 py-2 rounded"
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
+            <PasswordChange onCancel={() => setShowPasswordForm(false)} />
           )}
         </div>
       </div>

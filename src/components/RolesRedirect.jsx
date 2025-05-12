@@ -1,11 +1,15 @@
 // src/components/RoleRedirect.jsx
-import { useSelector } from "react-redux";
+import { useContext } from "react";
 import { Navigate } from "react-router-dom";
-
+import AuthProvider, { AuthContext } from "@/provider/AuthProvider";
 const RoleRedirect = () => {
-  const { user } = useSelector((state) => state.auth);
+  const { profile, loading } = useContext(AuthContext);
+  console.log(profile.role);
+  if (loading) {
+    return <>Loading...</>;
+  }
 
-  switch (user?.role) {
+  switch (profile.role) {
     case "admin":
       return <Navigate to="/dashboard/manage-users" replace />;
     case "seller":

@@ -1,9 +1,10 @@
 // ProtectedRoute.jsx
-import { useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
+import { useContext } from "react";
+import AuthProvider, { AuthContext } from "@/provider/AuthProvider";
 
 const ProtectedRoute = ({ children, requiredRole }) => {
-  const { user, loading } = useSelector((state) => state.auth);
+  const { profile, loading } = useContext(AuthContext);
   const location = useLocation();
 
   if (loading) {
@@ -14,11 +15,11 @@ const ProtectedRoute = ({ children, requiredRole }) => {
     );
   }
 
-  if (!user) {
+  if (!profile) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  if (requiredRole && user.role !== requiredRole) {
+  if (requiredRole && profile.role !== requiredRole) {
     return <Navigate to="/" replace />;
   }
 

@@ -21,13 +21,12 @@ const ManageSubscriptionPlans = () => {
   const [deleteSubscription] = useDeleteSubscriptionMutation();
   const [createSubscription] = useCreateSubscriptionMutation();
 
-  // For creation: free plan creation isn’t allowed, so we default to a non‑free plan.
   const initialFormState = {
     name: "",
-    price: 1, // non‑free (price must be at least 1)
+    price: 1,
     duration: 30,
     features: "",
-    tier: 2, // non‑free tier must be > 1 (so 2 by default)
+    tier: 2,
   };
 
   const [formState, setFormState] = useState(initialFormState);
@@ -117,7 +116,7 @@ const ManageSubscriptionPlans = () => {
   return (
     <div className="p-8">
       {/* Tabs for Seller/Buyer */}
-      <div className="flex mb-6">
+      <div className="flex mb-6 ">
         {["seller", "buyer"].map((type) => (
           <button
             key={type}
@@ -132,7 +131,7 @@ const ManageSubscriptionPlans = () => {
       </div>
 
       {/* Create Plan Button */}
-      <div className="text-right mb-6">
+      <div className="text-right mb-6 ">
         <button
           onClick={() => openModal("create")}
           className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"

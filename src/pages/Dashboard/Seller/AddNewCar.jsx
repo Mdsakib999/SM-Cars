@@ -3,15 +3,18 @@ import {
   useCreateCarMutation,
   useGetSellerLimitQuery,
 } from "../../../redux/apiSlice";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useDropzone } from "react-dropzone";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { useContext } from "react";
+import { AuthContext } from "@/provider/AuthProvider";
 
 const AddNewCar = () => {
   const navigate = useNavigate();
-  const uid = useSelector((state) => state.auth.user?._id);
+  const { profile } = useContext(AuthContext);
+  console.log(profile);
+  const uid = profile?._id;
   const {
     data: subscriptionLimitData,
     isLoading: subscriptionLimitLoading,
@@ -19,14 +22,14 @@ const AddNewCar = () => {
   } = useGetSellerLimitQuery(uid);
 
   const [createCar, { isLoading, isError, isSuccess }] = useCreateCarMutation();
-  const sellerId = useSelector((state) => state.auth.user?._id);
+  const sellerId = profile?._id;
   const [previewImages, setPreviewImages] = useState([]);
   const [showContactInfo, setShowContactInfo] = useState(false);
 
   if (subscriptionLimitLoading) return <p>Loading...</p>;
   if (!subscriptionLimitData || subLimitError)
     return <p>Error fetching data.</p>;
-  if (subscriptionLimitData.remaining <= 0) {
+  if (!subscriptionLimitData || subLimitError) {
     return (
       <div className="text-center py-8">
         <h2 className="text-2xl font-bold mb-4">Listing Limit Reached</h2>
@@ -123,7 +126,7 @@ const AddNewCar = () => {
       await createCar(formData).unwrap();
       alert("Car added successfully!");
       resetForm();
-      navigate("/dashboard/seller/my-cars");
+      navigate("/dashboard/my-cars");
     } catch (error) {
       console.error("Failed to add car:", error);
     } finally {

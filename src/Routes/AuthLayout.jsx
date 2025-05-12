@@ -1,14 +1,14 @@
 // src/components/AuthLayout.jsx
 import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
-
+import { useContext } from "react";
+import AuthProvider, { AuthContext } from "@/provider/AuthProvider";
 const AuthLayout = () => {
-  const { user } = useSelector((state) => state.auth);
+  const { profile } = useContext(AuthContext);
 
-  if (user) {
+  if (profile) {
     return <Navigate to="/dashboard" replace />;
   }
-
   return <Outlet />;
 };
 

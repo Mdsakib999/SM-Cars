@@ -104,7 +104,7 @@ const About = () => {
             <div className="text-center">
               <img
                 className="mx-auto h-40 w-40 rounded-full object-cover mb-4"
-                src="https://via.placeholder.com/150"
+                src="https://placehold.co/100x100"
                 alt="Team Member"
               />
               <h4 className="text-xl font-medium text-gray-900">John Doe</h4>
@@ -114,7 +114,7 @@ const About = () => {
             <div className="text-center">
               <img
                 className="mx-auto h-40 w-40 rounded-full object-cover mb-4"
-                src="https://via.placeholder.com/150"
+                src="https://placehold.co/100x100"
                 alt="Team Member"
               />
               <h4 className="text-xl font-medium text-gray-900">Jane Smith</h4>
@@ -124,7 +124,7 @@ const About = () => {
             <div className="text-center">
               <img
                 className="mx-auto h-40 w-40 rounded-full object-cover mb-4"
-                src="https://via.placeholder.com/150"
+                src="https://placehold.co/100x100"
                 alt="Team Member"
               />
               <h4 className="text-xl font-medium text-gray-900">

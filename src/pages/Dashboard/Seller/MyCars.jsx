@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useContext, useState } from "react";
 import {
   useGetSellerCarsQuery,
   useRequestCarApprovalMutation,
@@ -8,10 +7,11 @@ import { BsPlusCircleFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import SellerCarCard from "../../../components/DashboardComponent/Seller/SellerCarCard";
 import AuctionModal from "../../../components/DashboardComponent/Seller/AuctionModal";
+import { AuthContext } from "@/provider/AuthProvider";
 
 const MyCars = () => {
-  const sellerId = useSelector((state) => state.auth.user?._id);
-  const { data, isLoading, error } = useGetSellerCarsQuery(sellerId);
+  const { profile } = useContext(AuthContext);
+  const { data, isLoading, error } = useGetSellerCarsQuery(profile._id);
   const [selectedCar, setSelectedCar] = useState(null);
   const [isAuctionModalOpen, setAuctionModalOpen] = useState(false);
 
@@ -47,8 +47,8 @@ const MyCars = () => {
               key={car._id}
               car={car}
               onAddToAuction={handleAddToAuction}
-              onRequestApproval={handleRequestApproval} // Pass the new handler
-              isRequestingApproval={isRequestingApproval} // Pass loading state
+              onRequestApproval={handleRequestApproval}
+              isRequestingApproval={isRequestingApproval}
             />
           ))}
         </div>
@@ -61,7 +61,7 @@ const MyCars = () => {
               Start your selling journey by uploading your first car listing
             </p>
             <Link
-              to="/dashboard/seller/add-new-car"
+              to="/dashboard/add-new-car"
               className="inline-flex items-center bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-500 transition-colors duration-200"
             >
               <BsPlusCircleFill className="mr-2" />
