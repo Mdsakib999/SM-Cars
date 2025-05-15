@@ -27,7 +27,7 @@ const CarCard = () => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
       {latestAuctions.map((auction) => {
-        const car = auction.car; // Extract car from auction
+        const car = auction.car;
         return (
           <div
             key={auction._id}
@@ -65,7 +65,7 @@ const CarCard = () => {
                 <span className="text-lg font-bold ">
                   ৳{car.price?.toLocaleString()}
                 </span>
-                <Link to={`/auction-cars/${car._id}`}>
+                <Link to={`/auction-cars/${auction._id}`}>
                   <button className="flex items-center text-orange-500 hover:text-orange-400 text-sm">
                     View Details <BsArrowUpRight className="ml-1" />
                   </button>

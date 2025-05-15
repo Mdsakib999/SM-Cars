@@ -80,7 +80,7 @@ const CarBidDetail = ({ auction, car, onRefresh }) => {
               $
               {auction.currentBid
                 ? auction.currentBid.toLocaleString()
-                : car.price.toLocaleString()}
+                : auction.reservePrice.toLocaleString()}
             </span>
           </div>
 

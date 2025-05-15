@@ -28,19 +28,6 @@ const DashboardNav = ({ sectionName }) => {
           Logout
         </button>
       </div>
-
-      {/* User Profile Icon */}
-      {profile ? (
-        <div className="flex items-center space-x-2">
-          <FiUser className="text-4xl text-gray-600 p-1 border rounded-full" />
-          <div className="text-right">
-            <p className="font-medium">{profile.name || profile.email}</p>
-            <p className="text-sm text-gray-500 capitalize">{profile.role}</p>
-          </div>
-        </div>
-      ) : (
-        <p className="text-sm text-gray-600">No user signed in</p>
-      )}
     </div>
   );
 };
