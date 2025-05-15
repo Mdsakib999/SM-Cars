@@ -4,7 +4,6 @@ import { Navigate } from "react-router-dom";
 import AuthProvider, { AuthContext } from "@/provider/AuthProvider";
 const RoleRedirect = () => {
   const { profile, loading } = useContext(AuthContext);
-  console.log(profile.role);
   if (loading) {
     return <>Loading...</>;
   }

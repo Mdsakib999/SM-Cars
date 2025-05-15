@@ -10,8 +10,6 @@ import { toast } from "react-toastify";
 
 const CarBidDetail = ({ auction, car, onRefresh }) => {
   const { profile } = useContext(AuthContext);
-  console.log("car", car);
-  console.log("auction", auction);
   const [placeBid, { isLoading }] = usePlaceBidMutation();
 
   const minimumBid = auction.currentBid || car.price;

@@ -14,34 +14,39 @@ const testimonials = [
     title: "CEO at Example Co.",
     quote:
       "This service has been excellent and has exceeded all my expectations!",
-    image: "https://placehold.co/100x100",
+    image:
+      "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=1361&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     name: "Jane Smith",
     title: "Marketing Head at XYZ Inc.",
     quote:
       "A seamless experience from start to finish, highly recommend it to others.",
-    image: "https://placehold.co/100x100",
+    image:
+      "https://images.unsplash.com/photo-1651684215020-f7a5b6610f23?q=80&w=1469&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     name: "Mark Wilson",
     title: "Product Manager at ABC Ltd.",
     quote: "Great product and outstanding customer support!",
-    image: "https://placehold.co/100x100",
+    image:
+      "https://plus.unsplash.com/premium_photo-1671656349322-41de944d259b?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     name: "Emily Brown",
     title: "CTO at Example Tech",
     quote:
       "The professionalism and quality of service were remarkable, I recommend them.",
-    image: "https://placehold.co/100x100",
+    image:
+      "https://images.unsplash.com/photo-1545167622-3a6ac756afa4?q=80&w=1312&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     name: "Michael Lee",
     title: "COO at Innovations Inc.",
     quote:
       "Very happy with the result! The product met our expectations and more.",
-    image: "https://placehold.co/100x100",
+    image:
+      "https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
 ];
 

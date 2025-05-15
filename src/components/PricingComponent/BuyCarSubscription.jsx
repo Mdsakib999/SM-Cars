@@ -1,18 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FiCheck } from "react-icons/fi";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
+import AuthProvider, { AuthContext } from "@/provider/AuthProvider";
 const BuyCarSubscription = ({ plans }) => {
-  const user = useSelector((state) => state.auth.user);
+  const { profile } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSelectPlan = (planId) => {
-    if (!user) {
-      // Not logged in: redirect to login and pass intended destination as state
+    if (!profile) {
       navigate("/login", { state: { from: `/checkout?planId=${planId}` } });
     } else {
-      // Logged in: go directly to checkout page with selected plan
       navigate(`/checkout?planId=${planId}`);
     }
   };
@@ -36,7 +33,6 @@ const BuyCarSubscription = ({ plans }) => {
               ))}
             </ul>
           </div>
-          {/* Sticky Button at Bottom */}
           <div className="mt-auto">
             <button
               onClick={() => handleSelectPlan(plan._id)}

@@ -1,11 +1,11 @@
 import React from "react";
 import { useGetAllCarsQuery } from "../../../redux/apiSlice";
 import { Link } from "react-router-dom";
-import SkeletonCard from "@/components/SkeletonCard";
+
 const ManageListings = () => {
   const { data, isLoading, isError, refetch } = useGetAllCarsQuery();
 
-  if (isLoading) return <SkeletonCard lines={10} />;
+  if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error loading listings</div>;
   if (!data) return <div>No data available</div>;
 

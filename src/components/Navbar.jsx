@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 import { Link, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+
 import Logo from "/logo.png";
 import { useContext } from "react";
 import AuthProvider, { AuthContext } from "@/provider/AuthProvider";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { profile } = useContext(AuthContext);
-  console.log(profile);
   const location = useLocation();
   const toggleMenu = () => {
     setIsOpen(!isOpen);

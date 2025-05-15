@@ -14,10 +14,9 @@ const ProtectedRoute = ({ children, requiredRole }) => {
       </div>
     );
   }
-
-  // if (!profile) {
-  //   return <Navigate to="/login" state={{ from: location }} replace />;
-  // }
+  if (!profile) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
 
   if (requiredRole && profile.role !== requiredRole) {
     return <Navigate to="/" replace />;

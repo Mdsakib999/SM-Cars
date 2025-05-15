@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
-import { useLocation, Link } from "react-router-dom";
+// src/components/Sidebar.jsx
+import React, { useEffect, useContext } from "react";
+import { useLocation, Link, Navigate } from "react-router-dom";
 import {
   AiOutlineUser,
   AiOutlineDollarCircle,
@@ -17,8 +18,8 @@ import {
   IoHammerOutline,
   IoCarOutline,
 } from "react-icons/io5";
-import AuthProvider, { AuthContext } from "@/provider/AuthProvider";
-import { useContext } from "react";
+import { AuthContext } from "@/provider/AuthProvider";
+
 const sidebarMenu = {
   buyer: [
     { name: "Dashboard", path: "", icon: <SlHome /> },
@@ -68,21 +69,35 @@ const sidebarMenu = {
 };
 
 const Sidebar = ({ setActiveSection }) => {
+  const { profile, loading } = useContext(AuthContext);
   const location = useLocation();
-  const { profile } = useContext(AuthContext);
-  const menuItems = sidebarMenu[profile?.role] || [];
 
+  if (loading) {
+    return (
+      <div className="fixed inset-y-0 left-0 flex items-center justify-center w-20 lg:w-64 bg-white">
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-orange-500"></div>
+      </div>
+    );
+  }
+
+  if (!profile) {
+    return <Navigate to="/login" replace />;
+  }
+
+  const menuItems = sidebarMenu[profile.role] || [];
   const segments = location.pathname.split("/").filter(Boolean);
   const activePath = segments[1] || "";
   const activeItem =
     menuItems.find((item) => item.path === activePath) || menuItems[0];
 
   useEffect(() => {
-    setActiveSection(activeItem.name);
-  }, [activeItem.name, setActiveSection]);
+    if (activeItem) {
+      setActiveSection(activeItem.name);
+    }
+  }, [activeItem, setActiveSection]);
 
   return (
-    <div className="fixed inset-y-0 left-0 bg-white text-black h-full border p-4 w-20 lg:w-64 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-thumb-rounded-md">
+    <div className="fixed inset-y-0 left-0 bg-white text-black h-full border p-4 w-20 lg:w-64 overflow-y-auto">
       <div className="flex flex-col items-center lg:items-start">
         <div className="flex items-center justify-center lg:justify-between w-full mb-12 mt-4">
           <Link to="/" onClick={() => setActiveSection("Dashboard")}>
@@ -91,16 +106,15 @@ const Sidebar = ({ setActiveSection }) => {
             </h2>
           </Link>
         </div>
-
         <nav className="space-y-6 flex flex-col w-full">
           {menuItems.map((item) => {
-            const isActive = item.name === activeItem.name;
+            const isActive = item.name === activeItem?.name;
             return (
               <Link
                 key={item.name}
                 to={`/dashboard/${item.path}`}
                 onClick={() => setActiveSection(item.name)}
-                className={`relative flex items-center space-x-2 p-2 rounded w-full text-xl lg:text-xl transition-colors ${
+                className={`relative flex items-center space-x-2 p-2 rounded w-full transition-colors ${
                   isActive
                     ? "text-orange-500 bg-orange-50"
                     : "text-gray-500 hover:bg-gray-100"
