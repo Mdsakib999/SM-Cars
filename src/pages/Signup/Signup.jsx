@@ -102,9 +102,9 @@ const Signup = () => {
             />
             <span
               onClick={() => setShowPassword((s) => !s)}
-              className="absolute right-2 top-2 cursor-pointer"
+              className="absolute right-2 top-3 cursor-pointer"
             >
-              {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+              {showPassword ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
             </span>
           </div>
           {formik.touched.password && formik.errors.password && (
