@@ -2,6 +2,8 @@ import React, { useContext } from "react";
 import { useGetSellerLimitQuery } from "../../../redux/apiSlice";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "@/provider/AuthProvider";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const RemainingListingsOverview = () => {
   const { profile } = useContext(AuthContext);
@@ -10,11 +12,20 @@ const RemainingListingsOverview = () => {
   const navigate = useNavigate();
   const { data, isLoading, error } = useGetSellerLimitQuery(uid);
 
-  // Fallback to 2 if the API hasn't returned yet or errored
-  const remaining = data?.remaining ?? 2;
+  const remaining = data?.remaining ?? 0;
 
   if (isLoading) {
-    return <p>Loading your listing limit...</p>;
+    return (
+      <div className="border p-4 flex flex-col justify-between rounded-xl bg-white col-span-2 md:col-span-2 animate-pulse">
+        <div>
+          <Skeleton height={24} width={150} />
+          <Skeleton height={16} width={200} className="mt-2" />
+          <hr className="border-t border-gray-200 my-4" />
+        </div>
+        <Skeleton height={80} width={100} className="mb-4 ml-8" />
+        <Skeleton height={40} width={`100%`} />
+      </div>
+    );
   }
 
   return (

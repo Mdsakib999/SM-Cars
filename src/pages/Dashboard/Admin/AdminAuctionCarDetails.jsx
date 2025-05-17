@@ -16,8 +16,6 @@ const AdminAuctionCarDetails = () => {
   const { carId } = useParams();
   const { data, isLoading, error } = useGetAdminAuctionDetailsQuery(carId);
   const { data: history } = useGetAdminAuctionHistoryQuery(carId);
-  console.log(history?.auctions);
-  // console.log(data);
 
   if (isLoading)
     return <div className="text-center p-8">Loading auction details...</div>;

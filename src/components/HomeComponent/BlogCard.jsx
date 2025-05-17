@@ -9,9 +9,9 @@ const BlogCard = () => {
       title: "5 Tips for Buying a Used Car",
       description:
         "Buying a used car can be tricky. Follow these 5 essential tips to make a smart purchase decision and avoid costly mistakes.",
-      date: "November 22, 2023",
+      date: "November 22, 2024",
       imageUrl:
-        "https://plus.unsplash.com/premium_photo-1682125840276-f47b511bf58c?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDh8fHxlbnwwfHx8fHw%3D",
+        "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
     {
       id: 2,
@@ -20,7 +20,7 @@ const BlogCard = () => {
         "Regular maintenance is key to extending your car's life. Learn the basics of car upkeep.",
       date: "October 18, 2023",
       imageUrl:
-        "https://plus.unsplash.com/premium_photo-1682125840276-f47b511bf58c?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDh8fHxlbnwwfHx8fHw%3D",
+        "https://images.unsplash.com/photo-1469285994282-454ceb49e63c?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
     {
       id: 3,
@@ -29,7 +29,7 @@ const BlogCard = () => {
         "Planning a road trip? Discover the best cars to take on long journeys for comfort and efficiency.",
       date: "September 5, 2023",
       imageUrl:
-        "https://plus.unsplash.com/premium_photo-1682125840276-f47b511bf58c?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDh8fHxlbnwwfHx8fHw%3D",
+        "https://images.unsplash.com/photo-1529369623266-f5264b696110?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
     {
       id: 4,
@@ -38,7 +38,7 @@ const BlogCard = () => {
         "Learn eco-friendly driving tips to save fuel, reduce emissions, and minimize your environmental impact.",
       date: "August 10, 2023",
       imageUrl:
-        "https://plus.unsplash.com/premium_photo-1682125840276-f47b511bf58c?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDh8fHxlbnwwfHx8fHw%3D",
+        "https://plus.unsplash.com/premium_photo-1677675066333-ffe8b4435aab?q=80&w=1285&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
   ];
 

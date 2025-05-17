@@ -19,6 +19,7 @@ import {
   IoCarOutline,
 } from "react-icons/io5";
 import { AuthContext } from "@/provider/AuthProvider";
+import Logo from "/logo.png";
 
 const sidebarMenu = {
   buyer: [
@@ -101,9 +102,11 @@ const Sidebar = ({ setActiveSection }) => {
       <div className="flex flex-col items-center lg:items-start">
         <div className="flex items-center justify-center lg:justify-between w-full mb-12 mt-4">
           <Link to="/" onClick={() => setActiveSection("Dashboard")}>
-            <h2 className="text-sm lg:text-3xl font-medium text-center lg:text-left">
-              SMCARS
-            </h2>
+            <img
+              className="w-[45px] lg:w-[55px] rounded-full"
+              src={Logo}
+              alt="Logo"
+            />
           </Link>
         </div>
         <nav className="space-y-6 flex flex-col w-full">

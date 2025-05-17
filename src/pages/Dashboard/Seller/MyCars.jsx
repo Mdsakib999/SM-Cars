@@ -8,6 +8,8 @@ import { Link } from "react-router-dom";
 import SellerCarCard from "../../../components/DashboardComponent/Seller/SellerCarCard";
 import AuctionModal from "../../../components/DashboardComponent/Seller/AuctionModal";
 import { AuthContext } from "@/provider/AuthProvider";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const MyCars = () => {
   const { profile } = useContext(AuthContext);
@@ -18,7 +20,25 @@ const MyCars = () => {
   const [requestCarApproval, { isLoading: isRequestingApproval }] =
     useRequestCarApprovalMutation();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) {
+    return (
+      <div className="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {Array.from({ length: 8 }).map((_, idx) => (
+          <div
+            key={idx}
+            className="bg-white border rounded-xl overflow-hidden shadow animate-pulse"
+          >
+            <div className="w-full h-40 bg-gray-300" />
+            <div className="p-4 space-y-2">
+              <Skeleton height={20} width="80%" />
+              <Skeleton height={16} width="40%" />
+              <Skeleton height={32} width="100%" className="mt-4" />
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
   if (error) return <div>Error loading cars</div>;
 
   const carsList = data?.cars?.length ? data.cars : [];

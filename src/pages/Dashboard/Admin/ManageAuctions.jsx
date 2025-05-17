@@ -9,6 +9,8 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const ManageAuctions = () => {
   const { data, isLoading, isError } = useGetApprovedCarsQuery();
@@ -17,12 +19,8 @@ const ManageAuctions = () => {
   const [selectedCar, setSelectedCar] = useState(null);
   const [filter, setFilter] = useState("all");
 
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error loading listings</div>;
-  if (!data) return <div>No data available</div>;
-
-  const raw = data.approvedCars || data;
-  const listings = raw.filter((car) => {
+  const listingsRaw = data?.approvedCars || data || [];
+  const listings = listingsRaw.filter((car) => {
     switch (filter) {
       case "none":
         return car.auctionStatus === "none";
@@ -56,6 +54,9 @@ const ManageAuctions = () => {
     endTime: null,
     reservePrice: "",
   };
+
+  // Skeleton placeholder count
+  const placeholderCount = 6;
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
@@ -194,62 +195,90 @@ const ManageAuctions = () => {
         </div>
       )}
 
-      {/* Listing Cards */}
+      {/* Listing Cards or Skeletons */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {listings.map((car) => {
-          const sellerId =
-            typeof car.sellerId === "object" ? car.sellerId._id : car.sellerId;
-          return (
+        {isLoading ? (
+          Array.from({ length: placeholderCount }).map((_, idx) => (
             <div
-              key={car._id}
-              className="bg-white border rounded-xl overflow-hidden shadow-md"
+              key={idx}
+              className="bg-white border rounded-xl overflow-hidden shadow-md animate-pulse"
             >
-              <img
-                src={car.images?.[0]?.url || "https://via.placeholder.com/150"}
-                alt={car.carName || "Car Image"}
-                className="w-full h-48 object-cover"
-              />
-              <div className="p-4">
-                <h3 className="text-xl font-semibold mb-2">
-                  {car.carName} | {car.brand}
-                </h3>
-                <p className="text-gray-700 mb-2">
-                  Auction Count:{" "}
-                  <span className="font-medium">{car.auctionCount}</span>
-                </p>
-                <p className="text-gray-700 mb-2">
-                  Vendor: {car.sellerId?.name || "N/A"}
-                </p>
-                <p className="text-gray-700 mb-2">
-                  Starting Price: ${car.price.toLocaleString()}
-                </p>
-                <p className="text-gray-700 mb-4">
-                  Auction Status:{" "}
-                  <span className="font-medium">
-                    {car.auctionStatus || "none"}
-                  </span>
-                </p>
-                <div className="flex gap-3">
-                  <Link
-                    to={`/dashboard/car-auction-details/${car._id}`}
-                    className="flex-1 bg-blue-500 text-white py-2 text-center rounded-md hover:bg-blue-600 transition"
-                  >
-                    View Details
-                  </Link>
-                  {car.status === "approved" &&
-                    car.auctionStatus === "none" && (
-                      <button
-                        onClick={() => openAuctionModal(car)}
-                        className="flex-1 bg-green-500 text-white py-2 text-center rounded-md hover:bg-green-600 transition"
-                      >
-                        Create Auction
-                      </button>
-                    )}
+              <div className="w-full h-48 bg-gray-300" />
+              <div className="p-4 space-y-2">
+                <Skeleton height={24} />
+                <Skeleton height={16} width="60%" />
+                <Skeleton height={16} width="40%" />
+                <div className="flex gap-3 mt-4">
+                  <Skeleton height={32} width="100%" />
+                  <Skeleton height={32} width="100%" />
                 </div>
               </div>
             </div>
-          );
-        })}
+          ))
+        ) : isError ? (
+          <div>Error loading listings</div>
+        ) : listings.length === 0 ? (
+          <div>No cars match the filter</div>
+        ) : (
+          listings.map((car) => {
+            const sellerId =
+              typeof car.sellerId === "object"
+                ? car.sellerId._id
+                : car.sellerId;
+            return (
+              <div
+                key={car._id}
+                className="bg-white border rounded-xl overflow-hidden shadow-md"
+              >
+                <img
+                  src={
+                    car.images?.[0]?.url || "https://via.placeholder.com/150"
+                  }
+                  alt={car.carName || "Car Image"}
+                  className="w-full h-48 object-cover"
+                />
+                <div className="p-4">
+                  <h3 className="text-xl font-semibold mb-2">
+                    {car.carName} | {car.brand}
+                  </h3>
+                  <p className="text-gray-700 mb-2">
+                    Auction Count:{" "}
+                    <span className="font-medium">{car.auctionCount}</span>
+                  </p>
+                  <p className="text-gray-700 mb-2">
+                    Vendor: {car.sellerId?.name || "N/A"}
+                  </p>
+                  <p className="text-gray-700 mb-2">
+                    Starting Price: ${car.price.toLocaleString()}
+                  </p>
+                  <p className="text-gray-700 mb-4">
+                    Auction Status:{" "}
+                    <span className="font-medium">
+                      {car.auctionStatus || "none"}
+                    </span>
+                  </p>
+                  <div className="flex gap-3">
+                    <Link
+                      to={`/dashboard/car-auction-details/${car._id}`}
+                      className="flex-1 bg-blue-500 text-white py-2 text-center rounded-md hover:bg-blue-600 transition"
+                    >
+                      View Details
+                    </Link>
+                    {car.status === "approved" &&
+                      car.auctionStatus === "none" && (
+                        <button
+                          onClick={() => openAuctionModal(car)}
+                          className="flex-1 bg-green-500 text-white py-2 text-center rounded-md hover:bg-green-600 transition"
+                        >
+                          Create Auction
+                        </button>
+                      )}
+                  </div>
+                </div>
+              </div>
+            );
+          })
+        )}
       </div>
     </div>
   );

@@ -8,12 +8,14 @@ import {
 } from "../../../redux/apiSlice";
 import SubscriptionModal from "../../../components/DashboardComponent/Admin/SubscriptionModal";
 import DeleteModal from "../../../components/DashboardComponent/Admin/DeleteModal";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const ManageSubscriptionPlans = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("seller");
   const [selectedPlan, setSelectedPlan] = useState(null);
-  const [modalType, setModalType] = useState(""); // "create", "edit", "delete"
+  const [modalType, setModalType] = useState("");
 
   // API hooks
   const { data, isLoading, isError, refetch } = useGetAllSubscriptionsQuery();
@@ -35,7 +37,6 @@ const ManageSubscriptionPlans = () => {
     setSelectedPlan(plan);
     setModalType(type);
     if (type === "edit" && plan) {
-      // Pre-populate form with previous data
       setFormState({
         name: plan.name,
         price: plan.price,
@@ -60,13 +61,11 @@ const ManageSubscriptionPlans = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // If not free plan (price > 0) then ensure tier > 1.
     if (formState.price > 0 && formState.tier <= 1) {
       alert("For non‑free plans, tier must be greater than 1.");
       return;
     }
     try {
-      // Convert comma-separated features into an array
       const featuresArray = formState.features
         .split(",")
         .map((f) => f.trim())
@@ -140,44 +139,56 @@ const ManageSubscriptionPlans = () => {
         </button>
       </div>
 
-      {/* Subscription List */}
+      {/* Subscription List or Skeletons */}
       {isLoading ? (
-        <p>Loading...</p>
+        <div className="grid gap-4">
+          {Array.from({ length: 4 }).map((_, idx) => (
+            <div
+              key={idx}
+              className="p-4 border rounded flex justify-between items-center"
+            >
+              <div className="flex-1 space-y-2">
+                <Skeleton height={24} width={`60%`} />
+                <Skeleton height={16} width={`40%`} />
+              </div>
+              <div className="flex space-x-2">
+                <Skeleton height={32} width={64} />
+                <Skeleton height={32} width={64} />
+              </div>
+            </div>
+          ))}
+        </div>
       ) : isError ? (
-        <p>Error fetching subscriptions.</p>
+        <p className="text-center">Error fetching subscriptions.</p>
       ) : (
         <div className="grid gap-4">
-          {filteredSubscriptions.map((plan) => {
-            // Identify free plan by tier === 1 and price === 0.
-            const isFreePlan = plan.tier === 1 && plan.price === 0;
-            return (
-              <div
-                key={plan._id}
-                className="p-4 border rounded flex justify-between items-center"
-              >
-                <div>
-                  <h3 className="text-lg font-bold">{plan.name}</h3>
-                  <p>
-                    ৳{plan.price} / {plan.duration} days
-                  </p>
-                </div>
-                <div className="flex space-x-2">
-                  <button
-                    onClick={() => openModal("edit", plan)}
-                    className="bg-blue-500 text-white px-3 py-1 rounded"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => openModal("delete", plan)}
-                    className="bg-red-500 text-white px-3 py-1 rounded"
-                  >
-                    Delete
-                  </button>
-                </div>
+          {filteredSubscriptions.map((plan) => (
+            <div
+              key={plan._id}
+              className="p-4 border rounded flex justify-between items-center"
+            >
+              <div>
+                <h3 className="text-lg font-bold">{plan.name}</h3>
+                <p>
+                  ৳{plan.price} / {plan.duration} days
+                </p>
               </div>
-            );
-          })}
+              <div className="flex space-x-2">
+                <button
+                  onClick={() => openModal("edit", plan)}
+                  className="bg-blue-500 text-white px-3 py-1 rounded"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => openModal("delete", plan)}
+                  className="bg-red-500 text-white px-3 py-1 rounded"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
       )}
 
