@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { useGetUserSubscriptionQuery } from "../../../redux/apiSlice";
 import { AuthContext } from "@/provider/AuthProvider";
 import { Link } from "react-router-dom";
 const SubscriptionCard = () => {
@@ -7,6 +6,21 @@ const SubscriptionCard = () => {
   if (loading) {
     return (
       <div className="text-center py-6">Loading subscription plans...</div>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div className="border p-4 flex flex-col justify-between rounded-xl bg-white col-span-2 md:col-span-2 animate-pulse">
+        <div>
+          <Skeleton height={32} width={200} />
+          <Skeleton height={16} width={150} className="mt-2" />
+          <hr className="border-t border-gray-200 my-4" />
+        </div>
+        <Skeleton height={20} width={120} />
+        <Skeleton height={48} width={100} className="mb-4 ml-8" />
+        <Skeleton height={40} width={`100%`} />
+      </div>
     );
   }
 

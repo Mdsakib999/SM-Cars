@@ -3,16 +3,37 @@ import { Link } from "react-router-dom";
 import { useGetAllAuctionCarsQuery } from "@/redux/apiSlice";
 import Countdown from "@/components/AuctionComponent/CountDown";
 import { BsArrowUpRight, BsFunnel } from "react-icons/bs";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const BuyerAuctionCars = () => {
   // buyer auction
   const { data, isLoading, error } = useGetAllAuctionCarsQuery();
   const [filter, setFilter] = useState("all");
 
-  if (isLoading)
+  if (isLoading) {
     return (
-      <div className="text-center py-8 text-gray-500">Loading auctions...</div>
+      <div className="p-6">
+        <h2 className="text-2xl font-medium mb-6">Bidding History</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {Array.from({ length: 6 }).map((_, idx) => (
+            <div
+              key={idx}
+              className="bg-white rounded-xl shadow-lg overflow-hidden animate-pulse"
+            >
+              <div className="w-full h-48 bg-gray-300" />
+              <div className="p-4 space-y-2">
+                <Skeleton height={20} width="60%" />
+                <Skeleton height={16} width="40%" />
+                <Skeleton count={2} height={14} />
+                <Skeleton height={32} width="100%" className="mt-4" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     );
+  }
   if (error)
     return (
       <div className="text-center py-8 text-red-500">

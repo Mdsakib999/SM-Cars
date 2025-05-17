@@ -104,7 +104,7 @@ const About = () => {
             <div className="text-center">
               <img
                 className="mx-auto h-40 w-40 rounded-full object-cover mb-4"
-                src="https://placehold.co/100x100"
+                src="https://images.unsplash.com/photo-1549473448-5d7196c91f48?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="Team Member"
               />
               <h4 className="text-xl font-medium text-gray-900">John Doe</h4>
@@ -114,7 +114,7 @@ const About = () => {
             <div className="text-center">
               <img
                 className="mx-auto h-40 w-40 rounded-full object-cover mb-4"
-                src="https://placehold.co/100x100"
+                src="https://images.unsplash.com/photo-1559718062-361155fad299?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="Team Member"
               />
               <h4 className="text-xl font-medium text-gray-900">Jane Smith</h4>
@@ -124,7 +124,7 @@ const About = () => {
             <div className="text-center">
               <img
                 className="mx-auto h-40 w-40 rounded-full object-cover mb-4"
-                src="https://placehold.co/100x100"
+                src="https://images.unsplash.com/photo-1642257859842-c95f9fa8121d?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="Team Member"
               />
               <h4 className="text-xl font-medium text-gray-900">

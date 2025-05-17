@@ -34,13 +34,17 @@ export function AuthProvider({ children }) {
 
         // Rehydrate or fetch JWT
         let tok = localStorage.getItem("accessToken");
-        if (!tok) {
+        if (!tok || tok === "undefined") {
           try {
-            const { data: tokenResp } = await axios.post(
-              `${import.meta.env.VITE_SERVER_URL}/api/users/get-token`,
-              { email: user.email }
-            );
-            tok = tokenResp.data.token;
+            const getTokenUrl = `${
+              import.meta.env.VITE_SERVER_URL
+            }/api/users/get-token`;
+            const { data } = await axios.post(getTokenUrl, {
+              email: user.email,
+            });
+            if (!data?.data?.token)
+              throw new Error("Token missing in response");
+            tok = data.data.token;
             localStorage.setItem("accessToken", tok);
           } catch (err) {
             console.error("Failed to get token:", err);
@@ -51,10 +55,12 @@ export function AuthProvider({ children }) {
         // Fetch user profile
         if (tok) {
           try {
-            const { data: profileResp } = await axios.get(
-              `${import.meta.env.VITE_SERVER_URL}/api/users/me`,
-              { headers: { Authorization: `Bearer ${tok}` } }
-            );
+            const profileUrl = `${
+              import.meta.env.VITE_SERVER_URL
+            }/api/users/me`;
+            const { data: profileResp } = await axios.get(profileUrl, {
+              headers: { Authorization: `Bearer ${tok}` },
+            });
             setProfile(profileResp.data);
           } catch (err) {
             console.error("Failed to fetch profile:", err);
@@ -71,44 +77,51 @@ export function AuthProvider({ children }) {
       }
       setLoading(false);
     });
+
     return unsubscribe;
   }, []);
 
   const register = async ({ email, password, name, contact, role }) => {
+    await createUserInDB({ email, name, contact, picture: "", role }).unwrap();
     const cred = await createUserWithEmailAndPassword(auth, email, password);
     await updateProfile(cred.user, { displayName: name, photoURL: "" });
-    await createUserInDB({ email, name, contact, picture: "", role }).unwrap();
 
-    const { data: tokenResp } = await axios.post(
-      `${import.meta.env.VITE_SERVER_URL}/api/users/get-token`,
-      { email }
-    );
-    const tok = tokenResp.data.token;
+    const getTokenUrl = `${
+      import.meta.env.VITE_SERVER_URL
+    }/api/users/get-token`;
+    const { data } = await axios.post(getTokenUrl, { email });
+    if (!data?.data?.token) {
+      throw new Error("Token missing in response");
+    }
+    const tok = data.data.token;
     setToken(tok);
     localStorage.setItem("accessToken", tok);
 
-    const { data: profileResp } = await axios.get(
-      `${import.meta.env.VITE_SERVER_URL}/api/users/me`,
-      { headers: { Authorization: `Bearer ${tok}` } }
-    );
+    const profileUrl = `${import.meta.env.VITE_SERVER_URL}/api/users/me`;
+    const { data: profileResp } = await axios.get(profileUrl, {
+      headers: { Authorization: `Bearer ${tok}` },
+    });
     setProfile(profileResp.data);
   };
 
   const login = async (email, password) => {
     await signInWithEmailAndPassword(auth, email, password);
 
-    const { data: tokenResp } = await axios.post(
-      `${import.meta.env.VITE_SERVER_URL}/api/users/get-token`,
-      { email }
-    );
-    const tok = tokenResp.data.data.token;
+    const getTokenUrl = `${
+      import.meta.env.VITE_SERVER_URL
+    }/api/users/get-token`;
+    const { data } = await axios.post(getTokenUrl, { email });
+    if (!data?.data?.token) {
+      throw new Error("Token missing in response");
+    }
+    const tok = data.data.token;
     setToken(tok);
     localStorage.setItem("accessToken", tok);
 
-    const { data: profileResp } = await axios.get(
-      `${import.meta.env.VITE_SERVER_URL}/api/users/me`,
-      { headers: { Authorization: `Bearer ${tok}` } }
-    );
+    const profileUrl = `${import.meta.env.VITE_SERVER_URL}/api/users/me`;
+    const { data: profileResp } = await axios.get(profileUrl, {
+      headers: { Authorization: `Bearer ${tok}` },
+    });
     setProfile(profileResp.data);
   };
 
@@ -119,8 +132,8 @@ export function AuthProvider({ children }) {
   };
 
   const updatePassword = async (currentPassword, newPassword) => {
-    const auth = getAuth();
-    const user = auth.currentUser;
+    const authInstance = getAuth();
+    const user = authInstance.currentUser;
     if (!user || !user.email) {
       throw new Error("No user logged in");
     }
@@ -130,6 +143,7 @@ export function AuthProvider({ children }) {
     await firebaseUpdatePassword(user, newPassword);
     await user.getIdToken(true);
   };
+
   const authInfo = {
     firebaseUser,
     profile,
@@ -144,8 +158,16 @@ export function AuthProvider({ children }) {
   return (
     <AuthContext.Provider value={authInfo}>
       {!loading && children}
-      {loading && <div>Loading...</div>}
+      {loading && (
+        <div className="flex space-x-2 justify-center items-center bg-white h-screen dark:invert">
+          <span className="sr-only">Loading...</span>
+          <div className="h-8 w-8 bg-orange-600 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+          <div className="h-8 w-8 bg-orange-600 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+          <div className="h-8 w-8 bg-orange-600 rounded-full animate-bounce"></div>
+        </div>
+      )}
     </AuthContext.Provider>
   );
 }
+
 export default AuthProvider;

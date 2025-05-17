@@ -1,10 +1,12 @@
 import React, { useContext } from "react";
 import { FiCheck } from "react-icons/fi";
 import { BsCheckCircle } from "react-icons/bs";
-import { useSelector } from "react-redux";
 import { useGetRoleBasedPlansQuery } from "../../../redux/apiSlice";
 import { Link } from "react-router-dom";
 import { AuthContext } from "@/provider/AuthProvider";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+
 const SubscriptionPlan = () => {
   const { profile } = useContext(AuthContext);
   const userCurrentSub = profile?.subscription?._id;
@@ -17,9 +19,37 @@ const SubscriptionPlan = () => {
     refetchOnMountOrArgChange: true,
   });
 
+  const placeholderCount = 4;
   if (isLoading) {
     return (
-      <div className="text-center py-6">Loading subscription plans...</div>
+      <div className="p-6">
+        <h2 className="text-3xl font-bold mb-6 text-center">
+          Choose Your Plan
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {Array.from({ length: placeholderCount }).map((_, idx) => (
+            <div
+              key={idx}
+              className="bg-white border rounded-lg p-6 flex flex-col justify-between animate-pulse"
+            >
+              <div className="mb-4 flex justify-between items-center">
+                <Skeleton height={32} width={`50%`} />
+                <Skeleton circle height={24} width={24} />
+              </div>
+              <Skeleton height={40} width={`30%`} className="mb-4" />
+              <ul className="mb-6 space-y-2">
+                {Array.from({ length: 3 }).map((_, j) => (
+                  <li key={j} className="flex items-center gap-2">
+                    <Skeleton circle height={16} width={16} />
+                    <Skeleton height={16} width={`70%`} />
+                  </li>
+                ))}
+              </ul>
+              <Skeleton height={32} width={`100%`} />
+            </div>
+          ))}
+        </div>
+      </div>
     );
   }
 

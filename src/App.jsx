@@ -14,7 +14,7 @@ function App() {
   const location = useLocation();
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center ">
         Loading...
       </div>
     );
@@ -40,7 +40,6 @@ function App() {
 
   return (
     <div>
-      {/* Conditionally render Navbar and Footer */}
       {!isDashboard && <Navbar user={user} />}
 
       <div

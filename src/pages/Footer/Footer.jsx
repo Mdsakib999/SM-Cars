@@ -7,7 +7,7 @@ import { FaXTwitter } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { Link } from "react-router-dom";
-
+import Logo from "/logo.png";
 const Footer = () => {
   return (
     <footer className="overflow-hidden relative z-10 bg-black text-white pb-10 pt-20 lg:pt-[80px] ">
@@ -20,11 +20,7 @@ const Footer = () => {
           <div className=" w-full px-4 sm:w-2/3 lg:w-3/12 ">
             <div className="mb-10 w-full  flex flex-col items-center">
               <a href="/#" className="mb-6 inline-block max-w-[110px] ">
-                <img
-                  src="https://i.ibb.co/tP79HPK/SMIt-Solution-Logo-removebg-preview.png"
-                  alt="logo"
-                  className="max-w-full"
-                />
+                <img src={Logo} alt="logo" className="max-w-full" />
               </a>
               <p className="mb-7 text-base text-body-color text-center">
                 Our core principle is providing exceptional service to fuel our

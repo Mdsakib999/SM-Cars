@@ -12,10 +12,8 @@ const BannedUsers = () => {
   if (isError) return <div>Error loading users</div>;
   if (!data) return <div>No data available</div>;
 
-  // Ensure we're working with an array. Our controller returns { bannedUsers: [...] }
   const users = Array.isArray(data.bannedUsers) ? data.bannedUsers : [];
 
-  // If there are no banned users, display a message.
   if (users.length === 0) {
     return <div className="mx-auto">No banned users available.</div>;
   }

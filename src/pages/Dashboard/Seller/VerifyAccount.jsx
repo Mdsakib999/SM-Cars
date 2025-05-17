@@ -3,7 +3,8 @@ import {
   useGetUserInfoQuery,
   useSubmitVerificationMutation,
 } from "@/redux/apiSlice";
-
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import { AuthContext } from "@/provider/AuthProvider";
 
 const VerifyAccount = () => {
@@ -67,8 +68,24 @@ const VerifyAccount = () => {
     }
   };
 
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error loading user info</div>;
+  if (isLoading) {
+    return (
+      <div className="bg-white p-6 rounded-xl border max-w-lg mx-auto mt-10 animate-pulse">
+        <Skeleton height={32} width={`60%`} className="mb-6" />
+        {[...Array(4)].map((_, i) => (
+          <Skeleton key={i} height={48} className="mb-4" />
+        ))}
+        <Skeleton height={80} className="mb-4" />
+        <Skeleton height={40} width={`100%`} />
+      </div>
+    );
+  }
+  if (isError)
+    return (
+      <div className="text-center py-6 text-red-500">
+        Error loading user info
+      </div>
+    );
 
   return (
     <div className="bg-white p-6 rounded-xl border max-w-lg mx-auto mt-10">
@@ -88,7 +105,7 @@ const VerifyAccount = () => {
               className="w-full px-4 py-2 border rounded-lg bg-gray-100"
             />
           </div>
-          {/* Email (read-only) */}
+
           <div>
             <label className="block text-lg font-medium mb-2">Email</label>
             <input
@@ -99,7 +116,7 @@ const VerifyAccount = () => {
               className="w-full px-4 py-2 border rounded-lg bg-gray-100"
             />
           </div>
-          {/* Phone (editable) */}
+
           <div>
             <label className="block text-lg font-medium mb-2">
               Phone Number
@@ -114,7 +131,7 @@ const VerifyAccount = () => {
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-orange-500"
             />
           </div>
-          {/* Address (editable) */}
+
           <div>
             <label className="block text-lg font-medium mb-2">Address</label>
             <textarea

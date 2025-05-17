@@ -9,11 +9,11 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useContext } from "react";
 import { AuthContext } from "@/provider/AuthProvider";
+import { FaSpinner } from "react-icons/fa";
 
 const AddNewCar = () => {
   const navigate = useNavigate();
   const { profile } = useContext(AuthContext);
-  console.log(profile);
   const uid = profile?._id;
   const {
     data: subscriptionLimitData,
@@ -26,7 +26,12 @@ const AddNewCar = () => {
   const [previewImages, setPreviewImages] = useState([]);
   const [showContactInfo, setShowContactInfo] = useState(false);
 
-  if (subscriptionLimitLoading) return <p>Loading...</p>;
+  if (subscriptionLimitLoading)
+    return (
+      <div className="flex items-center justify-center h-64">
+        <FaSpinner className="animate-spin text-4xl text-orange-500" />
+      </div>
+    );
   if (!subscriptionLimitData || subLimitError)
     return <p>Error fetching data.</p>;
   if (!subscriptionLimitData || subLimitError) {
@@ -161,8 +166,10 @@ const AddNewCar = () => {
             );
             const { getRootProps, getInputProps, isDragActive } = useDropzone({
               onDrop,
-              accept: "image/*",
               multiple: true,
+              accept: {
+                "image/*": [],
+              },
             });
 
             return (

@@ -7,6 +7,8 @@ import {
 } from "@/redux/apiSlice";
 import { AuthContext } from "@/provider/AuthProvider";
 import PasswordChange from "@/components/DashboardComponent/General/PasswordChange";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const Settings = () => {
   const { profile } = useContext(AuthContext);
@@ -23,12 +25,10 @@ const Settings = () => {
     error: userError,
     refetch,
   } = useGetUserInfoQuery(profile._id);
-  console.log("data", data);
 
   const [updateProfile, { isLoading: isUpdatingProfile }] =
     useUpdateUserInfoMutation();
 
-  // Profile Form
   const profileFormik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -57,17 +57,37 @@ const Settings = () => {
     },
   });
 
-  if (isUserLoading) return <div>Loading user info...</div>;
-  if (isUserError)
+  if (isUserLoading) {
+    return (
+      <div className="p-8 bg-gray-100 min-h-screen flex justify-center items-center">
+        <div className="bg-white p-8 rounded-xl border w-full max-w-4xl animate-pulse">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {[...Array(4)].map((_, idx) => (
+              <Skeleton key={idx} height={48} />
+            ))}
+          </div>
+          <div className="mt-6">
+            <Skeleton height={40} width={120} />
+          </div>
+          <div className="mt-8 border-t pt-6">
+            <Skeleton height={20} width={150} />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (isUserError) {
     return (
       <div>
-        Error loading user info:
+        Error loading user info:{" "}
         {userError?.data?.message || userError?.message || "Unknown error"}
       </div>
     );
+  }
 
   return (
-    <div className="bg-gray-100 min-h-screen flex justify-center items-center">
+    <div className="bg-gray-100 py-10 flex justify-center items-center">
       <div className="bg-white p-8 rounded-xl border w-full max-w-4xl">
         {/* Profile Update Form */}
         <form onSubmit={profileFormik.handleSubmit}>

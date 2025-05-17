@@ -14,7 +14,6 @@ const ProtectedRoute = ({ children, requiredRole }) => {
       </div>
     );
   }
-
   if (!profile) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }

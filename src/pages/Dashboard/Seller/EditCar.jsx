@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-
+import { FaSpinner } from "react-icons/fa";
 import * as Yup from "yup";
 import {
   useGetSellerCarDetailsQuery,
@@ -40,7 +40,12 @@ const EditCar = () => {
     description: Yup.string().required("Description is required"),
   });
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div className="flex items-center justify-center h-64">
+        <FaSpinner className="animate-spin text-4xl text-orange-500" />
+      </div>
+    );
   if (isError) return <div>Error loading car data</div>;
   if (!carData) return <div>Car not found</div>;
 
