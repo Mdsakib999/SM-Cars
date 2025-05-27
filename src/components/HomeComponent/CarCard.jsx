@@ -100,7 +100,7 @@ const CarCard = () => {
 
                   <div className="flex justify-between items-center">
                     <span className="text-lg font-bold ">
-                      ৳{car.price?.toLocaleString()}
+                      ${car.price?.toLocaleString()}
                     </span>
                     <Link to={`/auction-cars/${auction._id}`}>
                       <button className="flex items-center text-orange-500 hover:text-orange-400 text-sm">
