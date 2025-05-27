@@ -56,7 +56,8 @@ const Contact = () => {
                 Speak to our friendly team
               </span>
               <p className="text-md tracking-wide mb-4 leading-2">
-                smitsolutionbd01@gmail.com
+                {/* smitsolutionbd01@gmail.com */}
+                contact@sm-automobiles.com
               </p>
             </div>
           </div>
@@ -69,7 +70,8 @@ const Contact = () => {
                 Speak to our friendly team
               </span>
               <p className="text-md tracking-wide mb-4 leading-2">
-                +88 01711646758
+                {/* +88 01711646758 */}
+                +88 01700000000
               </p>
             </div>
           </div>
@@ -81,10 +83,10 @@ const Contact = () => {
               <span className="text-md tracking-wider text-gray-500">
                 Speak to our friendly team
               </span>
-              <p className="text-md tracking-wide mb-2 leading-2">
+              {/* <p className="text-md tracking-wide mb-2 leading-2">
                 <strong>Dhaka Office:</strong> House - NE(B) 2/1, Road- 71,
                 Gulshan-02, Dhaka, Bangladesh.
-              </p>
+              </p> */}
               <p className="text-md tracking-wide leading-2">
                 <strong>Chittagong Office:</strong> Nasirabad Properties Road 1,
                 Chittagong, Bangladesh.

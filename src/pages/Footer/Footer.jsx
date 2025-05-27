@@ -60,7 +60,7 @@ const Footer = () => {
               <div className=" ">
                 <p className="flex items-center gap-x-2">
                   <FiMail className="text-xl"></FiMail>{" "}
-                  smitsolutionbd01@gmail.com
+                  contact@sm-automobiles.com
                 </p>
                 <p className="flex items-center gap-x-2 mt-2">
                   <BiPhoneCall className="text-xl"></BiPhoneCall> +99
@@ -78,16 +78,16 @@ const Footer = () => {
                   to="https://www.facebook.com/smitsolution.uae"
                   target="_blank"
                 >
-                  <FaFacebookF className="border rounded-full p-1 text-3xl hover:text-orange-500 hover:border-orange-500"></FaFacebookF>
+                  <FaFacebookF className="border rounded-full p-1 text-3xl hover:text-blue-500 hover:border-blue-500"></FaFacebookF>
                 </Link>
                 <Link
                   to="https://www.linkedin.com/company/smitsolution/"
                   target="_blank"
                 >
-                  <FaLinkedin className="border rounded-full p-1 text-3xl hover:text-orange-500 hover:border-orange-500"></FaLinkedin>
+                  <FaLinkedin className="border rounded-full p-1 text-3xl hover:text-blue-500 hover:border-blue-500"></FaLinkedin>
                 </Link>
                 <Link to="https://x.com/smitsolutionuae" target="_blank">
-                  <FaXTwitter className="border rounded-full p-1 text-3xl hover:text-gray-400 hover:border-orange-500"></FaXTwitter>
+                  <FaXTwitter className="border rounded-full p-1 text-3xl hover:text-gray-400 hover:border-gray-500"></FaXTwitter>
                 </Link>
                 <Link
                   to="https://www.instagram.com/smitsolution.uae/"
