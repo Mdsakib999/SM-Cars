@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+// src/App.jsx
+import React, { useState, useLayoutEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { FaArrowUp } from "react-icons/fa";
 import Footer from "./Pages/Footer/Footer";
@@ -6,41 +7,46 @@ import Navbar from "./Components/Navbar";
 import { useSelector } from "react-redux";
 import { useAuctionSocket } from "./hooks/useAuctionSocket";
 
-function App() {
+const App = () => {
   useAuctionSocket();
+
   const [isVisible, setIsVisible] = useState(false);
-  const [user, setUser] = useState(null);
   const { loading } = useSelector((state) => state.auth);
   const location = useLocation();
+
+  // Scroll-to-top on route change
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
+  // Show/hide scroll-to-top button on scroll
+  useLayoutEffect(() => {
+    const toggleVisibility = () => {
+      if (window.pageYOffset > 300) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+
+    window.addEventListener("scroll", toggleVisibility);
+    return () => window.removeEventListener("scroll", toggleVisibility);
+  }, []);
+
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center ">
+      <div className="min-h-screen flex items-center justify-center">
         Loading...
       </div>
     );
   }
 
-  const toggleVisibility = () => {
-    if (window.pageYOffset > 300) {
-      setIsVisible(true);
-    } else {
-      setIsVisible(false);
-    }
-  };
-
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-
-  // Check if the current route is /dashboard
+  // Determine if on dashboard to hide navbar/footer
   const isDashboard = location.pathname.startsWith("/dashboard");
 
   return (
     <div>
-      {!isDashboard && <Navbar user={user} />}
+      {!isDashboard && <Navbar />}
 
       <div
         className={`min-h-[calc(100vh-196px)] ${isDashboard ? "lg:ml-64" : ""}`}
@@ -53,7 +59,7 @@ function App() {
       {/* Scroll to Top Button */}
       {isVisible && (
         <button
-          onClick={scrollToTop}
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className="fixed bottom-6 right-6 p-3 rounded-full bg-orange-500 text-white hover:bg-orange-600 transition-colors duration-300 z-50"
         >
           <FaArrowUp size={24} />
@@ -61,6 +67,6 @@ function App() {
       )}
     </div>
   );
-}
+};
 
 export default App;

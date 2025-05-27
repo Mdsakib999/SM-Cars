@@ -11,7 +11,6 @@ import Logo from "/logo.png";
 const Footer = () => {
   return (
     <footer className="overflow-hidden relative z-10 bg-black text-white pb-10 pt-20 lg:pt-[80px] ">
-      {/* Gradient circle */}
       <div className="background-gradient-footer w-56 h-56 md:w-80 md:h-80 absolute top-[50%] right-[-25%]  md:top-[50%] md:left-[-8%] rounded-full "></div>
 
       <div className="container  lg:w-[90%] mx-auto ">
@@ -33,7 +32,7 @@ const Footer = () => {
             <div>
               <p className="mb-6 text-lg font-md text-white">Company</p>
               <Link to="/about" className="mt-3 block">
-                About SM IT{" "}
+                About SM AUTOMOBILE
               </Link>
             </div>
 
@@ -42,14 +41,13 @@ const Footer = () => {
               <p className="mt-3">Premium Support</p>
               <p className="mt-3">
                 {" "}
-                <Link to="/termsConditions">Terms & Condition</Link>
+                <Link to="/">Terms & Condition</Link>
               </p>
               <p className="mt-3">
-                <Link to="/privacy">Privacy Policy</Link>
+                <Link to="/">Privacy Policy</Link>
               </p>
 
               <p className="mt-3">
-                {" "}
                 <Link to="/contact">Contact Us</Link>
               </p>
             </div>
@@ -65,13 +63,10 @@ const Footer = () => {
                   smitsolutionbd01@gmail.com
                 </p>
                 <p className="flex items-center gap-x-2 mt-2">
-                  <BiPhoneCall className="text-xl"></BiPhoneCall> +88
-                  01711646758
+                  <BiPhoneCall className="text-xl"></BiPhoneCall> +99
+                  00000000000
                 </p>
-                <p className="flex  gap-x-2 mt-2">
-                  <SlLocationPin className="text-3xl"></SlLocationPin> House -
-                  NE(B) 2/1, Road- 71, Gulshan-02, Dhaka, Bangladesh.
-                </p>
+
                 <p className="flex  gap-x-2 mt-2">
                   <SlLocationPin className="text-2xl"></SlLocationPin> Nasirabad
                   Properties Road 1, Chittagong, Bangladesh.
@@ -106,7 +101,7 @@ const Footer = () => {
         </div>
       </div>
       <p className="text-center text-sm md:text-base lg:mt-5 mt-3 md:font-semibold">
-        Copyright © SM IT Solution 2024. All rights reserved.
+        Copyright © SM IT AUTOMOBILE 2025. All rights reserved.
       </p>
     </footer>
   );
