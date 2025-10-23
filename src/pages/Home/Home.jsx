@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "../../components/HomeComponent/Header";
-import CarCard from "../../Components/HomeComponent/CarCard";
+import CarCard from "../../components/HomeComponent/CarCard";
 import { IoCarSportOutline } from "react-icons/io5";
 import { GrMoney } from "react-icons/gr";
 
