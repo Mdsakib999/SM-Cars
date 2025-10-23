@@ -2,8 +2,8 @@
 import React, { useState, useLayoutEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { FaArrowUp } from "react-icons/fa";
-import Footer from "./Pages/Footer/Footer";
-import Navbar from "./Components/Navbar";
+import Footer from "./pages/Footer/Footer";
+import Navbar from "./components/Navbar";
 import { useSelector } from "react-redux";
 import { useAuctionSocket } from "./hooks/useAuctionSocket";
 
